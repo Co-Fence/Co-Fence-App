@@ -8,7 +8,11 @@
             "name": "co_fence",
             "cwd": "co_fence",
             "request": "launch",
-            "type": "dart"
+            "type": "dart",
+            "args": [
+                "--dart-define",
+                "kakao_native_token="
+            ]
         },
         {
             "name": "co_fence (profile mode)",

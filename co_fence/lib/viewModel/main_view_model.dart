@@ -1,4 +1,4 @@
-import 'package:co_fence/social_login.dart';
+import 'package:co_fence/utils/social_login.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class MainViewModel {
@@ -12,6 +12,7 @@ class MainViewModel {
     isLogined = await _socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
+      print('로그인 성공! 유저 정보는 = ${user!.kakaoAccount!.profile!.nickname}');
     }
   }
 
