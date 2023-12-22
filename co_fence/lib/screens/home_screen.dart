@@ -35,12 +35,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     User user = await UserApi.instance.me();
                     AccessTokenInfo tokenInfo =
                         await UserApi.instance.accessTokenInfo();
+                    ScopeInfo scopeInfo = await UserApi.instance.scopes();
                     print('사용자 정보 요청 성공'
                         '\n회원번호: ${user.id}'
                         '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
                         '\n이메일: ${user.kakaoAccount?.email}');
                     print('회원 정보: ${tokenInfo.id}'
                         '\n만료 시간: ${tokenInfo.expiresIn}초');
+                    print('사용자 동의 허락한 동의 항목: ${scopeInfo.scopes}');
                     setState(() {});
                   } catch (error) {
                     print('사용자 정보 요청 실패 $error');

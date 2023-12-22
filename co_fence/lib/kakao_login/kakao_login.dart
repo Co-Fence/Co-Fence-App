@@ -1,5 +1,4 @@
 import 'package:co_fence/utils/social_login.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/services.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 

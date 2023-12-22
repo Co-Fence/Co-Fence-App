@@ -1,3 +1,5 @@
+import 'package:co_fence/google_login/google_login.dart';
+import 'package:co_fence/login_platform.dart';
 import 'package:co_fence/screens/home_screen.dart';
 import 'package:co_fence/kakao_login/kakao_login.dart';
 import 'package:co_fence/viewModel/main_view_model.dart';
@@ -11,7 +13,10 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginState extends State<LoginScreen> {
-  final viewModel = MainViewModel(KakaoLogin());
+  final kakaoViewModel = MainViewModel(KakaoLogin());
+  final googleViewModel = MainViewModel(GoogleLogin());
+
+  final LoginPlatform _loginPlatform = LoginPlatform.none;
 
   @override
   Widget build(BuildContext context) {
@@ -26,10 +31,26 @@ class _LoginState extends State<LoginScreen> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Text('${viewModel.isLogined}'),
+            Text('${kakaoViewModel.isLogined}'),
+            // 구글 로그인
             ElevatedButton(
               onPressed: () async {
-                await viewModel.login();
+                await googleViewModel.login();
+                setState(() {});
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const HomeScreen(),
+                  ),
+                );
+              },
+              child: const Text(
+                '구글 로그인',
+              ),
+            ),
+            ElevatedButton(
+              onPressed: () async {
+                await kakaoViewModel.login();
                 setState(() {});
                 Navigator.push(
                   context,
@@ -44,7 +65,7 @@ class _LoginState extends State<LoginScreen> {
             ),
             ElevatedButton(
               onPressed: () async {
-                await viewModel.logout();
+                await kakaoViewModel.logout();
                 setState(() {});
               },
               child: const Text(
