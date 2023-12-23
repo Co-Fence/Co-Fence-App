@@ -34,7 +34,7 @@ PODS:
     - AppAuth/Core (~> 1.6)
     - GTMSessionFetcher/Core (< 4.0, >= 1.5)
   - GTMSessionFetcher/Core (3.2.0)
-  - kakao_flutter_sdk_common (1.7.0):
+  - kakao_flutter_sdk_common (1.8.0):
     - Flutter
   - PromisesObjC (2.3.1)
   - shared_preferences_foundation (0.0.1):
@@ -89,11 +89,11 @@ SPEC CHECKSUMS:
   GoogleUtilities: 0759d1a57ebb953965c2dfe0ba4c82e95ccc2e34
   GTMAppAuth: 99fb010047ba3973b7026e45393f51f27ab965ae
   GTMSessionFetcher: 41b9ef0b4c08a6db4b7eb51a21ae5183ec99a2c8
-  kakao_flutter_sdk_common: 5d20368c3526ba5eb2e598f85704d6a23c6c9e9e
+  kakao_flutter_sdk_common: f1f155e0e8a195ec73e0f69acc0b0af510a0e926
   PromisesObjC: c50d2056b5253dadbd6c2bea79b0674bd5a52fa4
   shared_preferences_foundation: 5b919d13b803cadd15ed2dc053125c68730e5126
   webview_flutter_wkwebview: 2e2d318f21a5e036e2c3f26171342e95908bd60a
 
 PODFILE CHECKSUM: 70d9d25280d0dd177a5f637cdb0f0b0b12c6a189
 
-COCOAPODS: 1.14.2
+COCOAPODS: 1.14.3

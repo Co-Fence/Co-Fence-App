@@ -36,35 +36,14 @@ class _SplashScreenState extends State<SplashScreen> {
         } else {
           print('토큰 정보 조회 실패 $error');
         }
-
-        try {
-          // 카카오계정으로 로그인
-          OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-          print('로그인 성공 ${token.accessToken}');
-          Navigator.pushReplacement(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const HomeScreen(),
-            ),
-          );
-        } catch (error) {
-          print('로그인 실패 $error');
-        }
       }
     } else {
-      print('발급된 토큰 없음');
-      try {
-        OAuthToken token = await UserApi.instance.loginWithKakaoAccount();
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
-        print('로그인 성공 ${token.accessToken}');
-      } catch (error) {
-        print('로그인 실패 $error');
-      }
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const LoginScreen(),
+        ),
+      );
     }
   }
 

@@ -1,7 +1,5 @@
 import 'package:co_fence/firebase_options.dart';
-import 'package:co_fence/screens/home_screen.dart';
-import 'package:co_fence/kakao_login/kakao_login.dart';
-import 'package:co_fence/viewModel/main_view_model.dart';
+import 'package:co_fence/router/router.dart';
 import 'package:co_fence/secret/secret.dart';
 import 'package:co_fence/screens/splash_screen.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -15,9 +13,9 @@ void main() async {
     options: DefaultFirebaseOptions.currentPlatform,
   );
   KakaoSdk.init(nativeAppKey: NATIVE_APP_KEY);
-  runApp(const ProviderScope(
-    child: MaterialApp(
-      home: SplashScreen(),
+  runApp(ProviderScope(
+    child: MaterialApp.router(
+      routerConfig: router,
     ),
   ));
 }
