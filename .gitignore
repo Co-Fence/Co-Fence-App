@@ -8,6 +8,7 @@ build/
 
 # Local configuration file (sdk path, etc)
 local.properties
+co_fence/android/app/src/main/AndroidManifest.xml
 
 # Log/OS Files
 *.log
@@ -73,6 +74,7 @@ doc/api/
 ### Dart Patch ###
 # dotenv environment variables file
 .env
+*.xml
 
 ### Flutter ###
 # Flutter/Dart/Pub related
