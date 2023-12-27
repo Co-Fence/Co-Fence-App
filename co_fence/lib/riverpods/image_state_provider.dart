@@ -23,7 +23,7 @@ class ImageState extends StateNotifier<List<XFile?>> {
     state = list;
   }
 
-  // 사진 추가
+  // 한 장의 사진만 추가 가능
   void addImage(List<XFile?> value) {
     var list = [...super.state];
     if (list.isEmpty) {

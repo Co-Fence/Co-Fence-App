@@ -1,6 +1,7 @@
 import 'package:co_fence/common/model/gender.dart';
 import 'package:co_fence/common/model/nation.dart';
 import 'package:flutter/foundation.dart';
+import 'package:image_picker/image_picker.dart';
 
 class UserModel {
   // 이름
@@ -16,7 +17,7 @@ class UserModel {
   // 이메일
   final String email;
   // 프로필 사진
-  final Uint8List? profileImage;
+  final XFile? profileImage;
 
   UserModel({
     required this.name,
@@ -36,6 +37,7 @@ class UserModel {
     String? birth,
     String? phoneNumber,
     String? email,
+    XFile? profileImage,
   }) {
     return UserModel(
       // 만약 name이 null이라면 this.name, 그렇지 않으면 name 사용
@@ -45,10 +47,9 @@ class UserModel {
       birth: birth ?? this.birth,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
-      profileImage: profileImage ?? profileImage,
+      profileImage: profileImage ?? this.profileImage,
     );
   }
 
   // toJson 메서드는 json 형태로 변환하는 메서드
-  
 }
