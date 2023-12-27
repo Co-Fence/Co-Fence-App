@@ -1,5 +1,6 @@
 import 'package:co_fence/common/const/theme.dart';
 import 'package:co_fence/firebase_options.dart';
+import 'package:co_fence/riverpods/provider_observer.dart';
 import 'package:co_fence/route/router.dart';
 import 'package:co_fence/secret/secret.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -16,9 +17,15 @@ void main() async {
   KakaoSdk.init(nativeAppKey: NATIVE_APP_KEY);
   runApp(
     ProviderScope(
+      observers: [
+        Logger(),
+      ],
       child: MaterialApp.router(
-        theme: materialTheme.light(),
-        darkTheme: materialTheme.dark(),
+        theme: ThemeData(
+          primaryColor: materialTheme.light().primaryColor,
+          textTheme: materialTheme.textTheme,
+          useMaterial3: true,
+        ),
         routerConfig: router,
       ),
     ),

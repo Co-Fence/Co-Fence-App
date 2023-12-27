@@ -11,28 +11,29 @@ class HomeScreen extends StatelessWidget {
 
   int getIndex(BuildContext context) {
     final index = GoRouterState.of(context).uri.toString();
-    if (index == '/home') {
-      return 0;
-    } else if (index == '/send') {
-      return 1;
-    } else if (index == '/settings') {
-      return 2;
-    }
-    return 0;
+
+    Map<String, int> routeMap = {
+      '/home': 0,
+      '/send': 1,
+      '/settings': 2,
+    };
+
+    return routeMap[index] ?? 0;
   }
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
       bottomNavigationBar: NavigationBar(
+        // 선택된 인덱스로 라우팅
         onDestinationSelected: (value) {
-          if (value == 0) {
-            GoRouter.of(context).go('/home');
-          } else if (value == 1) {
-            GoRouter.of(context).go('/send');
-          } else if (value == 2) {
-            GoRouter.of(context).go('/settings');
-          }
+          Map<int, String> routes = {
+            0: '/my_page',
+            1: '/send',
+            2: '/settings',
+          };
+          final selectedRoute = routes[value];
+          context.go(selectedRoute!);
         },
         selectedIndex: getIndex(context),
         animationDuration: const Duration(
@@ -53,9 +54,8 @@ class HomeScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: const Center(
-        child: Text('Home'),
-      ),
+      // 하위 라우트 위젯들
+      child: child,
     );
   }
 }

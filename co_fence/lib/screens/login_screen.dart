@@ -1,17 +1,24 @@
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/const/theme.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/utils/google_login.dart';
+import 'package:co_fence/utils/kakao_login.dart';
+import 'package:co_fence/viewModel/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
+
+  final kakaoViewModel = MainViewModel(KakaoLogin());
+  final googleViewModel = MainViewModel(GoogleLogin());
 
   @override
   Widget build(BuildContext context) {
     return DefaultLayout(
-      backgroundColor: PRIMARY_COLOR,
+      backgroundColor: Colors.white,
       child: SingleChildScrollView(
         child: SafeArea(
           child: Center(
@@ -28,6 +35,7 @@ class LoginScreen extends StatelessWidget {
                 const Gap(80),
                 GestureDetector(
                   onTap: () {
+                    // kakaoViewModel.login();
                     context.pushReplacement('/register');
                   },
                   child: SizedBox(

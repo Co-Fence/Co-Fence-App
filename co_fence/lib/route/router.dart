@@ -16,25 +16,26 @@ final router = GoRouter(
   // main 스크린으로 이동할 때, 로그인이 되어있지 않으면 로그인 화면으로 이동
   redirect: (context, state) {
     if (state.uri.path == '/main' && !authState) {
-      return '/login';
+      return '/';
     }
     return null;
   },
-  initialLocation: '/login',
+  initialLocation: '/splash',
   routes: [
+    // 로그인 화면, '/'
     GoRoute(
       path: '/',
-      builder: (context, state) => const SplashScreen(),
+      builder: (context, state) => LoginScreen(),
       routes: [
-        // 로그인 화면, '/login'
+        // 스플래쉬 화면, '/splash'
         GoRoute(
-          path: 'login',
-          builder: (context, state) => const LoginScreen(),
+          path: 'splash',
+          builder: (context, state) => const SplashScreen(),
         ),
         // 회원가입 화면, '/register'
         GoRoute(
           path: 'register',
-          builder: (context, state) => const RegisterScreen(),
+          builder: (context, state) => RegisterScreen(),
         ),
         // 홈 화면, '/home'
         ShellRoute(

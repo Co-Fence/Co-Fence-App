@@ -1,3 +1,4 @@
+import 'package:co_fence/common/const/theme.dart';
 import 'package:flutter/material.dart';
 
 class DefaultLayout extends StatelessWidget {
@@ -17,9 +18,18 @@ class DefaultLayout extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: backgroundColor ?? Colors.white,
+      backgroundColor: Colors.white,
       appBar: renderAppBar(),
-      body: child,
+      body: SafeArea(
+        child: SingleChildScrollView(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(
+              horizontal: 25.0,
+            ),
+            child: child,
+          ),
+        ),
+      ),
       bottomNavigationBar: bottomNavigationBar,
     );
   }
@@ -29,16 +39,16 @@ class DefaultLayout extends StatelessWidget {
       return null;
     } else {
       return AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: MaterialTheme.lightScheme().primary,
         elevation: 0,
         title: Text(
           title!,
           style: const TextStyle(
             fontSize: 16,
-            fontWeight: FontWeight.w500,
+            fontWeight: FontWeight.bold,
           ),
         ),
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.white,
       );
     }
   }
