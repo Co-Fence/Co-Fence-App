@@ -35,6 +35,7 @@ class LoginScreen extends StatelessWidget {
                 const Gap(80),
                 GestureDetector(
                   onTap: () {
+                    // 실험용으로 회원가입으로 가게 해놓음
                     // kakaoViewModel.login();
                     context.pushReplacement('/register');
                   },
@@ -46,6 +47,7 @@ class LoginScreen extends StatelessWidget {
                 const Gap(30),
                 GestureDetector(
                   onTap: () {
+                    // 일단 실험용으로 my_page로 가게 해놓음
                     context.pushReplacement('/my_page');
                   },
                   child: SizedBox(
