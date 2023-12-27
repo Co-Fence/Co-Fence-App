@@ -1,70 +1,60 @@
-import 'package:co_fence/kakao_login/kakao_login.dart';
-import 'package:co_fence/screens/login_screen.dart';
-import 'package:co_fence/viewModel/main_view_model.dart';
+import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:go_router/go_router.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  final Widget child;
+  const HomeScreen({
+    super.key,
+    required this.child,
+  });
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
+  int getIndex(BuildContext context) {
+    final index = GoRouterState.of(context).uri.toString();
+    if (index == '/home') {
+      return 0;
+    } else if (index == '/send') {
+      return 1;
+    } else if (index == '/settings') {
+      return 2;
+    }
+    return 0;
+  }
 
-class _HomeScreenState extends State<HomeScreen> {
-  final viewModel = MainViewModel(KakaoLogin());
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Rest API : Login"),
-        centerTitle: true,
-      ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            const Text("로그인 성공"),
-            Text('${viewModel.isLogined}'),
-            Text('${viewModel.user?.kakaoAccount?.profile?.nickname}'),
-            ElevatedButton(
-                onPressed: () async {
-                  try {
-                    User user = await UserApi.instance.me();
-                    AccessTokenInfo tokenInfo =
-                        await UserApi.instance.accessTokenInfo();
-                    ScopeInfo scopeInfo = await UserApi.instance.scopes();
-                    print('사용자 정보 요청 성공'
-                        '\n회원번호: ${user.id}'
-                        '\n닉네임: ${user.kakaoAccount?.profile?.nickname}'
-                        '\n이메일: ${user.kakaoAccount?.email}');
-                    print('회원 정보: ${tokenInfo.id}'
-                        '\n만료 시간: ${tokenInfo.expiresIn}초');
-                    print('사용자 동의 허락한 동의 항목: ${scopeInfo.scopes}');
-                    setState(() {});
-                  } catch (error) {
-                    print('사용자 정보 요청 실패 $error');
-                  }
-                },
-                child: const Text('정보출력')),
-            ElevatedButton(
-              onPressed: () async {
-                await viewModel.logout();
-                Navigator.pushReplacement(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const LoginScreen(),
-                  ),
-                );
-              },
-              child: const Text(
-                '카카오 로그아웃',
-              ),
-            ),
-          ],
+    return DefaultLayout(
+      bottomNavigationBar: NavigationBar(
+        onDestinationSelected: (value) {
+          if (value == 0) {
+            GoRouter.of(context).go('/home');
+          } else if (value == 1) {
+            GoRouter.of(context).go('/send');
+          } else if (value == 2) {
+            GoRouter.of(context).go('/settings');
+          }
+        },
+        selectedIndex: getIndex(context),
+        animationDuration: const Duration(
+          microseconds: 1000,
         ),
+        destinations: const [
+          NavigationDestination(
+            icon: Icon(Icons.home),
+            label: 'Home',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.send),
+            label: 'Send',
+          ),
+          NavigationDestination(
+            icon: Icon(Icons.settings),
+            label: 'Settings',
+          ),
+        ],
+      ),
+      child: const Center(
+        child: Text('Home'),
       ),
     );
   }

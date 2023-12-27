@@ -1,78 +1,53 @@
-import 'package:co_fence/google_login/google_login.dart';
-import 'package:co_fence/login_platform.dart';
-import 'package:co_fence/screens/home_screen.dart';
-import 'package:co_fence/kakao_login/kakao_login.dart';
-import 'package:co_fence/viewModel/main_view_model.dart';
+import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:lottie/lottie.dart';
 
-class LoginScreen extends StatefulWidget {
+class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
 
   @override
-  _LoginState createState() => _LoginState();
-}
-
-class _LoginState extends State<LoginScreen> {
-  final kakaoViewModel = MainViewModel(KakaoLogin());
-  final googleViewModel = MainViewModel(GoogleLogin());
-
-  final LoginPlatform _loginPlatform = LoginPlatform.none;
-
-  @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text("Login"),
-        centerTitle: true,
-      ),
-      body: SizedBox(
-        width: MediaQuery.of(context).size.width,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: <Widget>[
-            Text('${kakaoViewModel.isLogined}'),
-            // 구글 로그인
-            ElevatedButton(
-              onPressed: () async {
-                await googleViewModel.login();
-                setState(() {});
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+    return DefaultLayout(
+      backgroundColor: PRIMARY_COLOR,
+      child: SingleChildScrollView(
+        child: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                const Gap(150),
+                // logo
+                Lottie.asset(
+                  'assets/lotties/app_logo.json',
+                  width: 300,
+                  height: 300,
+                ),
+                const Gap(80),
+                GestureDetector(
+                  onTap: () {
+                    context.pushReplacement('/register');
+                  },
+                  child: SizedBox(
+                    width: 270,
+                    child: Image.asset('assets/images/google_login.png'),
                   ),
-                );
-              },
-              child: const Text(
-                '구글 로그인',
-              ),
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                await kakaoViewModel.login();
-                setState(() {});
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => const HomeScreen(),
+                ),
+                const Gap(30),
+                GestureDetector(
+                  onTap: () {
+                    context.pushReplacement('/my_page');
+                  },
+                  child: SizedBox(
+                    width: 270,
+                    child: Image.asset('assets/images/kakao_login.png'),
                   ),
-                );
-              },
-              child: const Text(
-                '카카오 로그인',
-              ),
+                ),
+              ],
             ),
-            ElevatedButton(
-              onPressed: () async {
-                await kakaoViewModel.logout();
-                setState(() {});
-              },
-              child: const Text(
-                '카카오 로그아웃',
-              ),
-            ),
-          ],
+          ),
         ),
       ),
     );

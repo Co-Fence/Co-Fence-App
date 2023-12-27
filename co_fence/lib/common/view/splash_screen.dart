@@ -1,8 +1,9 @@
-import 'package:co_fence/screens/home_screen.dart';
-import 'package:co_fence/screens/login_screen.dart';
+import 'package:co_fence/screens/home_screen2.dart';
+import 'package:co_fence/screens/login_screen2.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:go_router/go_router.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -24,12 +25,7 @@ class _SplashScreenState extends State<SplashScreen> {
       try {
         AccessTokenInfo tokenInfo = await UserApi.instance.accessTokenInfo();
         print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const HomeScreen(),
-          ),
-        );
+        context.pushReplacement('/home');
       } catch (error) {
         if (error is KakaoException && error.isInvalidTokenError()) {
           print('토큰 만료 $error');
@@ -38,12 +34,8 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       }
     } else {
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(
-          builder: (context) => const LoginScreen(),
-        ),
-      );
+      print('토큰 없음');
+      context.go('/login');
     }
   }
 
