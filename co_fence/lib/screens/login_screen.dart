@@ -7,6 +7,7 @@ import 'package:co_fence/viewModel/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:lottie/lottie.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -32,12 +33,21 @@ class LoginScreen extends StatelessWidget {
                   width: 300,
                   height: 300,
                 ),
-                const Gap(80),
+
+                Text(
+                  'Co-Fence',
+                  style: GoogleFonts.lobster(
+                    fontSize: 40,
+                    fontWeight: FontWeight.bold,
+                    color: PRIMARY_COLOR,
+                  ),
+                ),
+                const Gap(50),
                 GestureDetector(
                   onTap: () {
                     // 실험용으로 회원가입으로 가게 해놓음
                     // kakaoViewModel.login();
-                    context.pushReplacement('/register');
+                    context.go('/register');
                   },
                   child: SizedBox(
                     width: 270,
@@ -48,7 +58,7 @@ class LoginScreen extends StatelessWidget {
                 GestureDetector(
                   onTap: () {
                     // 일단 실험용으로 my_page로 가게 해놓음
-                    context.pushReplacement('/my_page');
+                    context.go('/management');
                   },
                   child: SizedBox(
                     width: 270,

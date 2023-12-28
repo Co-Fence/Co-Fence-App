@@ -22,12 +22,7 @@ class DefaultLayout extends StatelessWidget {
       appBar: renderAppBar(),
       body: SafeArea(
         child: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(
-              horizontal: 25.0,
-            ),
-            child: child,
-          ),
+          child: child,
         ),
       ),
       bottomNavigationBar: bottomNavigationBar,

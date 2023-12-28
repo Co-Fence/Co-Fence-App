@@ -1,4 +1,3 @@
-import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
@@ -10,52 +9,46 @@ class HomeScreen extends StatelessWidget {
   });
 
   int getIndex(BuildContext context) {
-    final index = GoRouterState.of(context).uri.toString();
-
-    Map<String, int> routeMap = {
-      '/home': 0,
-      '/send': 1,
-      '/settings': 2,
-    };
-
-    return routeMap[index] ?? 0;
+    if (GoRouterState.of(context).uri.toString() == '/management') {
+      return 0;
+    } else if (GoRouterState.of(context).uri.toString() == '/send') {
+      return 1;
+    } else {
+      return 2;
+    }
   }
 
   @override
   Widget build(BuildContext context) {
-    return DefaultLayout(
-      bottomNavigationBar: NavigationBar(
-        // 선택된 인덱스로 라우팅
-        onDestinationSelected: (value) {
-          Map<int, String> routes = {
-            0: '/my_page',
-            1: '/send',
-            2: '/settings',
-          };
-          final selectedRoute = routes[value];
-          context.go(selectedRoute!);
+    return Scaffold(
+      body: child,
+      // 라우트 전체를 감싸고 있는 위젯
+      bottomNavigationBar: BottomNavigationBar(
+        currentIndex: getIndex(context),
+        onTap: (index) {
+          if (index == 0) {
+            context.go('/management');
+          } else if (index == 1) {
+            context.go('/send');
+          } else {
+            context.go('/setting');
+          }
         },
-        selectedIndex: getIndex(context),
-        animationDuration: const Duration(
-          microseconds: 1000,
-        ),
-        destinations: const [
-          NavigationDestination(
+        items: const [
+          BottomNavigationBarItem(
             icon: Icon(Icons.home),
             label: 'Home',
           ),
-          NavigationDestination(
-            icon: Icon(Icons.send),
-            label: 'Send',
-          ),
-          NavigationDestination(
+          BottomNavigationBarItem(
             icon: Icon(Icons.settings),
-            label: 'Settings',
+            label: 'Setting',
+          ),
+          BottomNavigationBarItem(
+            icon: Icon(Icons.person),
+            label: 'Personal',
           ),
         ],
       ),
-      // 하위 라우트 위젯들
-      child: child,
     );
   }
 }

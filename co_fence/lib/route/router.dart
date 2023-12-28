@@ -2,8 +2,10 @@ import 'package:co_fence/screens/error_screen.dart';
 import 'package:co_fence/screens/home_screen.dart';
 import 'package:co_fence/screens/login_screen.dart';
 import 'package:co_fence/common/view/splash_screen.dart';
-import 'package:co_fence/screens/my_page_screen.dart';
+import 'package:co_fence/screens/management_screen.dart';
 import 'package:co_fence/screens/register_screen.dart';
+import 'package:co_fence/screens/send_screen.dart';
+import 'package:co_fence/screens/setting_screen.dart';
 import 'package:go_router/go_router.dart';
 
 bool authState = false;
@@ -35,19 +37,27 @@ final router = GoRouter(
         // 회원가입 화면, '/register'
         GoRoute(
           path: 'register',
-          builder: (context, state) => RegisterScreen(),
+          builder: (context, state) => const RegisterScreen(),
         ),
         // 홈 화면, '/home'
         ShellRoute(
           builder: (context, state, child) => HomeScreen(
             child: child,
           ),
-          // 홈 화면에는 마이 페이지,
+          // 홈 화면에는 관리페이지,
           routes: [
             GoRoute(
-              path: 'my_page',
-              builder: (context, state) => const MyPageScreen(),
+              path: 'management',
+              builder: (context, state) => const ManagementScreen(),
             ),
+            GoRoute(
+              path: 'send',
+              builder: (context, state) => const SendScreen(),
+            ),
+            GoRoute(
+              path: 'setting',
+              builder: (context, state) => const SettingScreen(),
+            )
           ],
         ),
       ],

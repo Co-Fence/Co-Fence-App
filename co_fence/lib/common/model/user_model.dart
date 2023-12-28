@@ -50,6 +50,4 @@ class UserModel {
       profileImage: profileImage ?? this.profileImage,
     );
   }
-
-  // toJson 메서드는 json 형태로 변환하는 메서드
 }

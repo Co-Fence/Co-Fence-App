@@ -1,5 +1,5 @@
 import 'package:co_fence/common/const/theme.dart';
-import 'package:co_fence/firebase_options.dart';
+import 'package:co_fence/utils/firebase_options.dart';
 import 'package:co_fence/riverpods/provider_observer.dart';
 import 'package:co_fence/route/router.dart';
 import 'package:co_fence/secret/secret.dart';
