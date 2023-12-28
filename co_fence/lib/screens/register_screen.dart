@@ -5,7 +5,6 @@ import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/common/model/gender.dart';
 import 'package:co_fence/common/model/nation.dart';
 import 'package:co_fence/common/model/role.dart';
-import 'package:co_fence/common/model/user_model.dart';
 import 'package:co_fence/riverpods/image_state_provider.dart';
 import 'package:co_fence/riverpods/user_provider.dart';
 import 'package:flutter/material.dart';
@@ -23,31 +22,31 @@ class RegisterScreen extends ConsumerStatefulWidget {
 
 class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   DateTime? _selectedDate;
-  //UserModel fetchUserInformationFromLogin();
+
   @override
   void initState() {
     super.initState();
-    //fetchUserInformationFromLogin();
   }
 
   @override
   void dispose() {
-    _emailController.dispose();
-    _nameController.dispose();
     _phoneNumberController.dispose();
     _birthController.dispose();
     super.dispose();
   }
 
   // 텍스트필드 컨트롤러
-  final TextEditingController _emailController = TextEditingController();
-  final TextEditingController _nameController = TextEditingController();
+
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _birthController = TextEditingController();
   final formKey = GlobalKey<FormState>();
 
   @override
-  Widget build(BuildContext contex) {
+  Widget build(BuildContext context) {
+    final TextEditingController emailController =
+        TextEditingController(text: ref.read(userProvider).email);
+    final TextEditingController nameController =
+        TextEditingController(text: ref.read(userProvider).name);
     final roleState = ref.watch(roleProvider);
     final imagesState = ref.watch(imageStateProvider);
     final nationState = ref.watch(nationProvider);
@@ -115,7 +114,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 ),
                 const Gap(10),
                 MyTextFormField(
-                  controller: _nameController,
+                  controller: nameController,
                   hintText: 'Enter your name',
                   obscureText: false,
                   validator: (value) {
@@ -281,7 +280,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                 const Text('Email'),
                 const Gap(10),
                 MyTextFormField(
-                  controller: _emailController,
+                  controller: emailController,
                   hintText: 'Enter your email',
                   obscureText: false,
                   validator: (value) {
@@ -317,8 +316,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           if (success) {
                             // 회원가입이 성공하면 상태 업데이트
                             ref.read(userProvider.notifier).updateUser(
-                                  name: _nameController.text,
-                                  email: _emailController.text,
+                                  name: nameController.text,
+                                  email: emailController.text,
                                   nation: nationState,
                                   gender: genderState,
                                   birth: _birthController.text,

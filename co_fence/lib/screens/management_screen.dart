@@ -13,6 +13,7 @@ class ManagementScreen extends ConsumerStatefulWidget {
 class _ManagementScreenState extends ConsumerState<ManagementScreen> {
   @override
   void initState() {
+    super.initState();
     fetchUserInfomation();
   }
 

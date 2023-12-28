@@ -1,6 +1,5 @@
 import 'package:co_fence/common/model/gender.dart';
 import 'package:co_fence/common/model/nation.dart';
-import 'package:flutter/foundation.dart';
 import 'package:image_picker/image_picker.dart';
 
 class UserModel {

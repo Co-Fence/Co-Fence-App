@@ -8,12 +8,14 @@ class MainViewModel {
 
   MainViewModel(this._socialLogin);
 
-  Future login() async {
+  Future<bool> login() async {
     bool isLogined = await _socialLogin.login();
     if (isLogined) {
       user = await UserApi.instance.me();
-      print('로그인 성공! 유저 정보는 = ${user!.kakaoAccount!.profile!.nickname}');
+      print('로그인 성공');
+      return true;
     }
+    return false;
   }
 
   Future logout() async {

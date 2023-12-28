@@ -1,6 +1,5 @@
 import 'package:co_fence/utils/google_login.dart';
 import 'package:co_fence/utils/login_platform.dart';
-import 'package:co_fence/screens/home_screen2.dart';
 import 'package:co_fence/utils/kakao_login.dart';
 import 'package:co_fence/viewModel/main_view_model.dart';
 import 'package:flutter/material.dart';
