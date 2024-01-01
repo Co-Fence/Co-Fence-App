@@ -2,23 +2,29 @@ import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
   final controller;
+  final readOnly;
   final validator;
   final String hintText;
   final bool obscureText;
+  final keyboardType;
   const MyTextFormField({
     super.key,
     this.controller,
     this.validator,
     required this.hintText,
     required this.obscureText,
+    this.readOnly = false,
+    this.keyboardType = TextInputType.text,
   });
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
+      readOnly: readOnly,
       validator: validator,
       controller: controller,
       obscureText: obscureText,
+      keyboardType: keyboardType,
       decoration: InputDecoration(
         hintText: hintText,
         enabledBorder: const OutlineInputBorder(

@@ -2,9 +2,9 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Nation {
   // 내국인
-  korean,
+  KR,
   // 외국인
-  foreigner,
+  Foreigner,
 }
 
-final nationProvider = StateProvider<Nation>((ref) => Nation.korean);
+final nationProvider = StateProvider<Nation>((ref) => Nation.KR);

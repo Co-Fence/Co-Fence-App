@@ -1,7 +1,7 @@
-import 'package:co_fence/utils/google_login.dart';
-import 'package:co_fence/utils/login_platform.dart';
-import 'package:co_fence/utils/kakao_login.dart';
-import 'package:co_fence/viewModel/main_view_model.dart';
+import 'package:co_fence/common/utils/google_login.dart';
+import 'package:co_fence/common/utils/kakao_login.dart';
+import 'package:co_fence/common/utils/login_platform.dart';
+import 'package:co_fence/common/viewModel/main_view_model.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 

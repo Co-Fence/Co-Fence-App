@@ -1,4 +1,3 @@
-import 'package:co_fence/common/model/gender.dart';
 import 'package:co_fence/common/model/nation.dart';
 import 'package:dio/dio.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,7 +9,6 @@ class RegisterService {
     required String name,
     required String email,
     required Nation nation,
-    required Gender gender,
     required String birth,
     required String phoneNumber,
     required XFile? profileImage,
@@ -21,7 +19,6 @@ class RegisterService {
           'name': name,
           'email': email,
           'nation': nation.toString(),
-          'gender': gender.toString(),
           'birth': birth,
           'phoneNumber': phoneNumber,
           'profileImage': profileImage != null

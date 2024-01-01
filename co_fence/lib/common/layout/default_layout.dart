@@ -1,4 +1,3 @@
-import 'package:co_fence/common/const/theme.dart';
 import 'package:flutter/material.dart';
 
 class DefaultLayout extends StatelessWidget {
@@ -6,26 +5,25 @@ class DefaultLayout extends StatelessWidget {
   final Widget child;
   final String? title;
   final Widget? bottomNavigationBar;
+  final Widget? floatingActionButton;
 
   const DefaultLayout({
-    super.key,
     required this.child,
     this.backgroundColor,
     this.title,
     this.bottomNavigationBar,
+    this.floatingActionButton,
+    super.key,
   });
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppBar(),
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: child,
-        ),
-      ),
+      body: child,
       bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 
@@ -34,16 +32,16 @@ class DefaultLayout extends StatelessWidget {
       return null;
     } else {
       return AppBar(
-        backgroundColor: MaterialTheme.lightScheme().primary,
+        backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
           title!,
           style: const TextStyle(
-            fontSize: 16,
-            fontWeight: FontWeight.bold,
+            fontSize: 16.0,
+            fontWeight: FontWeight.w500,
           ),
         ),
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black,
       );
     }
   }

@@ -1,6 +1,10 @@
+import 'package:co_fence/common/const/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
+import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -9,11 +13,55 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
+  late AnimationController _lottieController;
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
   @override
   void initState() {
     super.initState();
-    checkToken();
+    navigateToLogin();
+    _initAnimation();
+    _initLottieAnimation();
+    //checkToken();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    _lottieController.dispose();
+    super.dispose();
+  }
+
+  // 로고 애니메이션 초기화 메서드
+  void _initAnimation() {
+    // 애니메이션 컨트롤러 초기화
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 2), // 애니메이션 지속 시간 설정
+    );
+
+    // 페이드 인 애니메이션 초기화
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
+
+    // 애니메이션 시작
+    _controller.forward();
+  }
+
+  // 로티 애니메이션 초기화 메서드
+  void _initLottieAnimation() {
+    // 애니메이션 컨트롤러 초기화
+    _lottieController = AnimationController(
+      vsync: this,
+    );
+  }
+
+  // 로그인 화면으로 이동
+  void navigateToLogin() async {
+    await Future.delayed(const Duration(milliseconds: 2700));
+    context.go('/');
   }
 
   void checkToken() async {
@@ -37,9 +85,34 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return const Scaffold(
+    return Scaffold(
+      backgroundColor: PRIMARY_COLOR,
       body: Center(
-        child: CircularProgressIndicator(),
+        child: Column(
+          children: [
+            const Gap(40),
+            Lottie.asset(
+              'assets/lotties/app_logo_lottie.json',
+              width: 500,
+              height: 500,
+              onLoaded: (composition) {
+                _lottieController.duration = composition.duration;
+                _lottieController.forward();
+              },
+            ),
+            FadeTransition(
+              opacity: _animation,
+              child: Text(
+                'Co-Fence',
+                style: GoogleFonts.lobster(
+                  fontSize: 50,
+                  fontWeight: FontWeight.bold,
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
