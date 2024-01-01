@@ -1,6 +1,6 @@
-import 'package:co_fence/common/model/role.dart';
+import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/model/user_model.dart';
-import 'package:co_fence/common/model/nation.dart';
+import 'package:co_fence/user/model/nation.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userProvider = StateNotifierProvider<UserNotifier, UserModel>(

@@ -4,8 +4,8 @@ import 'package:co_fence/common/components/my_richtext.dart';
 import 'package:co_fence/common/components/my_textfield.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
-import 'package:co_fence/common/model/nation.dart';
-import 'package:co_fence/common/model/role.dart';
+import 'package:co_fence/user/model/nation.dart';
+import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/common/provider/image_state_provider.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:dio/dio.dart';
@@ -103,7 +103,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                               onPressed: () {
                                 ref
                                     .read(imageStateProvider.notifier)
-                                    .getProfileImageFromCamera();
+                                    .getProfileImageFromGallery();
                               },
                               icon: const Icon(Icons.add_a_photo),
                             ),
@@ -267,6 +267,18 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                             _phoneNumberController.text,
                                         profileImageUrl: images[0],
                                       );
+                                  // 유저 정보 출력
+                                  print('User Information:');
+                                  print('Name: ${ref.read(userProvider).name}');
+                                  print(
+                                      'Email: ${ref.read(userProvider).email}');
+                                  print('Role: ${ref.read(userProvider).role}');
+                                  print(
+                                      'Nation: ${ref.read(userProvider).nation}');
+                                  print(
+                                      'Phone Number: ${ref.read(userProvider).phoneNumber}');
+                                  print(
+                                      'Profile Image: ${ref.read(userProvider).profileImageUrl}');
 
                                   // 회원가입 성공 후, 홈 화면으로 이동
                                   context.go('/management');

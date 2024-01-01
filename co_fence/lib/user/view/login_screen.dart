@@ -155,6 +155,7 @@ class LoginScreen extends ConsumerWidget {
                                   'email': ref.read(userProvider).email,
                                 },
                               );
+                              // 해당 사용자의 정보 가져오기
                               print(response.data);
                               if (response.statusCode == 200) {
                                 // 토큰 발급받아 저장
@@ -170,6 +171,7 @@ class LoginScreen extends ConsumerWidget {
                                   key: ACCESS_TOKEN_KEY,
                                   value: accessToken,
                                 );
+                                context.push('management');
                               }
                             } else {
                               // 회원가입한 회원이 아니면 회원가입 페이지로

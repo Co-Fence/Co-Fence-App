@@ -18,6 +18,7 @@ class _ManagementScreenState extends ConsumerState<WorkspaceMainScreen> {
   }
 
   void fetchUserInfomation() {
+    // user/me 같은거로 요청해서 저장해야함
     final userState = ref.read(userProvider);
     // 회원의 정보 출력
     print('User Information:');

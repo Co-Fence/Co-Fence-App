@@ -19,7 +19,7 @@ final router = GoRouter(
     }
     return null;
   },
-  initialLocation: '/splash',
+  initialLocation: '/management',
   routes: [
     // 로그인 화면, '/'
     GoRoute(
