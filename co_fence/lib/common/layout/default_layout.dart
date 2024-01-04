@@ -1,19 +1,27 @@
+import 'package:co_fence/common/const/colors.dart';
 import 'package:flutter/material.dart';
 
 class DefaultLayout extends StatelessWidget {
   final Color? backgroundColor;
   final Widget child;
-  final String? title;
+  final String? appBarTitle;
+  final Widget? drawer;
+  final List<Widget>? actions;
+  final BuildContext context;
+
   final Widget? bottomNavigationBar;
   final Widget? floatingActionButton;
 
   const DefaultLayout({
+    super.key,
+    required this.context,
     required this.child,
+    this.actions,
     this.backgroundColor,
-    this.title,
+    this.appBarTitle,
     this.bottomNavigationBar,
     this.floatingActionButton,
-    super.key,
+    this.drawer,
   });
 
   @override
@@ -21,27 +29,34 @@ class DefaultLayout extends StatelessWidget {
     return Scaffold(
       backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppBar(),
-      body: child,
+      drawer: drawer,
+      body: Padding(
+        padding: const EdgeInsets.symmetric(
+          horizontal: 16.0,
+        ),
+        child: child,
+      ),
       bottomNavigationBar: bottomNavigationBar,
       floatingActionButton: floatingActionButton,
     );
   }
 
   AppBar? renderAppBar() {
-    if (title == null) {
+    if (appBarTitle == null) {
       return null;
     } else {
       return AppBar(
-        backgroundColor: Colors.white,
+        actions: actions,
+        backgroundColor: PRIMARY_COLOR,
         elevation: 0,
         title: Text(
-          title!,
+          appBarTitle!,
           style: const TextStyle(
             fontSize: 16.0,
             fontWeight: FontWeight.w500,
           ),
         ),
-        foregroundColor: Colors.black,
+        foregroundColor: Colors.white,
       );
     }
   }

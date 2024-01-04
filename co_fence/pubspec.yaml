@@ -51,6 +51,7 @@ dependencies:
   json_annotation: ^4.8.1
   fluttertoast: ^8.2.4
   google_fonts: ^6.1.0
+  sizer: ^2.0.15
 
 dev_dependencies:
   flutter_test:

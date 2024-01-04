@@ -3,8 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:kakao_flutter_sdk/kakao_flutter_sdk.dart';
-import 'package:lottie/lottie.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -15,23 +13,20 @@ class SplashScreen extends StatefulWidget {
 
 class _SplashScreenState extends State<SplashScreen>
     with TickerProviderStateMixin {
-  late AnimationController _lottieController;
   late AnimationController _controller;
   late Animation<double> _animation;
 
   @override
   void initState() {
     super.initState();
-    navigateToLogin();
     _initAnimation();
-    _initLottieAnimation();
     //checkToken();
   }
 
   @override
   void dispose() {
     _controller.dispose();
-    _lottieController.dispose();
+
     super.dispose();
   }
 
@@ -50,38 +45,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
   }
 
-  // 로티 애니메이션 초기화 메서드
-  void _initLottieAnimation() {
-    // 애니메이션 컨트롤러 초기화
-    _lottieController = AnimationController(
-      vsync: this,
-    );
-  }
-
-  // 로그인 화면으로 이동
-  void navigateToLogin() async {
-    await Future.delayed(const Duration(milliseconds: 2700));
-    context.go('/');
-  }
-
-  void checkToken() async {
-    if (await AuthApi.instance.hasToken()) {
-      try {
-        AccessTokenInfo tokenInfo = await UserApi.instance.accessTokenInfo();
-        print('토큰 유효성 체크 성공 ${tokenInfo.id} ${tokenInfo.expiresIn}');
-        context.go('/');
-      } catch (error) {
-        if (error is KakaoException && error.isInvalidTokenError()) {
-          print('토큰 만료 $error');
-        } else {
-          print('토큰 정보 조회 실패 $error');
-        }
-      }
-    } else {
-      print('토큰 없음');
-      context.go('/');
-    }
-  }
+  void checkToken() async {}
 
   @override
   Widget build(BuildContext context) {
@@ -89,17 +53,8 @@ class _SplashScreenState extends State<SplashScreen>
       backgroundColor: PRIMARY_COLOR,
       body: Center(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Gap(40),
-            Lottie.asset(
-              'assets/lotties/app_logo_lottie.json',
-              width: 500,
-              height: 500,
-              onLoaded: (composition) {
-                _lottieController.duration = composition.duration;
-                _lottieController.forward();
-              },
-            ),
             FadeTransition(
               opacity: _animation,
               child: Text(

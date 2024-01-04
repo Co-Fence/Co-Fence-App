@@ -33,10 +33,10 @@ class ImageState extends StateNotifier<List<String>> {
         deleteAllImages();
         state = [imageUrl];
       } else {
-        Fluttertoast.showToast(msg: '프로필 이미지를 가져오는데 실패했습니다.');
+        Fluttertoast.showToast(msg: 'failed to get profile image');
       }
     } catch (e) {
-      Fluttertoast.showToast(msg: '프로필 이미지를 가져오는데 실패했습니다.');
+      Fluttertoast.showToast(msg: 'failed to get profile image');
     }
   }
 

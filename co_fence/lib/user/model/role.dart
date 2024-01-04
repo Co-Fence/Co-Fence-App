@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Role {
-  User,
-  Admin,
+  USER,
+  ADMIN,
 }
 
-final roleProvider = StateProvider<Role>((ref) => Role.User);
+final roleProvider = StateProvider<Role>((ref) => Role.USER);

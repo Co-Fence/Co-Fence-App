@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
 class MyTextFormField extends StatelessWidget {
-  final controller;
-  final readOnly;
-  final validator;
+  final TextEditingController? controller;
+  final bool readOnly;
+  final dynamic validator;
   final String hintText;
   final bool obscureText;
-  final keyboardType;
+  final TextInputType? keyboardType;
   const MyTextFormField({
     super.key,
     this.controller,

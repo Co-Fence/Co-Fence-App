@@ -12,6 +12,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:co_fence/common/const/data.dart';
@@ -53,7 +54,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final roleState = ref.watch(roleProvider);
     final nationState = ref.watch(nationProvider);
     return DefaultLayout(
-      title: 'Register',
+      context: context,
+      appBarTitle: 'Register',
       child: GestureDetector(
         onTap: () => FocusManager.instance.primaryFocus?.unfocus(),
         child: SingleChildScrollView(
@@ -152,7 +154,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         return DropdownMenuItem<Role>(
                           value: role,
                           child: Text(
-                            role == Role.User ? 'User' : 'Admin',
+                            role == Role.USER ? 'User' : 'Admin',
                           ),
                         );
                       },
@@ -210,7 +212,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     },
                   ),
                   const Gap(20),
-
                   // 회원가입 버튼
                   Column(
                     mainAxisAlignment: MainAxisAlignment.start,
@@ -224,71 +225,8 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                         onPressed: () async {
                           if (formKey.currentState!.validate()) {
-                            Dio dio = Dio();
-                            // 폼 유효성 검사 통과 후, 서버로 회원가입 요청
-                            try {
-                              Response response = await dio.post(
-                                '$ip/api/user/login',
-                                data: {
-                                  'name': _nameController.text,
-                                  'email': _emailController.text,
-                                  'role': roleState.toString().split('.').last,
-                                  'nation':
-                                      nationState.toString().split('.').last,
-                                  'phoneNumber': _phoneNumberController.text,
-                                  'profileImageUrl': imageState.isNotEmpty
-                                      ? imageState.first
-                                      : defaultImageUrl,
-                                },
-                              );
-                              if (response.statusCode == 200) {
-                                final refreshToken =
-                                    response.data['refreshToken'];
-                                final accessToken =
-                                    response.data['accessToken'];
-                                await storage.write(
-                                  key: REFRESH_TOKEN_KEY,
-                                  value: refreshToken,
-                                );
-                                await storage.write(
-                                  key: ACCESS_TOKEN_KEY,
-                                  value: accessToken,
-                                );
-                                // 회원가입이 성공하면 상태 업데이트
-                                List<String>? images =
-                                    ref.read(imageStateProvider);
-                                if (images != null && images.isNotEmpty) {
-                                  ref.read(userProvider.notifier).updateUser(
-                                        name: _nameController.text,
-                                        email: _emailController.text,
-                                        role: roleState,
-                                        nation: nationState,
-                                        phoneNumber:
-                                            _phoneNumberController.text,
-                                        profileImageUrl: images[0],
-                                      );
-                                  // 유저 정보 출력
-                                  print('User Information:');
-                                  print('Name: ${ref.read(userProvider).name}');
-                                  print(
-                                      'Email: ${ref.read(userProvider).email}');
-                                  print('Role: ${ref.read(userProvider).role}');
-                                  print(
-                                      'Nation: ${ref.read(userProvider).nation}');
-                                  print(
-                                      'Phone Number: ${ref.read(userProvider).phoneNumber}');
-                                  print(
-                                      'Profile Image: ${ref.read(userProvider).profileImageUrl}');
-
-                                  // 회원가입 성공 후, 홈 화면으로 이동
-                                  context.go('/management');
-                                } else {
-                                  // 사진을 등록해야 넘어갈 수 있음을 사용자에게 알리는 처리를 추가할 수 있습니다.
-                                }
-                              }
-                            } catch (e) {
-                              print(e);
-                            }
+                            await register(roleState, nationState, imageState,
+                                storage, context);
                           }
                         },
                         child: const Text("Join"),
@@ -302,5 +240,69 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         ),
       ),
     );
+  }
+
+  Future<void> register(
+      Role roleState,
+      Nation nationState,
+      List<String> imageState,
+      FlutterSecureStorage storage,
+      BuildContext context) async {
+    Dio dio = Dio();
+    // 폼 유효성 검사 통과 후, 서버로 회원가입 요청
+    try {
+      Response response = await dio.post(
+        '$ip/v1/auth/signUp',
+        data: {
+          "name": _nameController.text,
+          "email": _emailController.text,
+          "roleType": roleState.toString().split('.').last,
+          "nationality": nationState.toString().split('.').last,
+          "phoneNumber": _phoneNumberController.text,
+          "profileImageUrl":
+              imageState.isNotEmpty ? imageState.first : defaultImageUrl,
+        },
+      );
+      print(response.statusCode);
+      if (response.statusCode == 200) {
+        final refreshToken = response.data['refreshToken'];
+        final accessToken = response.data['accessToken'];
+        await storage.write(
+          key: REFRESH_TOKEN_KEY,
+          value: refreshToken,
+        );
+        await storage.write(
+          key: ACCESS_TOKEN_KEY,
+          value: accessToken,
+        );
+        // 회원가입이 성공하면 상태 업데이트
+        List<String>? images = ref.read(imageStateProvider);
+        if (images != null && images.isNotEmpty) {
+          ref.read(userProvider.notifier).updateUser(
+                name: _nameController.text,
+                email: _emailController.text,
+                role: roleState,
+                nation: nationState,
+                phoneNumber: _phoneNumberController.text,
+                profileImageUrl: images[0],
+              );
+          // 유저 정보 출력
+          print('User Information:');
+          print('Name: ${ref.read(userProvider).name}');
+          print('Email: ${ref.read(userProvider).email}');
+          print('Role: ${ref.read(userProvider).role}');
+          print('Nation: ${ref.read(userProvider).nation}');
+          print('Phone Number: ${ref.read(userProvider).phoneNumber}');
+          print('Profile Image: ${ref.read(userProvider).profileImageUrl}');
+
+          // 회원가입 성공 후, 홈 화면으로 이동
+          context.go('/workspace');
+        } else {
+          // 사진을 등록해야 넘어갈 수 있음을 사용자에게 알리는 처리를 추가할 수 있습니다.
+        }
+      }
+    } catch (e) {
+      print(e);
+    }
   }
 }
