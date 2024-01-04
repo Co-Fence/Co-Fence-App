@@ -22,7 +22,7 @@ final router = GoRouter(
     error: state.error.toString(),
   ),
   debugLogDiagnostics: true,
-  initialLocation: '/login',
+  initialLocation: '/splash',
   routes: [
     // 로그인 화면,
     GoRoute(

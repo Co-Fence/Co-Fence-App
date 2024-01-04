@@ -1,4 +1,6 @@
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/const/data.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
@@ -11,41 +13,46 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
-  late AnimationController _controller;
-  late Animation<double> _animation;
+class _SplashScreenState extends State<SplashScreen> {
+  final dio = Dio();
 
   @override
   void initState() {
     super.initState();
-    _initAnimation();
-    //checkToken();
+    checkToken();
+    deleteToken();
   }
 
   @override
   void dispose() {
-    _controller.dispose();
-
     super.dispose();
   }
 
-  // 로고 애니메이션 초기화 메서드
-  void _initAnimation() {
-    // 애니메이션 컨트롤러 초기화
-    _controller = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2), // 애니메이션 지속 시간 설정
-    );
-
-    // 페이드 인 애니메이션 초기화
-    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(_controller);
-
-    // 애니메이션 시작
-    _controller.forward();
+  // 토큰 삭제
+  void deleteToken() async {
+    await storage.deleteAll();
   }
 
-  void checkToken() async {}
+  void checkToken() async {
+    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+
+    // 토큰이 유효한 지 확인하여 유효하면 워크스페이스 메인으로 이동
+    // 유효하지 않으면 로그인 화면으로 이동
+    try {
+      final response = await dio.post(
+        '$ip/v1/auth/renew',
+        options: Options(
+          headers: {
+            'Authorization': '$refreshToken',
+          },
+        ),
+      );
+      GoRouter.of(context).pushReplacement('/workspace');
+    } catch (e) {
+      GoRouter.of(context).pushReplacement('/login');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -55,17 +62,18 @@ class _SplashScreenState extends State<SplashScreen>
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            FadeTransition(
-              opacity: _animation,
-              child: Text(
-                'Co-Fence',
-                style: GoogleFonts.lobster(
-                  fontSize: 50,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.white,
-                ),
+            Text(
+              'Co-Fence',
+              style: GoogleFonts.lobster(
+                fontSize: 50,
+                fontWeight: FontWeight.bold,
+                color: Colors.white,
               ),
             ),
+            const Gap(70),
+            const CircularProgressIndicator(
+              color: Colors.white,
+            )
           ],
         ),
       ),
