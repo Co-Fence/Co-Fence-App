@@ -223,11 +223,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           foregroundColor: Colors.white,
                           backgroundColor: PRIMARY_COLOR,
                         ),
-                        onPressed: () async {
+                        onPressed: imageState.isNotEmpty
+                            ? () async {
                           if (formKey.currentState!.validate()) {
-                            await register(roleState, nationState, imageState,
-                                storage, context);
+                            await register(roleState, nationState, imageState, storage, context);
                           }
+                        }
+                            : () {
+                          Fluttertoast.showToast(
+                            msg: "프로필 이미지를 등록해주세요.",
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: PRIMARY_COLOR,
+                            textColor: Colors.white,
+                            fontSize: 16.0,
+                          );
                         },
                         child: const Text("Join"),
                       ),

@@ -2,9 +2,12 @@ import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
+
+import '../../common/const/data.dart';
 
 class WorkspaceMainScreen extends ConsumerStatefulWidget {
   const WorkspaceMainScreen({super.key});
@@ -14,28 +17,11 @@ class WorkspaceMainScreen extends ConsumerStatefulWidget {
 }
 
 class _ManagementScreenState extends ConsumerState<WorkspaceMainScreen> {
+  final dio = Dio();
   @override
   void initState() {
     super.initState();
-    fetchUserInfomation();
-    //fetchUserWorkspace();
   }
-
-  void fetchUserInfomation() {
-    // user/me 같은거로 요청해서 저장해야함
-    final userState = ref.read(userProvider);
-    // 회원의 정보 출력
-    print('User Information:');
-    print('Name: ${userState.name}');
-    print('Email: ${userState.email}');
-    print('Role: ${userState.role}');
-    print('Nation: ${userState.nation}');
-    print('Phone Number: ${userState.phoneNumber}');
-    print('Profile Image: ${userState.profileImageUrl}');
-  }
-
-  // 유저가 현재 일하고 있는 워크스페이스를 가져옴
-  fetchUserWorkspace() {}
 
   @override
   Widget build(BuildContext context) {
