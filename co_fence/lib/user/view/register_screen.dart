@@ -225,21 +225,22 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         ),
                         onPressed: imageState.isNotEmpty
                             ? () async {
-                          if (formKey.currentState!.validate()) {
-                            await register(roleState, nationState, imageState, storage, context);
-                          }
-                        }
+                                if (formKey.currentState!.validate()) {
+                                  await register(roleState, nationState,
+                                      imageState, storage, context);
+                                }
+                              }
                             : () {
-                          Fluttertoast.showToast(
-                            msg: "프로필 이미지를 등록해주세요.",
-                            toastLength: Toast.LENGTH_SHORT,
-                            gravity: ToastGravity.BOTTOM,
-                            timeInSecForIosWeb: 1,
-                            backgroundColor: PRIMARY_COLOR,
-                            textColor: Colors.white,
-                            fontSize: 16.0,
-                          );
-                        },
+                                Fluttertoast.showToast(
+                                  msg: "프로필 이미지를 등록해주세요.",
+                                  toastLength: Toast.LENGTH_SHORT,
+                                  gravity: ToastGravity.BOTTOM,
+                                  timeInSecForIosWeb: 1,
+                                  backgroundColor: PRIMARY_COLOR,
+                                  textColor: Colors.white,
+                                  fontSize: 16.0,
+                                );
+                              },
                         child: const Text("Join"),
                       ),
                     ],
@@ -307,7 +308,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
           print('Profile Image: ${ref.read(userProvider).profileImageUrl}');
 
           // 회원가입 성공 후, 홈 화면으로 이동
-          context.go('/workspace');
+          context.go('/workplace');
         } else {
           // 사진을 등록해야 넘어갈 수 있음을 사용자에게 알리는 처리를 추가할 수 있습니다.
         }

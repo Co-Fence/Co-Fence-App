@@ -119,7 +119,7 @@ class LoginScreen extends ConsumerWidget {
                 profileImageUrl: response.data['profileImageUrl'],
               );
 
-          context.push('/workspace');
+          context.push('/workplace');
         } else {
           context.go('/register');
         }
@@ -189,7 +189,7 @@ class LoginScreen extends ConsumerWidget {
                       profileImageUrl: response.data['profileImageUrl'],
                     );
 
-                context.push('/workspace');
+                context.push('/workplace');
               }
             } else {
               // 회원가입한 회원이 아니면 회원가입 페이지로

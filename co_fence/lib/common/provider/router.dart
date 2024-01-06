@@ -10,9 +10,9 @@ import 'package:co_fence/user/view/login_screen.dart';
 import 'package:co_fence/common/view/splash_screen.dart';
 import 'package:co_fence/user/view/mypage_edit_screen.dart';
 import 'package:co_fence/user/view/mypage_screen.dart';
-import 'package:co_fence/workplace/view/workspace_main_screen.dart';
+import 'package:co_fence/workplace/view/workplace_main_screen.dart';
 import 'package:co_fence/user/view/register_screen.dart';
-import 'package:co_fence/workplace/view/workspace_search_screen.dart';
+import 'package:co_fence/workplace/view/workplace_search_screen.dart';
 import 'package:go_router/go_router.dart';
 
 bool authState = false;
@@ -39,14 +39,14 @@ final router = GoRouter(
       path: '/register',
       builder: (context, state) => const RegisterScreen(),
     ),
-    // 워크스페이스 메인 화면, '/workspace'
+    // 워크플레이스 메인 화면, '/workplace'
     GoRoute(
-      path: '/workspace',
-      builder: (context, state) => const WorkspaceMainScreen(),
+      path: '/workplace',
+      builder: (context, state) => const WorkplaceMainScreen(),
       routes: [
         GoRoute(
           path: 'search',
-          builder: (context, state) => const WorkspaceSearchScreen(),
+          builder: (context, state) => const WorkplaceSearchScreen(),
         ),
       ],
     ),

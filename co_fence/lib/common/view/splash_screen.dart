@@ -36,8 +36,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     GoRouter.of(context).pushReplacement('/login');
   }
 
-  void navigateToWorkspaceScreen() {
-    GoRouter.of(context).pushReplacement('/workspace');
+  void navigateToWorkplaceScreen() {
+    GoRouter.of(context).pushReplacement('/workplace');
   }
 
   void Login() async {
@@ -83,7 +83,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               phoneNumber: resp.data['phoneNumber'],
               profileImageUrl: resp.data['profileImageUrl'],
             );
-        navigateToWorkspaceScreen();
+        navigateToWorkplaceScreen();
       }
     } catch (e) {
       // 리프레쉬 토큰이 만료되었을 경우

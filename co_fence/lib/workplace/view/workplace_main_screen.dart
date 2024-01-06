@@ -2,6 +2,7 @@ import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
+import 'package:co_fence/workplace/workplace_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -9,14 +10,14 @@ import 'package:go_router/go_router.dart';
 
 import '../../common/const/data.dart';
 
-class WorkspaceMainScreen extends ConsumerStatefulWidget {
-  const WorkspaceMainScreen({super.key});
+class WorkplaceMainScreen extends ConsumerStatefulWidget {
+  const WorkplaceMainScreen({super.key});
 
   @override
-  ConsumerState<WorkspaceMainScreen> createState() => _ManagementScreenState();
+  ConsumerState<WorkplaceMainScreen> createState() => _ManagementScreenState();
 }
 
-class _ManagementScreenState extends ConsumerState<WorkspaceMainScreen> {
+class _ManagementScreenState extends ConsumerState<WorkplaceMainScreen> {
   final dio = Dio();
   @override
   void initState() {
@@ -27,19 +28,20 @@ class _ManagementScreenState extends ConsumerState<WorkspaceMainScreen> {
   Widget build(BuildContext context) {
     return DefaultLayout(
       context: context,
-      appBarTitle: 'Your Workspace',
+      appBarTitle: 'Your Workplace',
       drawer: const MyDrawer(),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         children: [
           Container(
             child: const Center(
-              child: Text('workspace'),
+              child: Text('workplace'),
             ),
           ),
           ElevatedButton(
             onPressed: () {
-              context.go('/workspace/search');
+              print(workplaceData["data"]);
+              context.go('/workplace/search');
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(
@@ -47,7 +49,7 @@ class _ManagementScreenState extends ConsumerState<WorkspaceMainScreen> {
               ),
             ),
             child: const Text(
-              'Create Workspace',
+              'Search Workpace',
               style: TextStyle(
                 color: Colors.white,
               ),
