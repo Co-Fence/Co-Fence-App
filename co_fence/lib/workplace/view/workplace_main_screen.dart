@@ -1,14 +1,10 @@
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
-import 'package:co_fence/user/provider/user_provider.dart';
-import 'package:co_fence/workplace/workplace_data.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
-
-import '../../common/const/data.dart';
 
 class WorkplaceMainScreen extends ConsumerStatefulWidget {
   const WorkplaceMainScreen({super.key});
@@ -40,7 +36,6 @@ class _ManagementScreenState extends ConsumerState<WorkplaceMainScreen> {
           ),
           ElevatedButton(
             onPressed: () {
-              print(workplaceData["data"]);
               context.go('/workplace/search');
             },
             style: ButtonStyle(

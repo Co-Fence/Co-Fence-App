@@ -1,4 +1,5 @@
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:flutter/material.dart';
 
 class WorkplaceListCard extends StatelessWidget {
@@ -12,6 +13,15 @@ class WorkplaceListCard extends StatelessWidget {
     required this.workplaceName,
     required this.workplaceAddress,
   });
+
+  factory WorkplaceListCard.fromModel({
+    required WorkplaceModel model,
+  }) {
+    return WorkplaceListCard(
+      workplaceName: model.workplaceName,
+      workplaceAddress: model.workplaceAddress,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
