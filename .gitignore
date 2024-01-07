@@ -89,6 +89,7 @@ co_fence/lib/secret/secret.dart
 co_fence/ios/Runner/GoogleService-Info.plist
 co_fence/lib/firebase_options.dart
 co_fence/ios/Runner/Info.plist
+co_fence/lib/common/utils/firebase_options.dart
 
 # For library packages, don’t commit the pubspec.lock file.
 # Regenerating the pubspec.lock file lets you test your package against the latest compatible versions of its dependencies.

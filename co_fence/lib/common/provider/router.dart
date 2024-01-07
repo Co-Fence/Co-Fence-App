@@ -42,7 +42,7 @@ final router = GoRouter(
       path: '/workplace',
       builder: (context, state) {
         final Map<String, dynamic> queryParams = state.uri.queryParameters;
-        final String workplaceId = queryParams['workplaceId'] ?? 0;
+        final String workplaceId = queryParams['workplaceId'] ?? '0';
 
         return WorkplaceMainScreen(workplaceId: workplaceId);
       },

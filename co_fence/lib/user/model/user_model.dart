@@ -13,7 +13,7 @@ class UserModel {
   // 이메일
   final String email;
   // 프로필 사진
-  final String? profileImageUrl;
+  final String profileImageUrl;
 
   UserModel({
     required this.name,

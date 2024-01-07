@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:typed_data';
 
 import 'package:co_fence/common/components/my_richtext.dart';
 import 'package:co_fence/common/components/my_textfield.dart';
@@ -6,16 +7,15 @@ import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
-import 'package:co_fence/common/provider/image_state_provider.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
-import 'package:dio/dio.dart';
+import 'package:co_fence/user/service/auth_services.dart';
+import 'package:co_fence/user/service/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:co_fence/common/const/data.dart';
+import 'package:image_picker/image_picker.dart';
 
 class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
@@ -37,6 +37,17 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     super.dispose();
   }
 
+  void selectImage() async {
+    Uint8List? selectedImage = await pickImage(ImageSource.gallery);
+    setState(() {
+      _image = selectedImage;
+    });
+  }
+
+  void NavigateToWorkplace() {
+    context.pushReplacement('/workplace');
+  }
+
   // 텍스트필드 컨트롤러
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _emailController = TextEditingController();
@@ -44,11 +55,43 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final formKey = GlobalKey<FormState>();
   final String defaultImageUrl =
       'https://static.vecteezy.com/system/resources/thumbnails/009/292/244/small/default-avatar-icon-of-social-media-user-vector.jpg';
+  Uint8List? _image;
+  bool _isLoading = false;
+
+  // 회원가입
+  void signUpUser() async {
+    setState(() {
+      _isLoading = true;
+    });
+    final roleState = ref.read(roleProvider);
+    final nationState = ref.read(nationProvider);
+    final name = _nameController.text;
+    final email = _emailController.text;
+    final phoneNumber = _phoneNumberController.text;
+    final role = roleState;
+    final nation = nationState;
+    final file = _image;
+    String result = await AuthServices().signUp(
+      name: name,
+      email: email,
+      phoneNumber: phoneNumber,
+      roleState: role,
+      nationState: nation,
+      file: file!,
+    );
+    setState(() {
+      _isLoading = false;
+    });
+    // 회원가입 성공 시 홈 화면으로 이동
+    if (result != 'success') {
+      showSnackBar(context, result);
+    } else {
+      NavigateToWorkplace();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    const storage = FlutterSecureStorage();
-    final imageState = ref.watch(imageStateProvider);
     _emailController.text = ref.read(userProvider).email;
     _nameController.text = ref.read(userProvider).name;
     final roleState = ref.watch(roleProvider);
@@ -83,30 +126,26 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     children: [
                       Stack(
                         children: [
-                          imageState.isNotEmpty
-                              // 이미지가 있을 경우 선택한 이미지로 대체
-                              ? CircleAvatar(
-                                  radius: 64,
-                                  backgroundImage:
-                                      FileImage(File(imageState.first)),
-                                )
+                          if (_image != null)
+                            // 이미지가 있을 경우 선택한 이미지로 대체
+                            CircleAvatar(
+                              radius: 64,
+                              backgroundImage: MemoryImage(_image!),
+                            )
 
-                              // 이미지가 없을 경우 기본 이미지로 대체
-                              : CircleAvatar(
-                                  radius: 64,
-                                  backgroundImage: NetworkImage(
-                                    defaultImageUrl,
-                                  ),
-                                ),
+                          // 이미지가 없을 경우 기본 이미지로 대체
+                          else
+                            CircleAvatar(
+                              radius: 64,
+                              backgroundImage: NetworkImage(
+                                defaultImageUrl,
+                              ),
+                            ),
                           Positioned(
                             bottom: -10,
                             left: 80,
                             child: IconButton(
-                              onPressed: () {
-                                ref
-                                    .read(imageStateProvider.notifier)
-                                    .getProfileImageFromGallery();
-                              },
+                              onPressed: selectImage,
                               icon: const Icon(Icons.add_a_photo),
                             ),
                           ),
@@ -223,11 +262,10 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                           foregroundColor: Colors.white,
                           backgroundColor: PRIMARY_COLOR,
                         ),
-                        onPressed: imageState.isNotEmpty
+                        onPressed: _image != null
                             ? () async {
                                 if (formKey.currentState!.validate()) {
-                                  await register(roleState, nationState,
-                                      imageState, storage, context);
+                                  signUpUser;
                                 }
                               }
                             : () {
@@ -241,7 +279,11 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                   fontSize: 16.0,
                                 );
                               },
-                        child: const Text("Join"),
+                        child: _isLoading
+                            ? const CircularProgressIndicator(
+                                color: Colors.white,
+                              )
+                            : const Text("Join"),
                       ),
                     ],
                   ),
@@ -252,69 +294,5 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
         ),
       ),
     );
-  }
-
-  Future<void> register(
-      Role roleState,
-      Nation nationState,
-      List<String> imageState,
-      FlutterSecureStorage storage,
-      BuildContext context) async {
-    Dio dio = Dio();
-    // 폼 유효성 검사 통과 후, 서버로 회원가입 요청
-    try {
-      Response response = await dio.post(
-        '$ip/v1/auth/signUp',
-        data: {
-          "name": _nameController.text,
-          "email": _emailController.text,
-          "roleType": roleState.toString().split('.').last,
-          "nationality": nationState.toString().split('.').last,
-          "phoneNumber": _phoneNumberController.text,
-          "profileImageUrl":
-              imageState.isNotEmpty ? imageState.first : defaultImageUrl,
-        },
-      );
-      print(response.statusCode);
-      if (response.statusCode == 200) {
-        final refreshToken = response.data['refreshToken'];
-        final accessToken = response.data['accessToken'];
-        await storage.write(
-          key: REFRESH_TOKEN_KEY,
-          value: refreshToken,
-        );
-        await storage.write(
-          key: ACCESS_TOKEN_KEY,
-          value: accessToken,
-        );
-        // 회원가입이 성공하면 상태 업데이트
-        List<String>? images = ref.read(imageStateProvider);
-        if (images != null && images.isNotEmpty) {
-          ref.read(userProvider.notifier).updateUser(
-                name: _nameController.text,
-                email: _emailController.text,
-                role: roleState,
-                nation: nationState,
-                phoneNumber: _phoneNumberController.text,
-                profileImageUrl: images[0],
-              );
-          // 유저 정보 출력
-          print('User Information:');
-          print('Name: ${ref.read(userProvider).name}');
-          print('Email: ${ref.read(userProvider).email}');
-          print('Role: ${ref.read(userProvider).role}');
-          print('Nation: ${ref.read(userProvider).nation}');
-          print('Phone Number: ${ref.read(userProvider).phoneNumber}');
-          print('Profile Image: ${ref.read(userProvider).profileImageUrl}');
-
-          // 회원가입 성공 후, 홈 화면으로 이동
-          context.go('/workplace');
-        } else {
-          // 사진을 등록해야 넘어갈 수 있음을 사용자에게 알리는 처리를 추가할 수 있습니다.
-        }
-      }
-    } catch (e) {
-      print(e);
-    }
   }
 }
