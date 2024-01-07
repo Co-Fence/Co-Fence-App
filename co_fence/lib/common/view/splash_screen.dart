@@ -37,7 +37,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   }
 
   void navigateToWorkplaceScreen() {
-    GoRouter.of(context).pushReplacement('/workplace');
+    GoRouter.of(context).pushReplacement(
+      '/workplace',
+      // '/workplace?workplaceId=${ref.read(userProvider).workplaceId}',
+    );
   }
 
   void Login() async {

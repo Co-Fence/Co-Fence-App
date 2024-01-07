@@ -1,6 +1,4 @@
 import 'package:co_fence/common/components/my_search_Text_field.dart';
-import 'package:co_fence/common/components/my_textfield.dart';
-import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/workplace/component/workplace_list_card.dart';
 import 'package:co_fence/workplace/model/workplace_model.dart';
@@ -8,6 +6,7 @@ import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:co_fence/common/const/data.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 
 class WorkplaceSearchScreen extends StatefulWidget {
   const WorkplaceSearchScreen({super.key});
@@ -85,7 +84,7 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
               future: paginateWorkplace(),
               builder: (context, AsyncSnapshot<List> snapshot) {
                 if (!snapshot.hasData) {
-                  return const CircularProgressIndicator();
+                  return Container();
                 }
 
                 return ListView.separated(
@@ -93,10 +92,17 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
                   itemBuilder: (context, index) {
                     final item = snapshot.data![index];
                     final pitem = WorkplaceModel.fromJson(
-                      json: item,
+                      item,
                     );
-                    return WorkplaceListCard.fromModel(
-                      model: pitem,
+                    return GestureDetector(
+                      onTap: () {
+                        context.go(
+                          '/workplace?workplaceId=${pitem.workplaceId}',
+                        );
+                      },
+                      child: WorkplaceListCard.fromModel(
+                        model: pitem,
+                      ),
                     );
                   },
                   separatorBuilder: (context, index) {

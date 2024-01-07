@@ -15,8 +15,6 @@ import 'package:co_fence/user/view/register_screen.dart';
 import 'package:co_fence/workplace/view/workplace_search_screen.dart';
 import 'package:go_router/go_router.dart';
 
-bool authState = false;
-
 final router = GoRouter(
   errorBuilder: (context, state) => ErrorScreen(
     error: state.error.toString(),
@@ -42,7 +40,12 @@ final router = GoRouter(
     // 워크플레이스 메인 화면, '/workplace'
     GoRoute(
       path: '/workplace',
-      builder: (context, state) => const WorkplaceMainScreen(),
+      builder: (context, state) {
+        final Map<String, dynamic> queryParams = state.uri.queryParameters;
+        final String workplaceId = queryParams['workplaceId'] ?? 0;
+
+        return WorkplaceMainScreen(workplaceId: workplaceId);
+      },
       routes: [
         GoRoute(
           path: 'search',
@@ -50,6 +53,7 @@ final router = GoRouter(
         ),
       ],
     ),
+
     // 공지사항 화면, '/notice'
     GoRoute(
       path: '/notice',

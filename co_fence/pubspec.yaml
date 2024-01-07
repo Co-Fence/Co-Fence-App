@@ -52,6 +52,9 @@ dependencies:
   fluttertoast: ^8.2.4
   google_fonts: ^6.1.0
   sizer: ^2.0.15
+  retrofit: ^4.0.3
+  logger: ^2.0.2+1
+  retrofit_generator: ^8.0.6
 
 dev_dependencies:
   flutter_test:

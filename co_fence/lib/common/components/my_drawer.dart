@@ -19,7 +19,7 @@ class MyDrawer extends StatelessWidget {
             child: DrawerHeader(
               padding:
                   const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: PRIMARY_COLOR,
               ),
               child: Text(
@@ -37,7 +37,7 @@ class MyDrawer extends StatelessWidget {
             child: ListTile(
               title: const Text('Home'),
               onTap: () {
-                context.go('/workspace');
+                context.go('/workplace');
               },
             ),
           ),
