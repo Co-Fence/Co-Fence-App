@@ -72,6 +72,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     final nation = nationState;
     final file = _image;
     String result = await AuthServices().signUp(
+      ref: ref,
       name: name,
       email: email,
       phoneNumber: phoneNumber,
@@ -79,6 +80,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
       nationState: nation,
       file: file!,
     );
+
     setState(() {
       _isLoading = false;
     });
@@ -265,7 +267,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         onPressed: _image != null
                             ? () async {
                                 if (formKey.currentState!.validate()) {
-                                  signUpUser;
+                                  signUpUser();
                                 }
                               }
                             : () {

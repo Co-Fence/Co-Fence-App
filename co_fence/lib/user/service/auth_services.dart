@@ -3,12 +3,15 @@ import 'dart:typed_data';
 import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
+import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/user/service/storage_services.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class AuthServices {
   // 회원가입
   Future<String> signUp({
+    required WidgetRef ref,
     required String name,
     required String email,
     required String phoneNumber,
@@ -50,6 +53,15 @@ class AuthServices {
           key: ACCESS_TOKEN_KEY,
           value: accessToken,
         );
+        // userProvider 업데이트
+        ref.read(userProvider.notifier).updateUser(
+              name: name,
+              email: email,
+              role: roleState,
+              nation: nationState,
+              phoneNumber: phoneNumber,
+              profileImageUrl: profileImageUrl,
+            );
         result = 'success';
       } else {
         // 회원가입 실패
