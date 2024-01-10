@@ -30,7 +30,7 @@ class AuthServices {
         file,
       );
       Response response = await dio.post(
-        '$ip/v1/auth/signUp',
+        '$ip/v22/auth/signUp',
         data: {
           'name': name,
           'email': email,

@@ -10,7 +10,6 @@ class GoogleLogin implements SocialLogin {
       if (googleUser != null) {
         print('name: ${googleUser.displayName}');
         print('email: ${googleUser.email}');
-        print('photoUrl: ${googleUser.photoUrl}');
       }
       return true;
     } catch (error) {

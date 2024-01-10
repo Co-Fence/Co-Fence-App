@@ -1,6 +1,4 @@
-import 'dart:io';
 import 'dart:typed_data';
-
 import 'package:co_fence/common/components/my_richtext.dart';
 import 'package:co_fence/common/components/my_textfield.dart';
 import 'package:co_fence/common/const/colors.dart';

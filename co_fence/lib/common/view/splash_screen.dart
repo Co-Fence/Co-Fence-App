@@ -38,11 +38,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void navigateToWorkplaceScreen() {
     context.pushReplacement(
+      // 손 봐야함
       Uri(
         path: '/workplace',
-        queryParameters: {
-          'workplaceId': '2',
-        },
       ).toString(),
       // '/workplace?workplaceId=${ref.read(userProvider).workplaceId}',
     );
@@ -53,7 +51,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     try {
       print(1);
       final response = await dio.get(
-        '$ip/v1/parsing/refreshParsing',
+        '$ip/v22/parsing/refreshParsing',
         options: Options(
           headers: {
             'Authorization': '$refreshToken',
@@ -62,7 +60,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       );
       final email = response.data['userEmail'];
       final resp = await dio.post(
-        '$ip/v1/auth/login',
+        '$ip/v22/auth/login',
         data: {
           'email': email,
         },
@@ -110,7 +108,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
     try {
       final response = await dio.post(
-        '$ip/v1/auth/renew',
+        '$ip/v22/auth/renew',
         options: Options(
           headers: {
             'Authorization': refreshToken,

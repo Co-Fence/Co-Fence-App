@@ -4,22 +4,22 @@ import 'package:flutter/material.dart';
 
 class WorkplaceListCard extends StatelessWidget {
   // 작업현장 이름
-  final String workplaceName;
+  final String workPlaceName;
   // 작업현장 주소
-  final String workplaceAddress;
+  final String workPlaceAdress;
 
   const WorkplaceListCard({
     super.key,
-    required this.workplaceName,
-    required this.workplaceAddress,
+    required this.workPlaceName,
+    required this.workPlaceAdress,
   });
 
   factory WorkplaceListCard.fromModel({
     required WorkplaceModel model,
   }) {
     return WorkplaceListCard(
-      workplaceName: model.workplaceName,
-      workplaceAddress: model.workplaceAddress,
+      workPlaceName: model.workPlaceName,
+      workPlaceAdress: model.workPlaceAddress,
     );
   }
 
@@ -29,7 +29,7 @@ class WorkplaceListCard extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.stretch,
       children: [
         Text(
-          workplaceName,
+          workPlaceName,
           style: const TextStyle(
             fontSize: 20,
             fontWeight: FontWeight.w500,
@@ -37,7 +37,7 @@ class WorkplaceListCard extends StatelessWidget {
           ),
         ),
         Text(
-          workplaceAddress,
+          workPlaceAdress,
           style: const TextStyle(fontSize: 14, color: BODY_TEXT_COLOR),
         ),
       ],

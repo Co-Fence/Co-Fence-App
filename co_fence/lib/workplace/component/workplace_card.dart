@@ -1,4 +1,3 @@
-import 'package:co_fence/common/const/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 

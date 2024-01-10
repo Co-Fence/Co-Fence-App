@@ -44,17 +44,11 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
   Future<List> paginateWorkplace() async {
     final dio = Dio();
 
-    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
-
-    final response = await dio.get(
-      '$ip/workplace',
-      options: Options(
-        headers: {
-          'authorization': 'Bearer $accessToken',
-        },
-      ),
-    );
-    return response.data['data'];
+    final response = await dio.get('$ip/v22/wp/getInfo', queryParameters: {
+      'page': 1,
+      'size': 20,
+    });
+    return response.data['content'];
   }
 
   @override
@@ -62,42 +56,43 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
     return DefaultLayout(
       context: context,
       appBarTitle: 'Workplace Search',
-      child: SingleChildScrollView(
-        keyboardDismissBehavior: ScrollViewKeyboardDismissBehavior.onDrag,
-        child: Column(
-          children: [
-            const Gap(16.0),
-            MySearchTextField(
-              controller: _filter,
-              focusNode: focusNode,
-              hintText: 'Search Workplace',
-              onPressed: () {
-                setState(() {
-                  _filter.clear();
-                  _searchText = '';
-                  focusNode.unfocus();
-                });
-              },
-            ),
-            const Gap(16.0),
-            FutureBuilder<List>(
-              future: paginateWorkplace(),
-              builder: (context, AsyncSnapshot<List> snapshot) {
-                if (!snapshot.hasData) {
-                  return Container();
-                }
+      child: Column(
+        children: [
+          const Gap(16),
+          MySearchTextField(
+            controller: _filter,
+            focusNode: focusNode,
+            hintText: 'Search Workplace',
+            onPressed: () {
+              setState(() {
+                _filter.clear();
+                _searchText = '';
+                focusNode.unfocus();
+              });
+            },
+          ),
+          const Gap(16),
+          FutureBuilder<List>(
+            future: paginateWorkplace(),
+            builder: (context, AsyncSnapshot<List> snapshot) {
+              if (!snapshot.hasData) {
+                return const Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
 
-                return ListView.separated(
+              return Expanded(
+                child: ListView.separated(
                   itemCount: snapshot.data!.length,
                   itemBuilder: (context, index) {
                     final item = snapshot.data![index];
                     final pitem = WorkplaceModel.fromJson(
-                      item,
+                      json: item,
                     );
                     return GestureDetector(
                       onTap: () {
                         context.go(
-                          '/workplace?workplaceId=${pitem.workplaceId}',
+                          '/workplace/detail?workplaceId=${pitem.workPlaceId}',
                         );
                       },
                       child: WorkplaceListCard.fromModel(
@@ -108,11 +103,11 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
                   separatorBuilder: (context, index) {
                     return const Gap(16.0);
                   },
-                );
-              },
-            ),
-          ],
-        ),
+                ),
+              );
+            },
+          ),
+        ],
       ),
     );
   }

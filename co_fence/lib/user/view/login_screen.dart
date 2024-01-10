@@ -84,7 +84,7 @@ class LoginScreen extends ConsumerWidget {
         print('유저 정보: ${ref.read(userProvider).email}');
         // 회원가입된 유저인지 확인하는 함수
         final response = await dio.post(
-          '$ip/v1/auth/checkEmail',
+          '$ip/v22/auth/checkEmail',
           queryParameters: {
             'email': ref.read(userProvider).email,
           },
@@ -93,7 +93,7 @@ class LoginScreen extends ConsumerWidget {
         if (response.data == true) {
           // 로그인하는 함수
           final response = await dio.post(
-            '$ip/v1/auth/login',
+            '$ip/v22/auth/login',
             data: {
               'email': ref.read(userProvider).email,
             },
@@ -152,7 +152,7 @@ class LoginScreen extends ConsumerWidget {
             // /auth/checkEmail 가 true면 /auth/login post 날리고 /home으로 라우팅
 
             final response = await dio.post(
-              '$ip/v1/auth/checkEmail',
+              '$ip/v22/auth/checkEmail',
               queryParameters: {
                 'email': ref.read(userProvider).email,
               },
@@ -161,7 +161,7 @@ class LoginScreen extends ConsumerWidget {
             if (response.data == true) {
               // 회원가입한 회원이면 로그인 로직 수행
               final response = await dio.post(
-                '$ip/v1/auth/login',
+                '$ip/v22/auth/login',
                 data: {
                   'email': ref.read(userProvider).email,
                 },

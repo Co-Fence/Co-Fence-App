@@ -8,14 +8,14 @@ part of 'workplace_model.dart';
 
 WorkplaceModel _$WorkplaceModelFromJson(Map<String, dynamic> json) =>
     WorkplaceModel(
-      workplaceId: json['workplaceId'] as String,
-      workplaceName: json['workplaceName'] as String,
-      workplaceAddress: json['workplaceAddress'] as String,
+      workPlaceId: json['workPlaceId'] as int,
+      workPlaceName: json['workPlaceName'] as String,
+      workPlaceAddress: json['workPlaceAddress'] as String,
     );
 
 Map<String, dynamic> _$WorkplaceModelToJson(WorkplaceModel instance) =>
     <String, dynamic>{
-      'workplaceId': instance.workplaceId,
-      'workplaceName': instance.workplaceName,
-      'workplaceAddress': instance.workplaceAddress,
+      'workPlaceId': instance.workPlaceId,
+      'workPlaceName': instance.workPlaceName,
+      'workPlaceAddress': instance.workPlaceAddress,
     };

@@ -1,7 +1,8 @@
-import 'dart:io';
+// ignore_for_file: non_constant_identifier_names
 
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
+import 'package:co_fence/common/components/my_grid_view.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
@@ -22,10 +23,10 @@ class WorkplaceMainScreen extends ConsumerStatefulWidget {
   });
 
   @override
-  _ManagementScreenState createState() => _ManagementScreenState();
+  _WorkplaceMainScreenState createState() => _WorkplaceMainScreenState();
 }
 
-class _ManagementScreenState extends ConsumerState<WorkplaceMainScreen> {
+class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
   final NOT_WORKING = '0';
   final dio = Dio();
 
@@ -52,7 +53,7 @@ class _ManagementScreenState extends ConsumerState<WorkplaceMainScreen> {
                           'There is no work place at work.\nPlease search for work sites and participate.',
                       icon: Icons.info_outline_rounded,
                     )
-                  : renderWorkplaceBody(ref),
+                  : renderWorkplaceBody(context, ref),
             ),
             const Gap(20),
             Text('${GoRouterState.of(context).uri.queryParameters}'),
@@ -74,74 +75,89 @@ class _ManagementScreenState extends ConsumerState<WorkplaceMainScreen> {
   }
 }
 
-Widget renderWorkplaceBody(WidgetRef ref) {
+Widget renderWorkplaceBody(
+  BuildContext context,
+  WidgetRef ref,
+) {
   final userState = ref.watch(userProvider);
+  final screenSize = MediaQuery.of(context).size;
   return Column(
     children: [
       const Gap(10),
       ClipRRect(
         borderRadius: BorderRadius.circular(
-          12.0,
+          16.0,
         ),
         child: Container(
           width: double.infinity,
-          height: 200,
+          height: screenSize.height * 0.3,
           decoration: const BoxDecoration(color: Colors.white),
-          child: Row(
-            children: [
-              // 프로필 이미지
-              CircleAvatar(
-                radius: 64,
-                backgroundImage: NetworkImage(userState.profileImageUrl),
-              ),
-              const Gap(10),
-              const Column(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            child: IntrinsicWidth(
+              child: Column(
                 children: [
-                  Text('이윤하님'),
-                  Gap(60),
-                  Text(
-                    '서대문구 상가주택(2)',
-                    style: TextStyle(
-                      fontSize: 12,
-                      fontWeight: FontWeight.bold,
+                  const Gap(20),
+                  IntrinsicHeight(
+                    child: Row(
+                      children: [
+                        // 프로필 이미지
+                        CircleAvatar(
+                          radius: 64,
+                          backgroundImage:
+                              NetworkImage(userState.profileImageUrl),
+                        ),
+                        const Gap(20),
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                userState.name,
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
-                  Text('에서 근무중입니다.'),
+                  const Expanded(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '서대문구 상가주택(2)',
+                              style: TextStyle(
+                                fontSize: 24,
+                                fontWeight: FontWeight.w500,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
-            ],
+            ),
           ),
         ),
       ),
-      const Text(
-        'Your Workplace',
-        style: TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
+      const Gap(20),
+      const MyElevatedButton(
+        url: '/workplace/search',
+        buttonText: 'Change Workplace',
+        backgroundColor: PRIMARY_COLOR,
       ),
-      const Gap(10),
-      const Text(
-        'You are currently working at this workplace.',
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-      const Gap(10),
-      const Text(
-        'If you want to report, please click the button below.',
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-      const Gap(10),
-      const Text(
-        'If you want to change your workplace, please search for your workplace.',
-        style: TextStyle(
-          fontSize: 15,
-        ),
-      ),
-      const Gap(10),
+      const Text('hello'),
     ],
   );
 }
