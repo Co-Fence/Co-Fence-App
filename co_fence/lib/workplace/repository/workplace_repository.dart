@@ -1,6 +1,7 @@
 import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/model/cursor_pagination_model.dart';
+import 'package:co_fence/common/model/pagination_params.dart';
 import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:retrofit/retrofit.dart';
@@ -30,8 +31,10 @@ abstract class WorkplaceRepository {
     'accessToken': 'true',
   })
   Future<CursorPagination<WorkplaceModel>> paginate({
-    @Query('page') required int page,
-    @Query('size') required int size,
+    @Queries() PaginationParams paginationParams = const PaginationParams(
+      page: 1,
+      size: 10,
+    ),
   });
 
   // 작업현장 검색

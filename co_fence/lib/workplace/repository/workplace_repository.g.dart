@@ -19,15 +19,12 @@ class _WorkplaceRepository implements WorkplaceRepository {
   String? baseUrl;
 
   @override
-  Future<CursorPagination<WorkplaceModel>> paginate({
-    required int page,
-    required int size,
-  }) async {
+  Future<CursorPagination<WorkplaceModel>> paginate(
+      {PaginationParams paginationParams =
+          const PaginationParams(page: 1, size: 10)}) async {
     const _extra = <String, dynamic>{};
-    final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
-    };
+    final queryParameters = <String, dynamic>{};
+    queryParameters.addAll(paginationParams.toJson());
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
     final Map<String, dynamic>? _data = null;
