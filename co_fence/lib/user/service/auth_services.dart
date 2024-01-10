@@ -1,6 +1,8 @@
 import 'dart:typed_data';
 
 import 'package:co_fence/common/const/data.dart';
+import 'package:co_fence/common/dio/dio.dart';
+import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
@@ -21,7 +23,7 @@ class AuthServices {
   }) async {
     String result = 'Some error occurred';
     // 회원가입 로직
-    Dio dio = Dio();
+    Dio dio = ref.watch(dioProvider);
     try {
       // profileImageUrl은 파이어베이스 스토리지 업로드 후 반환된 이미지 주소
       String profileImageUrl = await StorageServices().uploadImageToStorage(
@@ -30,7 +32,7 @@ class AuthServices {
         file,
       );
       Response response = await dio.post(
-        '$ip/v22/auth/signUp',
+        '$ip/auth/signUp',
         data: {
           'name': name,
           'email': email,
@@ -41,6 +43,7 @@ class AuthServices {
         },
       );
       if (response.statusCode == 200) {
+        final storage = ref.read(secureStorageProvider);
         // 회원가입 성공
         final refreshToken = response.data['refreshToken'];
         final accessToken = response.data['accessToken'];

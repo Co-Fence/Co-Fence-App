@@ -1,21 +1,28 @@
 import 'package:co_fence/common/components/my_search_Text_field.dart';
+import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/common/model/cursor_pagination_model.dart';
+import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/workplace/component/workplace_list_card.dart';
 import 'package:co_fence/workplace/model/workplace_model.dart';
+import 'package:co_fence/workplace/provider/workplace_provider.dart';
+import 'package:co_fence/workplace/repository/workplace_repository.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:co_fence/common/const/data.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class WorkplaceSearchScreen extends StatefulWidget {
+class WorkplaceSearchScreen extends ConsumerStatefulWidget {
   const WorkplaceSearchScreen({super.key});
 
   @override
-  State<WorkplaceSearchScreen> createState() => _WorkplaceSearchScreenState();
+  ConsumerState<WorkplaceSearchScreen> createState() =>
+      _WorkplaceSearchScreenState();
 }
 
-class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
+class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
   final TextEditingController _filter = TextEditingController();
   FocusNode focusNode = FocusNode();
   String _searchText = '';
@@ -40,19 +47,14 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
     _filter.dispose();
   }
 
-  // 작업현장을 반환하는 함수
-  Future<List> paginateWorkplace() async {
-    final dio = Dio();
-
-    final response = await dio.get('$ip/v22/wp/getInfo', queryParameters: {
-      'page': 1,
-      'size': 20,
-    });
-    return response.data['content'];
-  }
-
   @override
   Widget build(BuildContext context) {
+    final data = ref.watch(workplaceProvider);
+    if (data.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return DefaultLayout(
       context: context,
       appBarTitle: 'Workplace Search',
@@ -72,40 +74,27 @@ class _WorkplaceSearchScreenState extends State<WorkplaceSearchScreen> {
             },
           ),
           const Gap(16),
-          FutureBuilder<List>(
-            future: paginateWorkplace(),
-            builder: (context, AsyncSnapshot<List> snapshot) {
-              if (!snapshot.hasData) {
-                return const Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
+          Expanded(
+            child: ListView.separated(
+              itemCount: data.length,
+              itemBuilder: (context, index) {
+                final pitem = data[index];
 
-              return Expanded(
-                child: ListView.separated(
-                  itemCount: snapshot.data!.length,
-                  itemBuilder: (context, index) {
-                    final item = snapshot.data![index];
-                    final pitem = WorkplaceModel.fromJson(
-                      json: item,
-                    );
-                    return GestureDetector(
-                      onTap: () {
-                        context.go(
-                          '/workplace/detail?workplaceId=${pitem.workPlaceId}',
-                        );
-                      },
-                      child: WorkplaceListCard.fromModel(
-                        model: pitem,
-                      ),
+                return GestureDetector(
+                  onTap: () {
+                    context.go(
+                      '/workplace?workPlaceId=${pitem.workPlaceId}',
                     );
                   },
-                  separatorBuilder: (context, index) {
-                    return const Gap(16.0);
-                  },
-                ),
-              );
-            },
+                  child: WorkplaceListCard.fromModel(
+                    model: pitem,
+                  ),
+                );
+              },
+              separatorBuilder: (context, index) {
+                return const Gap(50.0);
+              },
+            ),
           ),
         ],
       ),

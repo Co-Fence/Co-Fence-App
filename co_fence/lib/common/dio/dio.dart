@@ -47,7 +47,7 @@ class CustomInterceptor extends Interceptor {
 
       // 실제 토큰으로 대체
       options.headers.addAll({
-        'authorization': 'Bearer $token',
+        'Authorization': 'Bearer $token',
       });
     }
 
@@ -59,7 +59,7 @@ class CustomInterceptor extends Interceptor {
 
       // 실제 토큰으로 대체
       options.headers.addAll({
-        'authorization': 'Bearer $token',
+        'Authorization': '$token',
       });
     }
 
@@ -92,10 +92,10 @@ class CustomInterceptor extends Interceptor {
       return handler.reject(err);
     }
 
-    final isStatus401 = err.response?.statusCode == 401;
+    final isStatus500 = err.response?.statusCode == 500;
     final isPathRefresh = err.requestOptions.path == '/auth/token';
 
-    if (isStatus401 && !isPathRefresh) {
+    if (isStatus500 && !isPathRefresh) {
       final dio = Dio();
 
       try {
@@ -103,7 +103,7 @@ class CustomInterceptor extends Interceptor {
           'http://$ip/auth/token',
           options: Options(
             headers: {
-              'authorization': 'Bearer $refreshToken',
+              'Authorization': refreshToken,
             },
           ),
         );
@@ -114,7 +114,7 @@ class CustomInterceptor extends Interceptor {
 
         // 토큰 변경하기
         options.headers.addAll({
-          'authorization': 'Bearer $accessToken',
+          'authorization': '$accessToken',
         });
 
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);

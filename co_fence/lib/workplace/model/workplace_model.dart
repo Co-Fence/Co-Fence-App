@@ -14,18 +14,18 @@ class WorkplaceModel {
     required this.workPlaceAddress,
   });
 
-  // factory WorkplaceModel.fromJson(Map<String, dynamic> json) =>
-  //     _$WorkplaceModelFromJson(json);
+  factory WorkplaceModel.fromJson(Map<String, dynamic> json) =>
+      _$WorkplaceModelFromJson(json);
 
   Map<String, dynamic> toJson() => _$WorkplaceModelToJson(this);
 
-  factory WorkplaceModel.fromJson({
-    required Map<String, dynamic> json,
-  }) {
-    return WorkplaceModel(
-      workPlaceId: json['workPlaceId'],
-      workPlaceName: json['workPlaceName'],
-      workPlaceAddress: json['workPlaceAddress'],
-    );
-  }
+  // factory WorkplaceModel.fromJson({
+  //   required Map<String, dynamic> json,
+  // }) {
+  //   return WorkplaceModel(
+  //     workPlaceId: json['workPlaceId'],
+  //     workPlaceName: json['workPlaceName'],
+  //     workPlaceAddress: json['workPlaceAddress'],
+  //   );
+  // }
 }

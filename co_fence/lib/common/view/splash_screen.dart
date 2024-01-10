@@ -1,5 +1,6 @@
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/const/data.dart';
+import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
@@ -41,17 +42,21 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       // 손 봐야함
       Uri(
         path: '/workplace',
+        queryParameters: {
+          'workplaceId': '0',
+        },
       ).toString(),
       // '/workplace?workplaceId=${ref.read(userProvider).workplaceId}',
     );
   }
 
   void Login() async {
+    final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     try {
       print(1);
       final response = await dio.get(
-        '$ip/v22/parsing/refreshParsing',
+        '$ip/parsing/refreshParsing',
         options: Options(
           headers: {
             'Authorization': '$refreshToken',
@@ -60,7 +65,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       );
       final email = response.data['userEmail'];
       final resp = await dio.post(
-        '$ip/v22/auth/login',
+        '$ip/auth/login',
         data: {
           'email': email,
         },
@@ -99,16 +104,18 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   // 토큰 삭제
   void deleteToken() async {
+    final storage = ref.read(secureStorageProvider);
     await storage.deleteAll();
   }
 
   void checkToken() async {
+    final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     print(refreshToken);
 
     try {
       final response = await dio.post(
-        '$ip/v22/auth/renew',
+        '$ip/auth/renew',
         options: Options(
           headers: {
             'Authorization': refreshToken,

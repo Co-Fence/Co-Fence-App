@@ -42,7 +42,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     });
   }
 
-  void NavigateToWorkplace() {
+  void navigateToWorkplace() {
     context.pushReplacement('/workplace');
   }
 
@@ -86,7 +86,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
     if (result != 'success') {
       showSnackBar(context, result);
     } else {
-      NavigateToWorkplace();
+      navigateToWorkplace();
     }
   }
 

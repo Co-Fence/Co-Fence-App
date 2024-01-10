@@ -4,11 +4,11 @@ import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/components/my_grid_view.dart';
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/workplace/component/workplace_card.dart';
 import 'package:co_fence/workplace/provider/workplace_id_provider.dart';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -28,11 +28,12 @@ class WorkplaceMainScreen extends ConsumerStatefulWidget {
 
 class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
   final NOT_WORKING = '0';
-  final dio = Dio();
 
   @override
   Widget build(BuildContext context) {
     final workplaceIdState = ref.watch(workplaceIdProvider);
+    final queryParameters = GoRouterState.of(context).uri.queryParameters;
+    final dio = ref.watch(dioProvider);
 
     return DefaultLayout(
       backgroundColor: BACKGROUND_COLOR,
@@ -46,7 +47,7 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
           children: [
             const Gap(10),
             Expanded(
-              child: workplaceIdState == NOT_WORKING
+              child: queryParameters['workplaceId'] == NOT_WORKING
                   ? const WorkplaceCard(
                       titleText: 'Your Workplace',
                       subTitleText:
@@ -57,7 +58,7 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
             ),
             const Gap(20),
             Text('${GoRouterState.of(context).uri.queryParameters}'),
-            workplaceIdState == NOT_WORKING
+            queryParameters['workplaceId'] == NOT_WORKING
                 ? const MyElevatedButton(
                     url: '/workplace/search',
                     buttonText: 'Search Your Workplace',
@@ -119,6 +120,8 @@ Widget renderWorkplaceBody(
                                   fontSize: 28,
                                 ),
                               ),
+                              Text(
+                                  '${GoRouterState.of(context).uri.queryParameters}'),
                             ],
                           ),
                         ),
@@ -157,7 +160,6 @@ Widget renderWorkplaceBody(
         buttonText: 'Change Workplace',
         backgroundColor: PRIMARY_COLOR,
       ),
-      const Text('hello'),
     ],
   );
 }
