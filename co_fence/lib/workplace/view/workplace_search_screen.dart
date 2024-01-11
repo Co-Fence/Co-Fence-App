@@ -1,8 +1,12 @@
 import 'package:co_fence/common/components/my_search_Text_field.dart';
+import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/common/model/cursor_pagination_model.dart';
 import 'package:co_fence/workplace/component/workplace_list_card.dart';
+import 'package:co_fence/workplace/model/workplace_model.dart';
+import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:co_fence/workplace/provider/workplace_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -57,6 +61,7 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final userWorkplaceState = ref.watch(userWorkplaceProvider);
     final data = ref.watch(workplaceProvider);
     // 데이터가 처음 로딩중이면
     if (data is CursorPaginationLoading) {
@@ -79,59 +84,102 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
     return DefaultLayout(
       context: context,
       appBarTitle: 'Workplace Search',
-      child: Column(
-        children: [
-          const Gap(16),
-          MySearchTextField(
-            controller: _filter,
-            focusNode: focusNode,
-            hintText: 'Search Workplace',
-            onPressed: () {
-              setState(() {
-                _filter.clear();
-                _searchText = '';
-                focusNode.unfocus();
-              });
-            },
-          ),
-          const Gap(16),
-          Expanded(
-            child: ListView.separated(
-              controller: controller,
-              itemCount: cp.data.length + 1,
-              itemBuilder: (context, index) {
-                if (index == cp.data.length) {
-                  return Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                      vertical: 8.0,
-                    ),
-                    child: Center(
-                      child: data is CursorPaginationFetchingMore
-                          ? const CircularProgressIndicator()
-                          : const SizedBox(),
-                    ),
-                  );
-                }
-                final pitem = cp.data[index];
-
-                return GestureDetector(
-                  onTap: () {
-                    context.go(
-                      '/workplace?workPlaceId=${pitem.workPlaceId}',
-                    );
-                  },
-                  child: WorkplaceListCard.fromModel(
-                    model: pitem,
-                  ),
-                );
-              },
-              separatorBuilder: (context, index) {
-                return const Gap(50.0);
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Column(
+          children: [
+            const Gap(16),
+            MySearchTextField(
+              controller: _filter,
+              focusNode: focusNode,
+              hintText: 'Search Workplace',
+              onPressed: () {
+                setState(() {
+                  _filter.clear();
+                  _searchText = '';
+                  focusNode.unfocus();
+                });
               },
             ),
-          ),
-        ],
+            const Gap(16),
+            Expanded(
+              child: ListView.separated(
+                controller: controller,
+                itemCount: cp.data.length + 1,
+                itemBuilder: (context, index) {
+                  if (index == cp.data.length) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                        vertical: 8.0,
+                      ),
+                      child: Center(
+                        child: data is CursorPaginationFetchingMore
+                            ? const CircularProgressIndicator()
+                            : const SizedBox(),
+                      ),
+                    );
+                  }
+                  final pitem = cp.data[index];
+
+                  return GestureDetector(
+                    onTap: () {
+                      showCupertinoDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return CupertinoAlertDialog(
+                            title: Text('${pitem.workPlaceName}'),
+                            content: const Text(
+                                //출근하시겠습니까? 영어로
+                                'Would you like to go to work?'),
+                            actions: [
+                              CupertinoDialogAction(
+                                child: const Text(
+                                  'No',
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                  ),
+                                ),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                },
+                              ),
+                              CupertinoDialogAction(
+                                child: const Text('Yes'),
+                                onPressed: () {
+                                  Navigator.pop(context);
+                                  // 출근했다는 api 호출
+                                  // userWorkplaceState 업데이트
+                                  ref
+                                      .read(userWorkplaceProvider.notifier)
+                                      .updateWorkplace(WorkplaceModel(
+                                        workPlaceId: pitem.workPlaceId,
+                                        workPlaceName: pitem.workPlaceName,
+                                        workPlaceAddress:
+                                            pitem.workPlaceAddress,
+                                      ));
+                                  GoRouter.of(context).go(
+                                    '/workplace?workplaceId=${pitem.workPlaceId}',
+                                  );
+                                },
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    },
+                    child: WorkplaceListCard.fromModel(
+                      model: pitem,
+                    ),
+                  );
+                },
+                separatorBuilder: (context, index) {
+                  return const Gap(20.0);
+                },
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

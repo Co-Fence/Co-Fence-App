@@ -35,6 +35,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
+              leading: const Icon(Icons.home),
               title: const Text('Home'),
               onTap: () {
                 context.go('/workplace');
@@ -44,6 +45,7 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
+              leading: const Icon(Icons.person_outline),
               title: const Text('My Page'),
               onTap: () {
                 context.go('/mypage');
@@ -53,40 +55,66 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              title: const Text('Notice'),
+              leading: const Icon(
+                Icons.notifications_none_outlined,
+              ),
+              title: const Text(
+                'Notice',
+              ),
               onTap: () {
-                context.go('/notice');
+                context.go(
+                  '/notice',
+                );
               },
             ),
           ),
           const Padding(
             padding: EdgeInsets.only(left: 25.0),
             child: ListTile(
-              title: Text('Safety Management'),
+              title: Text(
+                'Safety Management',
+              ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
+              leading: const Icon(
+                Icons.report_outlined,
+              ),
               title: const Text(' - Report'),
               onTap: () {
-                context.go('/report');
+                context.go(
+                  '/report',
+                );
               },
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              title: const Text(' - Report Records'),
+              leading: const Icon(
+                Icons.book_outlined,
+              ),
+              title: const Text(
+                ' - Report Records',
+              ),
               onTap: () {
-                context.go('/report_list');
+                context.go(
+                  '/report_list',
+                );
               },
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              title: const Text('Contact'),
+              leading: const Icon(
+                Icons.phone_android_outlined,
+              ),
+              title: const Text(
+                'Contact',
+              ),
               onTap: () {
                 context.go('/contact');
               },

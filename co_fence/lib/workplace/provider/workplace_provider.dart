@@ -1,8 +1,6 @@
 import 'package:co_fence/common/model/cursor_pagination_model.dart';
 import 'package:co_fence/common/model/pagination_params.dart';
-import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:co_fence/workplace/repository/workplace_repository.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final workplaceProvider =

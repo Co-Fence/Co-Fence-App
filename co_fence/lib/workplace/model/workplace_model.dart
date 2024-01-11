@@ -14,6 +14,18 @@ class WorkplaceModel {
     required this.workPlaceAddress,
   });
 
+  WorkplaceModel copyWith({
+    int? workPlaceId,
+    String? workPlaceName,
+    String? workPlaceAddress,
+  }) {
+    return WorkplaceModel(
+      workPlaceId: workPlaceId ?? this.workPlaceId,
+      workPlaceName: workPlaceName ?? this.workPlaceName,
+      workPlaceAddress: workPlaceAddress ?? this.workPlaceAddress,
+    );
+  }
+
   factory WorkplaceModel.fromJson(Map<String, dynamic> json) =>
       _$WorkplaceModelFromJson(json);
 

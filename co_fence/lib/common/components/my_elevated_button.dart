@@ -8,6 +8,7 @@ class MyElevatedButton extends StatelessWidget {
   final Color? backgroundColor;
   final String buttonText;
   final VoidCallback? onPressed;
+  final Color textColor;
 
   const MyElevatedButton({
     super.key,
@@ -15,6 +16,7 @@ class MyElevatedButton extends StatelessWidget {
     this.backgroundColor = PRIMARY_COLOR,
     required this.buttonText,
     this.onPressed,
+    this.textColor = Colors.white,
   });
 
   @override
@@ -27,16 +29,17 @@ class MyElevatedButton extends StatelessWidget {
           onPressed!();
         }
       },
-      style: ButtonStyle(
-        backgroundColor: MaterialStateProperty.all(backgroundColor),
-        minimumSize: MaterialStateProperty.all(
-          const Size(double.infinity, 50),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: backgroundColor,
+        minimumSize: const Size(double.infinity, 50),
+        side: const BorderSide(
+          color: PRIMARY_COLOR,
         ),
       ),
       child: Text(
         buttonText,
-        style: const TextStyle(
-          color: Colors.white,
+        style: TextStyle(
+          color: textColor,
         ),
       ),
     );

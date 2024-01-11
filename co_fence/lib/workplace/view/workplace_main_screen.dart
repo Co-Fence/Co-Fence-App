@@ -2,13 +2,15 @@
 
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
-import 'package:co_fence/common/components/my_grid_view.dart';
+import 'package:co_fence/common/components/my_square_button.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/workplace/component/workplace_card.dart';
+import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:co_fence/workplace/provider/workplace_id_provider.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -36,7 +38,6 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
     final dio = ref.watch(dioProvider);
 
     return DefaultLayout(
-      backgroundColor: BACKGROUND_COLOR,
       context: context,
       appBarTitle: 'Your Workplace',
       drawer: const MyDrawer(),
@@ -45,7 +46,6 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const Gap(10),
             Expanded(
               child: queryParameters['workplaceId'] == NOT_WORKING
                   ? const WorkplaceCard(
@@ -56,19 +56,26 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
                     )
                   : renderWorkplaceBody(context, ref),
             ),
-            const Gap(20),
-            Text('${GoRouterState.of(context).uri.queryParameters}'),
             queryParameters['workplaceId'] == NOT_WORKING
-                ? const MyElevatedButton(
-                    url: '/workplace/search',
-                    buttonText: 'Search Your Workplace',
+                ? const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                    ),
+                    child: MyElevatedButton(
+                      url: '/workplace/search',
+                      buttonText: 'Search Your Workplace',
+                    ),
                   )
-                : const MyElevatedButton(
-                    url: '/report',
-                    buttonText: 'Report',
-                    backgroundColor: Colors.red,
+                : const Padding(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 16.0,
+                    ),
+                    child: MyElevatedButton(
+                      url: '/report',
+                      buttonText: 'Report',
+                      backgroundColor: Colors.red,
+                    ),
                   ),
-            const Gap(10),
           ],
         ),
       ),
@@ -76,23 +83,27 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
   }
 }
 
+// 현장 정보 프로필, 작업 현장 변경 버튼, 4개의 버튼
 Widget renderWorkplaceBody(
   BuildContext context,
   WidgetRef ref,
 ) {
   final userState = ref.watch(userProvider);
   final screenSize = MediaQuery.of(context).size;
+  final userWorkplaceState = ref.watch(userWorkplaceProvider);
   return Column(
     children: [
-      const Gap(10),
       ClipRRect(
-        borderRadius: BorderRadius.circular(
-          16.0,
+        borderRadius: const BorderRadius.only(
+          bottomLeft: Radius.circular(16.0),
+          bottomRight: Radius.circular(16.0),
         ),
         child: Container(
           width: double.infinity,
           height: screenSize.height * 0.3,
-          decoration: const BoxDecoration(color: Colors.white),
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 16.0),
             child: IntrinsicWidth(
@@ -111,35 +122,51 @@ Widget renderWorkplaceBody(
                         const Gap(20),
                         Expanded(
                           child: Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.end,
                             children: [
-                              Text(
-                                userState.name,
-                                style: const TextStyle(
-                                  fontSize: 28,
+                              const Text(
+                                'Welcome',
+                                style: TextStyle(
+                                  fontSize: 32,
+                                  fontWeight: FontWeight.w500,
                                 ),
                               ),
+                              // 유저의 이름
                               Text(
-                                  '${GoRouterState.of(context).uri.queryParameters}'),
+                                '${userState.name}님',
+                                style: const TextStyle(
+                                  fontSize: 28,
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
                             ],
                           ),
                         ),
                       ],
                     ),
                   ),
-                  const Expanded(
+                  Expanded(
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.end,
                       children: [
                         Column(
                           mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
-                              '서대문구 상가주택(2)',
-                              style: TextStyle(
+                              userWorkplaceState.workPlaceName,
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                              style: const TextStyle(
                                 fontSize: 24,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                            const Text(
+                              'You are working at',
+                              style: TextStyle(
+                                fontSize: 20,
                                 fontWeight: FontWeight.w500,
                               ),
                             ),
@@ -155,10 +182,87 @@ Widget renderWorkplaceBody(
         ),
       ),
       const Gap(20),
-      const MyElevatedButton(
-        url: '/workplace/search',
-        buttonText: 'Change Workplace',
-        backgroundColor: PRIMARY_COLOR,
+      // 현장 변경 버튼
+      Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: MyElevatedButton(
+          textColor: PRIMARY_COLOR,
+          onPressed: () {
+            showCupertinoDialog(
+              context: context,
+              builder: (context) {
+                return CupertinoAlertDialog(
+                  title: const Text('Change Workplace'),
+                  content: const Text(
+                      'Are you sure you want to change your workplace?'),
+                  actions: [
+                    CupertinoDialogAction(
+                      child: const Text(
+                        'No',
+                        style: TextStyle(
+                          color: Colors.red,
+                        ),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    ),
+                    CupertinoDialogAction(
+                      child: const Text('Yes'),
+                      onPressed: () {
+                        Navigator.pop(context);
+                        context.go('/workplace/search');
+                      },
+                    ),
+                  ],
+                );
+              },
+            );
+          },
+          buttonText: 'Change Workplace',
+          backgroundColor: Colors.white,
+        ),
+      ),
+      const Gap(30),
+      Expanded(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: 16.0,
+          ),
+          child: GridView.count(
+            physics: const NeverScrollableScrollPhysics(),
+            crossAxisSpacing: 40.0,
+            mainAxisSpacing: 40.0,
+            childAspectRatio: 1.5,
+            crossAxisCount: 2,
+            children: [
+              MySquareButton(
+                color: SECONDARY_COLOR,
+                icon: Icons.person_outline,
+                label: 'My Page',
+                onTap: () => context.go('/mypage'),
+              ),
+              MySquareButton(
+                color: PRIMARY_COLOR,
+                icon: Icons.notifications_none_outlined,
+                label: 'Notice',
+                onTap: () => context.go('/notice'),
+              ),
+              MySquareButton(
+                color: PRIMARY_COLOR,
+                icon: Icons.book_outlined,
+                label: 'Report List',
+                onTap: () => context.go('/report_list'),
+              ),
+              MySquareButton(
+                color: PRIMARY_COLOR,
+                icon: Icons.phone_android_outlined,
+                label: 'Contact',
+                onTap: () => context.go('/contact'),
+              ),
+            ],
+          ),
+        ),
       ),
     ],
   );

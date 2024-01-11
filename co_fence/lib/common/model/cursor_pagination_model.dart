@@ -1,4 +1,3 @@
-import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'cursor_pagination_model.g.dart';
@@ -45,19 +44,23 @@ class CursorPagination<T> extends CursorPaginationBase {
 @JsonSerializable()
 class CursorPaginationMeta {
   final int count;
+  final int page;
   final bool hasMore;
 
   CursorPaginationMeta({
     required this.count,
+    required this.page,
     required this.hasMore,
   });
 
   CursorPaginationMeta copyWith({
     int? count,
+    int? page,
     bool? hasMore,
   }) {
     return CursorPaginationMeta(
       count: count ?? this.count,
+      page: page ?? this.page,
       hasMore: hasMore ?? this.hasMore,
     );
   }

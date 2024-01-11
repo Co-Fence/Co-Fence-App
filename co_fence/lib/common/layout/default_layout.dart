@@ -25,12 +25,7 @@ class DefaultLayout extends StatelessWidget {
       backgroundColor: backgroundColor ?? Colors.white,
       appBar: renderAppBar(),
       drawer: drawer,
-      body: Padding(
-        padding: const EdgeInsets.symmetric(
-          horizontal: 16.0,
-        ),
-        child: child,
-      ),
+      body: child,
     );
   }
 
