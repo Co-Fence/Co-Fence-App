@@ -35,8 +35,12 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              leading: const Icon(Icons.home),
-              title: const Text('Home'),
+              title: const Text(
+                'Home',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
               onTap: () {
                 context.go('/workplace');
               },
@@ -45,8 +49,12 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              leading: const Icon(Icons.person_outline),
-              title: const Text('My Page'),
+              title: const Text(
+                'My Page',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
+              ),
               onTap: () {
                 context.go('/mypage');
               },
@@ -55,11 +63,11 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              leading: const Icon(
-                Icons.notifications_none_outlined,
-              ),
               title: const Text(
                 'Notice',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
               onTap: () {
                 context.go(
@@ -73,16 +81,21 @@ class MyDrawer extends StatelessWidget {
             child: ListTile(
               title: Text(
                 'Safety Management',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
             ),
           ),
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              leading: const Icon(
-                Icons.report_outlined,
+              title: const Text(
+                ' - Report',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
-              title: const Text(' - Report'),
               onTap: () {
                 context.go(
                   '/report',
@@ -93,11 +106,14 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              leading: const Icon(
-                Icons.book_outlined,
-              ),
+              // leading: const Icon(
+              //   Icons.book_outlined,
+              // ),
               title: const Text(
                 ' - Report Records',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
               onTap: () {
                 context.go(
@@ -109,11 +125,14 @@ class MyDrawer extends StatelessWidget {
           Padding(
             padding: const EdgeInsets.only(left: 25.0),
             child: ListTile(
-              leading: const Icon(
-                Icons.phone_android_outlined,
-              ),
+              // leading: const Icon(
+              //   Icons.phone_android_outlined,
+              // ),
               title: const Text(
                 'Contact',
+                style: TextStyle(
+                  fontSize: 20,
+                ),
               ),
               onTap: () {
                 context.go('/contact');

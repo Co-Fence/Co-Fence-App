@@ -30,7 +30,7 @@ class MySquareButton extends StatelessWidget {
           decoration: BoxDecoration(
             border: Border.all(
               width: 2.0,
-              color: SECONDARY_COLOR,
+              color: PRIMARY_COLOR,
             ),
             borderRadius: BorderRadius.circular(16),
           ),
@@ -43,14 +43,14 @@ class MySquareButton extends StatelessWidget {
                 Icon(
                   icon,
                   size: 50,
-                  color: SECONDARY_COLOR,
+                  color: PRIMARY_COLOR,
                 ),
               if (label != null)
                 Text(
                   label!,
                   style: const TextStyle(
                     fontSize: 20,
-                    color: SECONDARY_COLOR,
+                    color: PRIMARY_COLOR,
                   ),
                 ),
             ],

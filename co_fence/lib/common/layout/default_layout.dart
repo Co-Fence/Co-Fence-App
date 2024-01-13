@@ -40,7 +40,7 @@ class DefaultLayout extends StatelessWidget {
         title: Text(
           appBarTitle!,
           style: const TextStyle(
-            fontSize: 16.0,
+            fontSize: 20.0,
             fontWeight: FontWeight.w500,
           ),
         ),

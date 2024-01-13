@@ -33,6 +33,7 @@ class MyElevatedButton extends StatelessWidget {
         backgroundColor: backgroundColor,
         minimumSize: const Size(double.infinity, 50),
         side: const BorderSide(
+          width: 2,
           color: PRIMARY_COLOR,
         ),
       ),
@@ -40,6 +41,7 @@ class MyElevatedButton extends StatelessWidget {
         buttonText,
         style: TextStyle(
           color: textColor,
+          fontSize: 20,
         ),
       ),
     );

@@ -4,12 +4,13 @@ import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/components/my_square_button.dart';
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/workplace/component/workplace_card.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
-import 'package:co_fence/workplace/provider/workplace_id_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -29,54 +30,64 @@ class WorkplaceMainScreen extends ConsumerStatefulWidget {
 }
 
 class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
-  final NOT_WORKING = '0';
+  final NOT_WORKING = 0;
+
+  @override
+  void initState() {
+    fetchUserWorkplace();
+    super.initState();
+  }
+
+  void fetchUserWorkplace() {}
 
   @override
   Widget build(BuildContext context) {
-    final workplaceIdState = ref.watch(workplaceIdProvider);
-    final queryParameters = GoRouterState.of(context).uri.queryParameters;
+    final userState = ref.watch(userProvider);
     final dio = ref.watch(dioProvider);
 
     return DefaultLayout(
       context: context,
       appBarTitle: 'Your Workplace',
       drawer: const MyDrawer(),
-      child: SafeArea(
-        bottom: true,
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Expanded(
-              child: queryParameters['workplaceId'] == NOT_WORKING
-                  ? const WorkplaceCard(
-                      titleText: 'Your Workplace',
-                      subTitleText:
-                          'There is no work place at work.\nPlease search for work sites and participate.',
-                      icon: Icons.info_outline_rounded,
+      child: PopScope(
+        canPop: false,
+        child: SafeArea(
+          bottom: true,
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Expanded(
+                child: userState.workplaceId == NOT_WORKING
+                    ? const WorkplaceCard(
+                        titleText: 'Your Workplace',
+                        subTitleText:
+                            'There is no work place at work.\nPlease search for work sites and participate.',
+                        icon: Icons.info_outline_rounded,
+                      )
+                    : renderWorkplaceBody(context, ref),
+              ),
+              userState.workplaceId == NOT_WORKING
+                  ? const Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: MyElevatedButton(
+                        url: '/workplace/search',
+                        buttonText: 'Search Your Workplace',
+                      ),
                     )
-                  : renderWorkplaceBody(context, ref),
-            ),
-            queryParameters['workplaceId'] == NOT_WORKING
-                ? const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.0,
+                  : const Padding(
+                      padding: EdgeInsets.symmetric(
+                        horizontal: 16.0,
+                      ),
+                      child: MyElevatedButton(
+                        url: '/report',
+                        buttonText: 'Report',
+                        backgroundColor: PRIMARY_COLOR,
+                      ),
                     ),
-                    child: MyElevatedButton(
-                      url: '/workplace/search',
-                      buttonText: 'Search Your Workplace',
-                    ),
-                  )
-                : const Padding(
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 16.0,
-                    ),
-                    child: MyElevatedButton(
-                      url: '/report',
-                      buttonText: 'Report',
-                      backgroundColor: Colors.red,
-                    ),
-                  ),
-          ],
+            ],
+          ),
         ),
       ),
     );
@@ -91,6 +102,7 @@ Widget renderWorkplaceBody(
   final userState = ref.watch(userProvider);
   final screenSize = MediaQuery.of(context).size;
   final userWorkplaceState = ref.watch(userWorkplaceProvider);
+  final dio = ref.watch(dioProvider);
   return Column(
     children: [
       ClipRRect(
@@ -210,6 +222,13 @@ Widget renderWorkplaceBody(
                     CupertinoDialogAction(
                       child: const Text('Yes'),
                       onPressed: () {
+                        // 현장 탈퇴
+                        dio.delete('$ip/wp/${userState.workplaceId}/checkout',
+                            options: Options(
+                              headers: {
+                                'accessToken': 'true',
+                              },
+                            ));
                         Navigator.pop(context);
                         context.go('/workplace/search');
                       },
