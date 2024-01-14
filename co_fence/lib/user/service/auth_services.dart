@@ -64,6 +64,7 @@ class AuthServices {
               nation: nationState,
               phoneNumber: phoneNumber,
               profileImageUrl: profileImageUrl,
+              workplaceId: 0,
             );
         result = 'success';
       } else {

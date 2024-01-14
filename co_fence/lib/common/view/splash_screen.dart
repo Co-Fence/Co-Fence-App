@@ -43,10 +43,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       Uri(
         path: '/workplace',
         queryParameters: {
-          'workplaceId': '0',
+          'workplaceId': ref.read(userProvider).workplaceId.toString(),
         },
       ).toString(),
-      // '/workplace?workplaceId=${ref.read(userProvider).workplaceId}',
     );
   }
 
@@ -108,6 +107,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     await storage.deleteAll();
   }
 
+  // 토큰 확인
   void checkToken() async {
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);

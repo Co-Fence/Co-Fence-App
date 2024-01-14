@@ -43,7 +43,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   }
 
   void navigateToWorkplace() {
-    context.pushReplacement('/workplace');
+    context.pushReplacement(
+      '/workplace',
+    );
   }
 
   // 텍스트필드 컨트롤러

@@ -24,8 +24,8 @@ abstract class WorkplaceRepository {
   // http://$ip/workplace
   factory WorkplaceRepository(Dio dio, {String baseUrl}) = _WorkplaceRepository;
 
-  //작업현장 조회
-  //http://$ip/workplace/getInfo?page=1&size=10
+  //작업현장 전체조회
+  //http://$ip/wp/getInfo?page=1&size=10
   @GET('/getInfo')
   @Headers({
     'accessToken': 'true',
@@ -37,6 +37,18 @@ abstract class WorkplaceRepository {
     ),
   });
 
-  // 작업현장 검색
-  // http://$ip/workplace/?search=$searchText
+  // 작업현장이름으로 검색
+  // http://$ip/wp/searchByName$keyworkd
+
+  // 작업현장 ID로 해당 작업현장 정보 조회
+  // http://$ip/wp/searchById$Id
+  @GET('/searchById')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<WorkplaceModel> findById({
+    @Query('id') required String workplaceId,
+  });
+
+  // 작업현장으로 출근
 }

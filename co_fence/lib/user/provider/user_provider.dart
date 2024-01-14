@@ -17,6 +17,7 @@ class UserNotifier extends StateNotifier<UserModel> {
             nation: Nation.KR,
             phoneNumber: '',
             profileImageUrl: '',
+            workplaceId: 0,
           ),
         );
 
@@ -27,6 +28,7 @@ class UserNotifier extends StateNotifier<UserModel> {
     Nation? nation,
     String? phoneNumber,
     String? profileImageUrl,
+    int? workplaceId,
   }) {
     state = state.copyWith(
       name: name,
@@ -35,6 +37,7 @@ class UserNotifier extends StateNotifier<UserModel> {
       nation: nation,
       phoneNumber: phoneNumber,
       profileImageUrl: profileImageUrl,
+      workplaceId: workplaceId,
     );
   }
 }

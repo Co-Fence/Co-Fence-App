@@ -1,11 +1,15 @@
 import 'package:co_fence/common/components/my_search_Text_field.dart';
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/const/data.dart';
+import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/common/model/cursor_pagination_model.dart';
+import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/workplace/component/workplace_list_card.dart';
 import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:co_fence/workplace/provider/workplace_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -63,6 +67,7 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
   Widget build(BuildContext context) {
     final userWorkplaceState = ref.watch(userWorkplaceProvider);
     final data = ref.watch(workplaceProvider);
+    final dio = ref.watch(dioProvider);
     // 데이터가 처음 로딩중이면
     if (data is CursorPaginationLoading) {
       return const Center(
@@ -129,9 +134,8 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                         builder: (BuildContext context) {
                           return CupertinoAlertDialog(
                             title: Text('${pitem.workPlaceName}'),
-                            content: const Text(
-                                //출근하시겠습니까? 영어로
-                                'Would you like to go to work?'),
+                            content:
+                                const Text('Would you like to go to work?'),
                             actions: [
                               CupertinoDialogAction(
                                 child: const Text(
@@ -149,6 +153,14 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                 onPressed: () {
                                   Navigator.pop(context);
                                   // 출근했다는 api 호출
+                                  dio.post(
+                                    '$ip/wp/checkIn/${pitem.workPlaceId}',
+                                    options: Options(
+                                      headers: {
+                                        'accessToken': 'true',
+                                      },
+                                    ),
+                                  );
                                   // userWorkplaceState 업데이트
                                   ref
                                       .read(userWorkplaceProvider.notifier)
@@ -158,6 +170,9 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                         workPlaceAddress:
                                             pitem.workPlaceAddress,
                                       ));
+                                  ref.read(userProvider.notifier).updateUser(
+                                        workplaceId: pitem.workPlaceId,
+                                      );
                                   GoRouter.of(context).go(
                                     '/workplace?workplaceId=${pitem.workPlaceId}',
                                   );

@@ -14,6 +14,8 @@ class UserModel {
   final String email;
   // 프로필 사진
   final String profileImageUrl;
+  // 작업 현장 id
+  final int workplaceId;
 
   UserModel({
     required this.name,
@@ -22,6 +24,7 @@ class UserModel {
     required this.phoneNumber,
     required this.email,
     required this.profileImageUrl,
+    required this.workplaceId,
   });
 
   // copyWith 메서드는 입력값만 변경하는 메서드
@@ -32,6 +35,7 @@ class UserModel {
     String? phoneNumber,
     String? email,
     String? profileImageUrl,
+    int? workplaceId,
   }) {
     return UserModel(
       // 만약 name이 null이라면 this.name, 그렇지 않으면 name 사용
@@ -41,6 +45,7 @@ class UserModel {
       phoneNumber: phoneNumber ?? this.phoneNumber,
       email: email ?? this.email,
       profileImageUrl: profileImageUrl ?? this.profileImageUrl,
+      workplaceId: workplaceId ?? this.workplaceId,
     );
   }
 
@@ -53,6 +58,7 @@ class UserModel {
       phoneNumber: json['phoneNumber'],
       email: json['email'],
       profileImageUrl: json['profileImageUrl'],
+      workplaceId: json['workplaceId'],
     );
   }
 
@@ -65,6 +71,7 @@ class UserModel {
       'phoneNumber': phoneNumber,
       'email': email,
       'profileImageUrl': profileImageUrl,
+      'workplaceId': workplaceId,
     };
   }
 }
