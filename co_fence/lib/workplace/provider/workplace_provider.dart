@@ -1,5 +1,6 @@
 import 'package:co_fence/common/model/cursor_pagination_model.dart';
 import 'package:co_fence/common/model/pagination_params.dart';
+import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:co_fence/workplace/repository/workplace_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -26,7 +27,7 @@ class WorkplaceStateNotifier extends StateNotifier<CursorPaginationBase> {
 
   void paginate({
     // queryParameter의 count
-    int fetchSize = 10,
+    int fetchSize = 20,
     // 추가로 데이터 가져오기
     // true면 데이터를 추가로 가져옴
     // false면 데이터를 새로고침(현재 상태를 덮어씌움)
@@ -57,7 +58,7 @@ class WorkplaceStateNotifier extends StateNotifier<CursorPaginationBase> {
           return;
         }
       }
-      // 완전 처음
+      // 처음 로딩일 때
       final isLoading = state is CursorPaginationLoading;
       // 새로고침
       final isRefetching = state is CursorPaginationRefetching;

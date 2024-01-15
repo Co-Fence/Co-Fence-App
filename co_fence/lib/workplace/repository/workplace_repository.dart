@@ -33,12 +33,23 @@ abstract class WorkplaceRepository {
   Future<CursorPagination<WorkplaceModel>> paginate({
     @Queries() PaginationParams paginationParams = const PaginationParams(
       page: 1,
-      size: 10,
+      size: 20,
     ),
   });
 
   // 작업현장이름으로 검색
-  // http://$ip/wp/searchByName$keyworkd
+  // http://$ip/wp/searchByName$keyword
+  @GET('/searchByName')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<CursorPagination<WorkplaceModel>> searchByName({
+    @Query('keyword') required String keyword,
+    @Queries() PaginationParams paginationParams = const PaginationParams(
+      page: 1,
+      size: 10,
+    ),
+  });
 
   // 작업현장 ID로 해당 작업현장 정보 조회
   // http://$ip/wp/searchById$Id
@@ -49,6 +60,4 @@ abstract class WorkplaceRepository {
   Future<WorkplaceModel> findById({
     @Query('id') required String workplaceId,
   });
-
-  // 작업현장으로 출근
 }

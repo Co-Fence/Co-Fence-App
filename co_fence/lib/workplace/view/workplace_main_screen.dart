@@ -34,11 +34,8 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
 
   @override
   void initState() {
-    fetchUserWorkplace();
     super.initState();
   }
-
-  void fetchUserWorkplace() {}
 
   @override
   Widget build(BuildContext context) {

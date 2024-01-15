@@ -29,6 +29,24 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
   final TextEditingController _filter = TextEditingController();
   FocusNode focusNode = FocusNode();
   String _searchText = '';
+  List<WorkplaceModel> searchResults = [];
+
+  // Future<void> _search(String keyword) async {
+  //   final dio = ref.watch(dioProvider);
+  //   try {
+  //     final resp = await dio.get('/wp/searchByName?keyword=$keyword');
+  //     if (resp.statusCode == 200) {
+  //       final data = resp.data as List<dynamic>;
+  //       data[]
+  //       final results = data.map((e) => WorkplaceModel.fromJson(e)).toList();
+  //       setState(() {
+  //         searchResults = results;
+  //       });
+  //     }
+  //   } catch (e) {
+  //     print(e);
+  //   }
+  // }
 
   // 현재 검색 키워드를 _searchText에 저장
   _WorkplaceSearchScreenState() {
@@ -100,6 +118,14 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
               hintText: 'Search Workplace',
               onPressed: () {
                 setState(() {
+                  searchResults = cp.data
+                      .where(
+                        (element) =>
+                            element.workPlaceName.toLowerCase().contains(
+                                  _searchText.toLowerCase(),
+                                ),
+                      )
+                      .toList() as List<WorkplaceModel>;
                   _filter.clear();
                   _searchText = '';
                   focusNode.unfocus();
@@ -110,9 +136,14 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
             Expanded(
               child: ListView.separated(
                 controller: controller,
-                itemCount: cp.data.length + 1,
+                itemCount: searchResults.isEmpty
+                    ? cp.data.length + 1
+                    : searchResults.length,
                 itemBuilder: (context, index) {
-                  if (index == cp.data.length) {
+                  final length = searchResults.isEmpty
+                      ? cp.data.length
+                      : searchResults.length;
+                  if (index == length) {
                     return Padding(
                       padding: const EdgeInsets.symmetric(
                         horizontal: 16.0,
@@ -125,7 +156,9 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                       ),
                     );
                   }
-                  final pitem = cp.data[index];
+                  final pitem = searchResults.isEmpty
+                      ? cp.data[index]
+                      : searchResults[index];
 
                   return GestureDetector(
                     onTap: () {
@@ -152,7 +185,7 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                 child: const Text('Yes'),
                                 onPressed: () {
                                   Navigator.pop(context);
-                                  // 출근했다는 api 호출
+                                  // 출근 api 호출
                                   dio.post(
                                     '$ip/wp/checkIn/${pitem.workPlaceId}',
                                     options: Options(
@@ -164,12 +197,14 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                   // userWorkplaceState 업데이트
                                   ref
                                       .read(userWorkplaceProvider.notifier)
-                                      .updateWorkplace(WorkplaceModel(
-                                        workPlaceId: pitem.workPlaceId,
-                                        workPlaceName: pitem.workPlaceName,
-                                        workPlaceAddress:
-                                            pitem.workPlaceAddress,
-                                      ));
+                                      .updateWorkplace(
+                                        WorkplaceModel(
+                                          workPlaceId: pitem.workPlaceId,
+                                          workPlaceName: pitem.workPlaceName,
+                                          workPlaceAddress:
+                                              pitem.workPlaceAddress,
+                                        ),
+                                      );
                                   ref.read(userProvider.notifier).updateUser(
                                         workplaceId: pitem.workPlaceId,
                                       );
