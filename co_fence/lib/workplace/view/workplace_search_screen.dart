@@ -1,5 +1,4 @@
 import 'package:co_fence/common/components/my_search_Text_field.dart';
-import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
@@ -30,23 +29,6 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
   FocusNode focusNode = FocusNode();
   String _searchText = '';
   List<WorkplaceModel> searchResults = [];
-
-  // Future<void> _search(String keyword) async {
-  //   final dio = ref.watch(dioProvider);
-  //   try {
-  //     final resp = await dio.get('/wp/searchByName?keyword=$keyword');
-  //     if (resp.statusCode == 200) {
-  //       final data = resp.data as List<dynamic>;
-  //       data[]
-  //       final results = data.map((e) => WorkplaceModel.fromJson(e)).toList();
-  //       setState(() {
-  //         searchResults = results;
-  //       });
-  //     }
-  //   } catch (e) {
-  //     print(e);
-  //   }
-  // }
 
   // 현재 검색 키워드를 _searchText에 저장
   _WorkplaceSearchScreenState() {
@@ -83,7 +65,6 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final userWorkplaceState = ref.watch(userWorkplaceProvider);
     final data = ref.watch(workplaceProvider);
     final dio = ref.watch(dioProvider);
     // 데이터가 처음 로딩중이면
@@ -183,10 +164,10 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                               ),
                               CupertinoDialogAction(
                                 child: const Text('Yes'),
-                                onPressed: () {
+                                onPressed: () async {
                                   Navigator.pop(context);
                                   // 출근 api 호출
-                                  dio.post(
+                                  final resp = await dio.post(
                                     '$ip/wp/checkIn/${pitem.workPlaceId}',
                                     options: Options(
                                       headers: {
@@ -194,6 +175,7 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                       },
                                     ),
                                   );
+                                  print(resp.data);
                                   // userWorkplaceState 업데이트
                                   ref
                                       .read(userWorkplaceProvider.notifier)

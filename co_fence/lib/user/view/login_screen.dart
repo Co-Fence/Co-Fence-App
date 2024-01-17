@@ -117,8 +117,7 @@ class LoginScreen extends ConsumerWidget {
                     : Nation.Foreigner,
                 phoneNumber: response.data['phoneNumber'],
                 profileImageUrl: response.data['profileImageUrl'],
-                workplaceId: 1,
-                // workplaceId: response.data['workplaceId'],
+                workplaceId: response.data['workplaceId'],
               );
 
           context.push('/workplace');
@@ -189,6 +188,7 @@ class LoginScreen extends ConsumerWidget {
                           : Nation.Foreigner,
                       phoneNumber: response.data['phoneNumber'],
                       profileImageUrl: response.data['profileImageUrl'],
+                      workplaceId: response.data['workplaceId'],
                     );
 
                 context.push('/workplace');

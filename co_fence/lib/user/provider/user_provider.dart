@@ -17,7 +17,7 @@ class UserNotifier extends StateNotifier<UserModel> {
             nation: Nation.KR,
             phoneNumber: '',
             profileImageUrl: '',
-            workplaceId: 0,
+            workplaceId: null,
           ),
         );
 

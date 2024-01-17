@@ -1,3 +1,9 @@
+// ignore_for_file: constant_identifier_names
+
+import 'package:json_annotation/json_annotation.dart';
+
+part 'report_model.g.dart';
+
 enum ReportStatus {
   // 조치전
   BEFORE_ACTION,
@@ -9,6 +15,7 @@ enum ReportStatus {
   ACTION_COMPLETED,
 }
 
+@JsonSerializable()
 class ReportModel {
   // 공지사항 제목
   String reportSubject;
@@ -24,4 +31,23 @@ class ReportModel {
     required this.reportDetail,
     required this.reportStatus,
   });
+
+  ReportModel copyWith({
+    String? reportSubject,
+    String? reportDetail,
+    ReportStatus? reportStatus,
+  }) {
+    return ReportModel(
+      reportSubject: reportSubject ?? this.reportSubject,
+      reportDetail: reportDetail ?? this.reportDetail,
+      reportStatus: reportStatus ?? this.reportStatus,
+    );
+  }
+
+  // fromJson
+  factory ReportModel.fromJson(Map<String, dynamic> json) =>
+      _$ReportModelFromJson(json);
+
+  // toJson
+  Map<String, dynamic> toJson() => _$ReportModelToJson(this);
 }

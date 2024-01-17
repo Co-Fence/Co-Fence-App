@@ -3,6 +3,8 @@ import 'package:co_fence/contact/view/contact_main_screen.dart';
 import 'package:co_fence/notice/view/notice_create_screen.dart';
 import 'package:co_fence/notice/view/notice_detail_screen.dart';
 import 'package:co_fence/notice/view/notice_main_screen.dart';
+import 'package:co_fence/report/view/report_create_detail_screen.dart';
+import 'package:co_fence/report/view/report_create_screen.dart';
 import 'package:co_fence/report/view/report_detail_screen.dart';
 import 'package:co_fence/report/view/report_list_screen.dart';
 import 'package:co_fence/report/view/report_main_screen.dart';
@@ -84,10 +86,25 @@ final router = GoRouter(
             ),
           ],
         ),
+
         // 신고 화면, '/report'
         GoRoute(
           path: 'report',
           builder: (context, state) => const ReportMainScreen(),
+          routes: [
+            // 신고 작성 화면, '/report/create', queryparameter로 신고 id를 받아야함
+            GoRoute(
+              path: 'create',
+              builder: (context, state) => const ReportCreateScreen(),
+              routes: [
+                // 세부 신고 화면 '/report/create/detail', queryparameter로 신고 id를 받아야함
+                GoRoute(
+                  path: 'detail',
+                  builder: (context, state) => const ReportCreateDetailScreen(),
+                ),
+              ],
+            ),
+          ],
         ),
         // 신고 목록 화면, '/report_list'
         GoRoute(

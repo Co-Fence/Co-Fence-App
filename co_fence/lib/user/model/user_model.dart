@@ -15,7 +15,7 @@ class UserModel {
   // 프로필 사진
   final String profileImageUrl;
   // 작업 현장 id
-  final int workplaceId;
+  final int? workplaceId;
 
   UserModel({
     required this.name,

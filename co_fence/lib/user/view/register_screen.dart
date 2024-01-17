@@ -44,7 +44,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
 
   void navigateToWorkplace() {
     context.pushReplacement(
-      '/workplace',
+      '/workplace?workplaceId=${ref.read(userProvider).workplaceId.toString()}',
     );
   }
 

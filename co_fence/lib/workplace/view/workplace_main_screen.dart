@@ -9,6 +9,7 @@ import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/workplace/component/workplace_card.dart';
+import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
@@ -30,18 +31,36 @@ class WorkplaceMainScreen extends ConsumerStatefulWidget {
 }
 
 class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
-  final NOT_WORKING = 0;
+  final NOT_WORKING = null;
 
   @override
   void initState() {
     super.initState();
+    fetchWorkplace();
+  }
+
+  fetchWorkplace() async {
+    final userState = ref.read(userProvider);
+    final dio = ref.read(dioProvider);
+    if (userState.workplaceId == NOT_WORKING) {
+      return;
+    }
+    final response = await dio.get(
+      '$ip/wp/searchById?id=${userState.workplaceId}',
+      options: Options(
+        headers: {
+          'accessToken': 'true',
+        },
+      ),
+    );
+    final workplace = WorkplaceModel.fromJson(response.data);
+    print(response.data);
+    ref.read(userWorkplaceProvider.notifier).updateWorkplace(workplace);
   }
 
   @override
   Widget build(BuildContext context) {
     final userState = ref.watch(userProvider);
-    final dio = ref.watch(dioProvider);
-
     return DefaultLayout(
       context: context,
       appBarTitle: 'Your Workplace',
@@ -220,12 +239,14 @@ Widget renderWorkplaceBody(
                       child: const Text('Yes'),
                       onPressed: () {
                         // 현장 탈퇴
-                        dio.delete('$ip/wp/${userState.workplaceId}/checkout',
-                            options: Options(
-                              headers: {
-                                'accessToken': 'true',
-                              },
-                            ));
+                        dio.delete(
+                          '$ip/wp/${userState.workplaceId}/checkout',
+                          options: Options(
+                            headers: {
+                              'accessToken': 'true',
+                            },
+                          ),
+                        );
                         Navigator.pop(context);
                         context.go('/workplace/search');
                       },
@@ -253,7 +274,7 @@ Widget renderWorkplaceBody(
             crossAxisCount: 2,
             children: [
               MySquareButton(
-                color: SECONDARY_COLOR,
+                color: PRIMARY_COLOR,
                 icon: Icons.person_outline,
                 label: 'My Page',
                 onTap: () => context.go('/mypage'),

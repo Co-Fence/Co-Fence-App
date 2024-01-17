@@ -49,11 +49,10 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
     );
   }
 
-  void Login() async {
+  void login() async {
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
     try {
-      print(1);
       final response = await dio.get(
         '$ip/parsing/refreshParsing',
         options: Options(
@@ -92,6 +91,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                   (resp.data['nation'] == 'KR') ? Nation.KR : Nation.Foreigner,
               phoneNumber: resp.data['phoneNumber'],
               profileImageUrl: resp.data['profileImageUrl'],
+              workplaceId: resp.data['workplaceId'],
             );
         navigateToWorkplaceScreen();
       }
@@ -129,7 +129,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           key: ACCESS_TOKEN_KEY,
           value: response.data['renewAccessToken'],
         );
-        Login();
+        login();
       } else {
         print('Unexpected status code: ${response.statusCode}');
         navigateToLoginScreen();
