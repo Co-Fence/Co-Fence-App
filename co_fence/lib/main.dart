@@ -19,12 +19,17 @@ void main() async {
   runApp(
     ProviderScope(
       observers: [Logger()],
-      child: MaterialApp.router(
-        theme: ThemeData(
-          useMaterial3: true,
+      child: GestureDetector(
+        onTap: () {
+          FocusManager.instance.primaryFocus?.unfocus();
+        },
+        child: MaterialApp.router(
+          theme: ThemeData(
+            useMaterial3: true,
+          ),
+          routerConfig: router,
+          debugShowCheckedModeBanner: false,
         ),
-        routerConfig: router,
-        debugShowCheckedModeBanner: false,
       ),
     ),
   );

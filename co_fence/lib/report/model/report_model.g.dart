@@ -9,19 +9,25 @@ part of 'report_model.dart';
 ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
       reportSubject: json['reportSubject'] as String,
       reportDetail: json['reportDetail'] as String,
-      reportStatus: $enumDecode(_$ReportStatusEnumMap, json['reportStatus']),
+      actionStatus: $enumDecode(_$ActionStatusEnumMap, json['actionStatus']),
+      createdAt: DateTime.parse(json['createdAt'] as String),
+      reportImageUrl: (json['reportImageUrl'] as List<dynamic>)
+          .map((e) => e as String)
+          .toList(),
     );
 
 Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
     <String, dynamic>{
       'reportSubject': instance.reportSubject,
       'reportDetail': instance.reportDetail,
-      'reportStatus': _$ReportStatusEnumMap[instance.reportStatus]!,
+      'actionStatus': _$ActionStatusEnumMap[instance.actionStatus]!,
+      'reportImageUrl': instance.reportImageUrl,
+      'createdAt': instance.createdAt.toIso8601String(),
     };
 
-const _$ReportStatusEnumMap = {
-  ReportStatus.BEFORE_ACTION: 'BEFORE_ACTION',
-  ReportStatus.IN_ACTION: 'IN_ACTION',
-  ReportStatus.WORK_SUSPEND: 'WORK_SUSPEND',
-  ReportStatus.ACTION_COMPLETED: 'ACTION_COMPLETED',
+const _$ActionStatusEnumMap = {
+  ActionStatus.BEFORE_ACTION: 'BEFORE_ACTION',
+  ActionStatus.IN_ACTION: 'IN_ACTION',
+  ActionStatus.WORK_SUSPEND: 'WORK_SUSPEND',
+  ActionStatus.ACTION_COMPLETED: 'ACTION_COMPLETED',
 };

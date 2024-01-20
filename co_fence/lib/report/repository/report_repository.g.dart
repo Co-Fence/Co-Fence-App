@@ -23,6 +23,7 @@ class _ReportRepository implements ReportRepository {
     required String reportSubject,
     required String reportDetail,
     required String reportStatus,
+    required List<String> reportImageUrl,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -32,6 +33,7 @@ class _ReportRepository implements ReportRepository {
       'reportSubject': reportSubject,
       'reportDetail': reportDetail,
       'reportStatus': reportStatus,
+      'reportImageUrl': reportImageUrl,
     };
     await _dio.fetch<void>(_setStreamType<void>(Options(
       method: 'POST',

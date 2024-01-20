@@ -80,7 +80,10 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
                             'There is no work place at work.\nPlease search for work sites and participate.',
                         icon: Icons.info_outline_rounded,
                       )
-                    : renderWorkplaceBody(context, ref),
+                    : renderWorkplaceBody(
+                        context,
+                        ref,
+                      ),
               ),
               userState.workplaceId == NOT_WORKING
                   ? const Padding(

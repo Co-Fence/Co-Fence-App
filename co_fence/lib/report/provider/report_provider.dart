@@ -21,19 +21,23 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
   }) : super(ReportModel(
           reportSubject: '',
           reportDetail: '',
-          reportStatus: ReportStatus.BEFORE_ACTION,
+          actionStatus: ActionStatus.BEFORE_ACTION,
+          createdAt: DateTime.now(),
+          reportImageUrl: [],
         ));
 
-  void setReportSubject(String reportSubject) {
-    state = state.copyWith(reportSubject: reportSubject);
-  }
-
-  void setReportDetail(String reportDetail) {
-    state = state.copyWith(reportDetail: reportDetail);
-  }
-
-  void setReportStatus(ReportStatus reportStatus) {
-    state = state.copyWith(reportStatus: reportStatus);
+  void updateReport({
+    String? reportSubject,
+    String? reportDetail,
+    ActionStatus? reportStatus,
+    List<String>? reportImageUrl,
+  }) {
+    state = state.copyWith(
+      reportSubject: reportSubject ?? state.reportSubject,
+      reportDetail: reportDetail ?? state.reportDetail,
+      actionStatus: reportStatus ?? state.actionStatus,
+      reportImageUrl: reportImageUrl ?? state.reportImageUrl,
+    );
   }
 
   Future<void> createReport() async {
@@ -41,7 +45,8 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
       await repository.createReport(
         reportSubject: state.reportSubject,
         reportDetail: state.reportDetail,
-        reportStatus: state.reportStatus.toString(),
+        reportStatus: state.actionStatus.toString(),
+        reportImageUrl: state.reportImageUrl,
       );
     } catch (e) {
       rethrow;

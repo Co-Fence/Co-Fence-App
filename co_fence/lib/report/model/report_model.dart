@@ -1,10 +1,11 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'report_model.g.dart';
 
-enum ReportStatus {
+enum ActionStatus {
   // 조치전
   BEFORE_ACTION,
   // 조치중
@@ -15,33 +16,47 @@ enum ReportStatus {
   ACTION_COMPLETED,
 }
 
+final actionStatusProvider =
+    StateProvider<ActionStatus>((ref) => ActionStatus.BEFORE_ACTION);
+
 @JsonSerializable()
 class ReportModel {
-  // 공지사항 제목
+  // 신고 제목
   String reportSubject;
 
-  // 공지사항 내용
+  // 신고 내용
   String reportDetail;
 
-  // 공지사항 상태
-  ReportStatus reportStatus;
+  // 신고 상태
+  ActionStatus actionStatus;
+
+  // 신고 이미지 URl들
+  List<String> reportImageUrl;
+
+  // 작성 시간
+  DateTime createdAt;
 
   ReportModel({
     required this.reportSubject,
     required this.reportDetail,
-    required this.reportStatus,
+    required this.actionStatus,
+    required this.createdAt,
+    required this.reportImageUrl,
   });
 
   ReportModel copyWith({
     String? reportSubject,
     String? reportDetail,
-    ReportStatus? reportStatus,
+    ActionStatus? actionStatus,
+    DateTime? createdAt,
+    List<String>? reportImageUrl,
   }) {
     return ReportModel(
-      reportSubject: reportSubject ?? this.reportSubject,
-      reportDetail: reportDetail ?? this.reportDetail,
-      reportStatus: reportStatus ?? this.reportStatus,
-    );
+        reportSubject: reportSubject ?? this.reportSubject,
+        reportDetail: reportDetail ?? this.reportDetail,
+        actionStatus: actionStatus ?? this.actionStatus,
+        createdAt: createdAt ?? this.createdAt,
+        reportImageUrl: reportImageUrl ?? this.reportImageUrl);
   }
 
   // fromJson

@@ -1,39 +1,27 @@
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-class ReportListScreen extends StatelessWidget {
+class ReportListScreen extends ConsumerWidget {
   const ReportListScreen({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
+    final userWorkplaceState = ref.watch(userWorkplaceProvider);
     return DefaultLayout(
       context: context,
-      appBarTitle: 'Report',
+      appBarTitle: 'Report List',
       drawer: const MyDrawer(),
-      child: Center(
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
         child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            ElevatedButton(
-              onPressed: () {
-                context.go('/report/create');
-              },
-              child: const Text('Create'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.go('/report/main');
-              },
-              child: const Text('Main'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                context.go('/report/create/detail');
-              },
-              child: const Text('Create Detail'),
-            ),
+            Text(userWorkplaceState.workPlaceName),
+            const Text('Report List Screen'),
           ],
         ),
       ),

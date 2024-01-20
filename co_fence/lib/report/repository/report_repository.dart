@@ -31,5 +31,6 @@ abstract class ReportRepository {
     @Field('reportSubject') required String reportSubject,
     @Field('reportDetail') required String reportDetail,
     @Field('reportStatus') required String reportStatus,
+    @Field('reportImageUrl') required List<String> reportImageUrl,
   });
 }

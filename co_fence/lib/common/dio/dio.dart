@@ -92,15 +92,15 @@ class CustomInterceptor extends Interceptor {
       return handler.reject(err);
     }
 
-    final isStatus500 = err.response?.statusCode == 500;
-    final isPathRefresh = err.requestOptions.path == '/auth/token';
+    final isStatus401 = err.response?.statusCode == 401;
+    final isPathRefresh = err.requestOptions.path == '/auth/renew';
 
-    if (isStatus500 && !isPathRefresh) {
+    if (isStatus401 && !isPathRefresh) {
       final dio = Dio();
 
       try {
         final resp = await dio.post(
-          'http://$ip/auth/token',
+          'http://$ip/auth/renew',
           options: Options(
             headers: {
               'Authorization': refreshToken,
@@ -108,13 +108,13 @@ class CustomInterceptor extends Interceptor {
           ),
         );
 
-        final accessToken = resp.data['accessToken'];
+        final accessToken = resp.data['renewAccessToken'];
 
         final options = err.requestOptions;
 
         // 토큰 변경하기
         options.headers.addAll({
-          'authorization': '$accessToken',
+          'Authorization': 'Bearer $accessToken',
         });
 
         await storage.write(key: ACCESS_TOKEN_KEY, value: accessToken);

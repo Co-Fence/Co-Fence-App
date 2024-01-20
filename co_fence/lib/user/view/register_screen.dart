@@ -7,10 +7,9 @@ import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/user/service/auth_services.dart';
-import 'package:co_fence/user/service/utils.dart';
+import 'package:co_fence/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:image_picker/image_picker.dart';
@@ -271,14 +270,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                                 }
                               }
                             : () {
-                                Fluttertoast.showToast(
-                                  msg: "프로필 이미지를 등록해주세요.",
-                                  toastLength: Toast.LENGTH_SHORT,
-                                  gravity: ToastGravity.BOTTOM,
-                                  timeInSecForIosWeb: 1,
-                                  backgroundColor: PRIMARY_COLOR,
-                                  textColor: Colors.white,
-                                  fontSize: 16.0,
+                                showSnackBar(
+                                  context,
+                                  'please select profile image',
                                 );
                               },
                         child: _isLoading

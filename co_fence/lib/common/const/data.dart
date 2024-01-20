@@ -13,3 +13,17 @@ final ip = Platform.isIOS ? simulatorIp : emulatorIp;
 
 // 작업현장 id
 const WORKPLACE_ID = 'WORKPLACE_ID';
+
+String firebasePrefix({
+  required String email,
+  required bool isReport,
+}) {
+  if (isReport) {
+    return 'https://firebasestorage.googleapis.com/v0/b/co-fence.appspot.com/o/reportImage%2F$email%2F';
+  }
+  return 'https://firebasestorage.googleapis.com/v0/b/co-fence.appspot.com/o/noticeImage%2F$email%2F';
+}
+
+// 파이어베이스 스토리지 이미지 prefix
+// const FIREBASE_PREFIX =
+//     'https://firebasestorage.googleapis.com/v0/b/co-fence.appspot.com/o/';

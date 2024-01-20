@@ -26,11 +26,8 @@ class AuthServices {
     Dio dio = ref.watch(dioProvider);
     try {
       // profileImageUrl은 파이어베이스 스토리지 업로드 후 반환된 이미지 주소
-      String profileImageUrl = await StorageServices().uploadImageToStorage(
-        'profileImage',
-        email,
-        file,
-      );
+      String profileImageUrl = await StorageServices()
+          .uploadImageToStorage('profileImage', email, file, false);
       Response response = await dio.post(
         '$ip/auth/signUp',
         data: {
