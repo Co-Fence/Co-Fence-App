@@ -2,6 +2,8 @@ import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
 
 class UserModel {
+  // id
+  final int? userSeq;
   // 이름
   final String name;
   // 역할
@@ -18,6 +20,7 @@ class UserModel {
   final int? workplaceId;
 
   UserModel({
+    this.userSeq,
     required this.name,
     required this.role,
     required this.nation,
@@ -29,6 +32,7 @@ class UserModel {
 
   // copyWith 메서드는 입력값만 변경하는 메서드
   UserModel copyWith({
+    int? userSeq,
     String? name,
     Role? role,
     Nation? nation,
@@ -38,6 +42,7 @@ class UserModel {
     int? workplaceId,
   }) {
     return UserModel(
+      userSeq: userSeq ?? this.userSeq,
       // 만약 name이 null이라면 this.name, 그렇지 않으면 name 사용
       name: name ?? this.name,
       nation: nation ?? this.nation,
@@ -52,6 +57,7 @@ class UserModel {
   // fromJson 메서드는 json을 입력받아 UserModel을 반환하는 메서드
   static UserModel fromJson(Map<String, dynamic> json) {
     return UserModel(
+      userSeq: json['userSeq'],
       name: json['name'],
       role: Role.values[json['role']],
       nation: Nation.values[json['nation']],
@@ -65,6 +71,7 @@ class UserModel {
   // toJson 메서드는 UserModel을 json으로 변환하는 메서드
   Map<String, dynamic> toJson() {
     return {
+      'userSeq': userSeq,
       'name': name,
       'role': role.index,
       'nation': nation.index,

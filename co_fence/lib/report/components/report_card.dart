@@ -1,4 +1,6 @@
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/report/model/report_model.dart';
+import 'package:co_fence/report/model/report_status.dart';
 import 'package:flutter/material.dart';
 
 class ReportCard extends StatelessWidget {
@@ -12,6 +14,19 @@ class ReportCard extends StatelessWidget {
     required this.reportDate,
     super.key,
   });
+
+  factory ReportCard.fromModel({
+    required ReportModel model,
+  }) {
+    return ReportCard(
+      title: model.reportSubject,
+      category: model.reportStatus.code,
+      reportDate: model.createdAt.toString().substring(
+            0,
+            10,
+          ),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {

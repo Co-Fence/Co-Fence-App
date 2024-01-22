@@ -191,6 +191,19 @@ class LoginScreen extends ConsumerWidget {
                       workplaceId: response.data['workplaceId'],
                     );
 
+                final resp = await dio.get(
+                  '$ip/parsing/accessParsing',
+                  options: Options(
+                    headers: {
+                      'Authorization': '$accessToken',
+                    },
+                  ),
+                );
+                print(resp.data['userSeq']);
+                ref.read(userProvider.notifier).updateUser(
+                      userSeq: resp.data['userSeq'],
+                    );
+
                 context.push('/workplace');
               }
             } else {

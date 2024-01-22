@@ -1,10 +1,14 @@
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/common/const/data.dart';
+import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/common/utils/utils.dart';
 import 'package:co_fence/report/components/report_card.dart';
 import 'package:co_fence/report/model/action_status.dart';
+import 'package:co_fence/report/model/report_model.dart';
 import 'package:co_fence/report/model/report_status.dart';
+import 'package:co_fence/report/provider/report_provider.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -22,11 +26,15 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
   DateTime? startDate;
   DateTime? endDate;
 
+  final reportListProvider = StateProvider<List<ReportModel>?>((ref) {
+    return [];
+  });
+
   @override
   Widget build(BuildContext context) {
-    final userWorkplaceState = ref.watch(userWorkplaceProvider);
     final reportStatusState = ref.watch(reportStatusProvider);
     final actionsStatusState = ref.watch(actionStatusProvider);
+    final dio = ref.read(dioProvider);
 
     return DefaultLayout(
       context: context,
@@ -99,50 +107,79 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
                         );
                         return;
                       }
-                      // print workplaceId, startDate, endDate, reportStatus, actionStatus
-                      print('workplaceId = ${userWorkplaceState.workPlaceId}');
-                      print(
-                          'startDate = ${startDate.toString().substring(0, 10)}');
-                      print('endDate = ${endDate.toString().substring(0, 10)}');
-                      print('reportStatus = ${reportStatusState.displayName}');
-                      print('actionStatus = ${actionsStatusState.name}');
+                      // print startDate, endDate
+                      print(startDate);
+                      print(endDate);
+                      // 검색 api 호출
+                      dio.post('$ip/report/search?page=0&size=10', data: {
+                        //'userSeq': userState.userSeq,
+                        'startDateTime': startDate!.toIso8601String(),
+                        'endDateTime': endDate!.toIso8601String(),
+                        'reportStatus': reportStatusState.displayName,
+                        'actionStatus': actionsStatusState.displayName,
+                      }).then((value) {
+                        if (value.statusCode == 200) {
+                          ref.read(reportListProvider.notifier).state = (value
+                                  .data['content'] as List<dynamic>?)
+                              ?.map(
+                                (element) => ReportModel.fromJson(
+                                    element as Map<String, dynamic>),
+                              )
+                              .whereType<
+                                  ReportModel>() // null이 아닌 ReportModel만 필터링
+                              .toList();
+                          setState(() {});
+                        } else if (value.statusCode == 404) {
+                          showSnackBar(context, 'No Report Found');
+                        }
+                      }).catchError((error) {
+                        print('Error: $error');
+                        showSnackBar(context, 'No Report Found');
+                      });
                     },
                   ),
                 ],
               ),
             ),
           ),
-          renderProducts(),
+          SliverPadding(
+            padding: const EdgeInsets.symmetric(horizontal: 16.0),
+            sliver: SliverList(
+              delegate: SliverChildBuilderDelegate(
+                (context, index) {
+                  ReportModel report = ref.watch(reportListProvider)![index];
+                  return Padding(
+                    padding: const EdgeInsets.only(
+                      top: 16.0,
+                    ),
+                    child: GestureDetector(
+                      onTap: () {
+                        // reportState 업데이트
+                        ref.read(reportProvider.notifier).updateReport(
+                              reportId: report.reportId,
+                              reportSubject: report.reportSubject,
+                              reportStatus: report.reportStatus,
+                              actionStatus: report.actionStatus,
+                            );
+
+                        context.go(
+                            '/report_list/detail?reportId=${report.reportId}');
+                      },
+                      child: ReportCard.fromModel(
+                        model: report,
+                      ),
+                    ),
+                  );
+                },
+                childCount:
+                    ref.watch(reportListProvider.notifier).state!.length,
+              ),
+            ),
+          ),
         ],
       ),
     );
   }
-}
-
-renderProducts() {
-  return SliverPadding(
-    padding: const EdgeInsets.symmetric(horizontal: 16.0),
-    sliver: SliverList(
-      delegate: SliverChildBuilderDelegate(
-        (context, index) => Padding(
-          padding: const EdgeInsets.only(
-            top: 16.0,
-          ),
-          child: GestureDetector(
-            onTap: () {
-              context.go('/report_list/detail?reportId=1');
-            },
-            child: const ReportCard(
-              title: '제목',
-              category: '카테고리',
-              reportDate: '신고일자',
-            ),
-          ),
-        ),
-        childCount: 10,
-      ),
-    ),
-  );
 }
 
 // 현재 작업현장 이름
@@ -263,7 +300,7 @@ Widget _renderReportDate(
                   );
                 },
                 context: context,
-                initialDate: startDate ?? endDate ?? DateTime.now(),
+                initialDate: startDate ?? DateTime.now(),
                 firstDate: DateTime(2018),
                 lastDate: endDate ?? DateTime.now(),
               );
@@ -303,14 +340,25 @@ Widget _renderReportDate(
                   );
                 },
                 context: context,
-                initialDate: DateTime.now(),
+                initialDate: endDate ?? DateTime.now(),
                 firstDate: startDate ?? DateTime(2018),
                 lastDate: DateTime.now(),
               );
 
               // 유효성 검사
               if (selectedDate != null) {
-                onEndDateSelected(selectedDate);
+                // 마지막 시간을 23:59:59로 설정
+                final lastTime = TimeOfDay.fromDateTime(
+                  DateTime(selectedDate.year, selectedDate.month,
+                      selectedDate.day, 23, 59, 59),
+                );
+                final lastDateTime = DateTime(
+                        selectedDate.year, selectedDate.month, selectedDate.day)
+                    .add(Duration(
+                        hours: lastTime.hour,
+                        minutes: lastTime.minute,
+                        seconds: lastTime.period == DayPeriod.am ? 0 : 59));
+                onEndDateSelected(lastDateTime);
               } else {
                 return;
               }

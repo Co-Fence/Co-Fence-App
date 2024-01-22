@@ -69,7 +69,7 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
             .uri
             .queryParameters['category']!
             .toString(),
-        reportImageUrls: ref.read(reportProvider).reportImageUrl,
+        reportImageUrls: ref.read(reportProvider).reportImageUrl!,
       );
       if (res == 'success') {
         // 신고 성공

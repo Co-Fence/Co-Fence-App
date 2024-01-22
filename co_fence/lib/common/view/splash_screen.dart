@@ -93,6 +93,19 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               profileImageUrl: resp.data['profileImageUrl'],
               workplaceId: resp.data['workplaceId'],
             );
+
+        final response = await dio.get(
+          '$ip/parsing/accessParsing',
+          options: Options(
+            headers: {
+              'Authorization': '$accessToken',
+            },
+          ),
+        );
+        print("userSeq : ${response.data['userSeq']}");
+        ref.read(userProvider.notifier).updateUser(
+              userSeq: response.data['userSeq'],
+            );
         navigateToWorkplaceScreen();
       }
     } catch (e) {

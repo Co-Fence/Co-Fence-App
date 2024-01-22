@@ -7,22 +7,27 @@ part of 'report_model.dart';
 // **************************************************************************
 
 ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
+      reportId: json['reportId'] as int?,
       reportSubject: json['reportSubject'] as String,
-      reportDetail: json['reportDetail'] as String,
-      actionStatus: $enumDecode(_$ActionStatusEnumMap, json['actionStatus']),
+      reportDetail: json['reportDetail'] as String?,
+      actionStatus:
+          $enumDecodeNullable(_$ActionStatusEnumMap, json['actionStatus']),
+      reportStatus: $enumDecode(_$ReportStatusEnumMap, json['reportStatus']),
       createdAt: DateTime.parse(json['createdAt'] as String),
-      reportImageUrl: (json['reportImageUrl'] as List<dynamic>)
-          .map((e) => e as String)
+      reportImageUrl: (json['reportImageUrl'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
     <String, dynamic>{
+      'reportId': instance.reportId,
       'reportSubject': instance.reportSubject,
       'reportDetail': instance.reportDetail,
-      'actionStatus': _$ActionStatusEnumMap[instance.actionStatus]!,
+      'actionStatus': _$ActionStatusEnumMap[instance.actionStatus],
       'reportImageUrl': instance.reportImageUrl,
       'createdAt': instance.createdAt.toIso8601String(),
+      'reportStatus': _$ReportStatusEnumMap[instance.reportStatus]!,
     };
 
 const _$ActionStatusEnumMap = {
@@ -30,4 +35,15 @@ const _$ActionStatusEnumMap = {
   ActionStatus.In_Action: 'In_Action',
   ActionStatus.Work_Suspended: 'Work_Suspended',
   ActionStatus.Action_Completed: 'Action_Completed',
+};
+
+const _$ReportStatusEnumMap = {
+  ReportStatus.FIRE_HAZARD: 'FIRE_HAZARD',
+  ReportStatus.COLLAPSE_HAZARD: 'COLLAPSE_HAZARD',
+  ReportStatus.MECHANICAL_FAILURE: 'MECHANICAL_FAILURE',
+  ReportStatus.CHEMICAL_SPILL_HAZARD: 'CHEMICAL_SPILL_HAZARD',
+  ReportStatus.ELECTRIC_HAZARD: 'ELECTRIC_HAZARD',
+  ReportStatus.FALLING_HAZARD: 'FALLING_HAZARD',
+  ReportStatus.EXPLOSION_HAZARD: 'EXPLOSION_HAZARD',
+  ReportStatus.ETC_HAZARD: 'ETC_HAZARD',
 };

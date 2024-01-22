@@ -11,6 +11,7 @@ class UserNotifier extends StateNotifier<UserModel> {
   UserNotifier()
       : super(
           UserModel(
+            userSeq: null,
             name: '',
             email: '',
             role: Role.USER,
@@ -22,6 +23,7 @@ class UserNotifier extends StateNotifier<UserModel> {
         );
 
   void updateUser({
+    int? userSeq,
     String? name,
     String? email,
     Role? role,
@@ -31,6 +33,7 @@ class UserNotifier extends StateNotifier<UserModel> {
     int? workplaceId,
   }) {
     state = state.copyWith(
+      userSeq: userSeq,
       name: name,
       email: email,
       role: role,

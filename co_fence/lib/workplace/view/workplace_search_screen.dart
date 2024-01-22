@@ -180,7 +180,6 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                       },
                                     ),
                                   );
-                                  print(resp.data);
                                   // userWorkplaceState 업데이트
                                   ref
                                       .read(userWorkplaceProvider.notifier)

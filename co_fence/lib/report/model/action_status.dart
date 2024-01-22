@@ -31,4 +31,21 @@ extension ActionStatusExtension on ActionStatus {
   String get code {
     return toString().split('.').last.replaceAll('_', ' ');
   }
+
+  // Get the display name of the enum
+  String get displayName {
+    switch (this) {
+      case ActionStatus.Before_Action:
+        return '조치전';
+      case ActionStatus.In_Action:
+        return '조치중';
+      case ActionStatus.Work_Suspended:
+        return '중단된 작업';
+      case ActionStatus.Action_Completed:
+        return '조치완료';
+
+      default:
+        return '';
+    }
+  }
 }
