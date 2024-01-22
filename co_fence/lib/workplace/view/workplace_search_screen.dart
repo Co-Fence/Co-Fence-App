@@ -155,17 +155,22 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                 child: const Text(
                                   'No',
                                   style: TextStyle(
-                                    color: Colors.red,
+                                    color: Colors.blue,
                                   ),
                                 ),
                                 onPressed: () {
-                                  Navigator.pop(context);
+                                  context.pop(context);
                                 },
                               ),
                               CupertinoDialogAction(
-                                child: const Text('Yes'),
+                                child: const Text(
+                                  'Yes',
+                                  style: TextStyle(
+                                    color: Colors.blue,
+                                  ),
+                                ),
                                 onPressed: () async {
-                                  Navigator.pop(context);
+                                  context.pop(context);
                                   // 출근 api 호출
                                   final resp = await dio.post(
                                     '$ip/wp/checkIn/${pitem.workPlaceId}',

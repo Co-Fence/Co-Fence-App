@@ -3,11 +3,11 @@ import 'package:co_fence/common/components/my_richtext.dart';
 import 'package:co_fence/common/components/my_textfield.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/common/utils/utils.dart';
 import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:co_fence/user/service/auth_services.dart';
-import 'package:co_fence/common/utils/utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -272,7 +272,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                             : () {
                                 showSnackBar(
                                   context,
-                                  'please select profile image',
+                                  'Please select your profile image',
                                 );
                               },
                         child: _isLoading

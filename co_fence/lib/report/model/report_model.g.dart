@@ -26,8 +26,8 @@ Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
     };
 
 const _$ActionStatusEnumMap = {
-  ActionStatus.BEFORE_ACTION: 'BEFORE_ACTION',
-  ActionStatus.IN_ACTION: 'IN_ACTION',
-  ActionStatus.WORK_SUSPEND: 'WORK_SUSPEND',
-  ActionStatus.ACTION_COMPLETED: 'ACTION_COMPLETED',
+  ActionStatus.Before_Action: 'Before_Action',
+  ActionStatus.In_Action: 'In_Action',
+  ActionStatus.Work_Suspended: 'Work_Suspended',
+  ActionStatus.Action_Completed: 'Action_Completed',
 };

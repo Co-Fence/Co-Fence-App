@@ -17,7 +17,7 @@ class ReportCategoryScreen extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return DefaultLayout(
       context: context,
-      appBarTitle: '카테고리 선택',
+      appBarTitle: 'Report Category',
       drawer: const MyDrawer(),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),

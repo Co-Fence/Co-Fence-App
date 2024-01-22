@@ -23,98 +23,97 @@ final router = GoRouter(
   debugLogDiagnostics: true,
   initialLocation: '/splash',
   routes: [
+    // 로그인 화면
     GoRoute(
-      path: '/',
+      path: '/login',
       builder: (context, state) => LoginScreen(),
+    ),
+
+    // 스플래쉬 화면
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
+
+    // 회원가입 화면
+    GoRoute(
+      path: '/register',
+      builder: (context, state) => const RegisterScreen(),
+    ),
+
+    // 워크플레이스 메인 화면
+    GoRoute(
+      path: '/workplace',
+      builder: (context, state) {
+        final String workplaceId =
+            state.uri.queryParameters['workplaceId'] ?? '0';
+        return WorkplaceMainScreen(workplaceId: workplaceId);
+      },
+    ),
+    // 워크플레이스 검색 화면
+    GoRoute(
+      path: '/workplace/search',
+      builder: (context, state) => const WorkplaceSearchScreen(),
+    ),
+
+    // 공지사항 화면
+    GoRoute(
+      path: '/notice',
+      builder: (context, state) => const NoticeMainScreen(),
       routes: [
-        // 로그인 화면,
         GoRoute(
-          path: 'login',
-          builder: (context, state) => LoginScreen(),
-        ),
-        // 스플래쉬 화면, '/splash'
-        GoRoute(
-          path: 'splash',
-          builder: (context, state) => const SplashScreen(),
-        ),
-        // 회원가입 화면, '/register'
-        GoRoute(
-          path: 'register',
-          builder: (context, state) => const RegisterScreen(),
-        ),
-        // 워크플레이스 메인 화면, '/workplace'
-        GoRoute(
-          path: 'workplace',
-          builder: (context, state) {
-            final Map<String, dynamic> queryParams = state.uri.queryParameters;
-            final String workplaceId = queryParams['workplaceId'] ?? '0';
-
-            return WorkplaceMainScreen(workplaceId: workplaceId);
-          },
-          routes: [
-            GoRoute(
-              path: 'search',
-              builder: (context, state) => const WorkplaceSearchScreen(),
-            ),
-          ],
-        ),
-
-        // 공지사항 화면, '/notice'
-        GoRoute(
-          path: 'notice',
-          builder: (context, state) => const NoticeMainScreen(),
-          routes: [
-            GoRoute(
-              path: 'detail:noticeId',
-              builder: (context, state) => const NoticeDetailScreen(),
-            ),
-            GoRoute(
-              path: 'create',
-              builder: (context, state) => const NoticeCreateScreen(),
-            ),
-          ],
-        ),
-        // 마이페이지 화면, '/mypage'
-        GoRoute(
-          path: 'mypage',
-          builder: (context, state) => const MyPageScreen(),
-          routes: [
-            GoRoute(
-              path: 'edit',
-              builder: (context, state) => const MyPageEditScreen(),
-            ),
-          ],
-        ),
-
-        // 신고 화면, '/report'
-        GoRoute(
-          path: 'report',
-          builder: (context, state) => const ReportCategoryScreen(),
-          routes: [
-            // 신고 작성 화면, '/report/create', queryparameter로 신고 id를 받아야함
-            GoRoute(
-              path: 'create',
-              builder: (context, state) => const ReportCreateScreen(),
-            ),
-          ],
-        ),
-        // 신고 목록 화면, '/report_list'
-        GoRoute(
-          path: 'report_list',
-          builder: (context, state) => const ReportListScreen(),
-          routes: [
-            // 신고 수정 화면 '/report_list/detail', queryparameter로 신고 id를 받아야함
-            GoRoute(
-              path: 'detail',
-              builder: (context, state) => const ReportDetailScreen(),
-            ),
-          ],
+          path: 'detail/:noticeId', // 동적인 noticeId를 사용하도록 변경
+          builder: (context, state) => const NoticeDetailScreen(),
         ),
         GoRoute(
-          path: 'contact',
-          builder: (context, state) => const ContactMainScreen(),
+          path: 'create',
+          builder: (context, state) => const NoticeCreateScreen(),
         ),
       ],
+    ),
+
+    // 마이페이지 화면
+    GoRoute(
+      path: '/mypage',
+      builder: (context, state) => const MyPageScreen(),
+      routes: [
+        GoRoute(
+          path: 'edit',
+          builder: (context, state) => const MyPageEditScreen(),
+        ),
+      ],
+    ),
+
+    // 신고 화면
+    GoRoute(
+      path: '/report',
+      builder: (context, state) => const ReportCategoryScreen(),
+      routes: [
+        GoRoute(
+          path: 'create',
+          builder: (context, state) => const ReportCreateScreen(),
+        ),
+      ],
+    ),
+
+    // 신고 목록 화면
+    GoRoute(
+      path: '/report_list',
+      builder: (context, state) => const ReportListScreen(),
+      routes: [
+        GoRoute(
+          path: 'detail',
+          builder: (context, state) => ReportDetailScreen(
+            reportId: state.uri.queryParameters['reportId'] ?? '0',
+          ),
+        ),
+      ],
+    ),
+
+    // 연락처 화면
+    GoRoute(
+      path: '/contact',
+      builder: (context, state) => const ContactMainScreen(),
     ),
   ],
 );

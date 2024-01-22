@@ -1,3 +1,4 @@
+import 'package:co_fence/report/model/action_status.dart';
 import 'package:co_fence/report/model/report_model.dart';
 import 'package:co_fence/report/repository/report_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -21,7 +22,7 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
   }) : super(ReportModel(
           reportSubject: '',
           reportDetail: '',
-          actionStatus: ActionStatus.BEFORE_ACTION,
+          actionStatus: ActionStatus.Before_Action,
           createdAt: DateTime.now(),
           reportImageUrl: [],
         ));

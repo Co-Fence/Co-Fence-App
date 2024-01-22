@@ -1,23 +1,9 @@
 // ignore_for_file: constant_identifier_names
 
-import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:co_fence/report/model/action_status.dart';
 import 'package:json_annotation/json_annotation.dart';
 
 part 'report_model.g.dart';
-
-enum ActionStatus {
-  // 조치전
-  BEFORE_ACTION,
-  // 조치중
-  IN_ACTION,
-  // 중단된 작업
-  WORK_SUSPEND,
-  // 조치 완료
-  ACTION_COMPLETED,
-}
-
-final actionStatusProvider =
-    StateProvider<ActionStatus>((ref) => ActionStatus.BEFORE_ACTION);
 
 @JsonSerializable()
 class ReportModel {
