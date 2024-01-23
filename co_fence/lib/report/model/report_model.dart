@@ -8,6 +8,8 @@ part 'report_model.g.dart';
 
 @JsonSerializable()
 class ReportModel {
+  // 작성자 이름
+  String? userName;
   // 신고 ID
   int? reportId;
   // 신고 제목
@@ -20,41 +22,47 @@ class ReportModel {
   ActionStatus? actionStatus;
 
   // 신고 이미지 URl들
-  List<String>? reportImageUrl;
+  List<String>? reportImageUrls;
 
   // 작성 시간
   DateTime createdAt;
 
   // 카테고리
+  @JsonKey(
+    fromJson: convertStringToReportStatus,
+  )
   ReportStatus reportStatus;
 
   ReportModel({
+    this.userName,
     this.reportId,
     required this.reportSubject,
     required this.reportDetail,
     required this.actionStatus,
     required this.reportStatus,
     required this.createdAt,
-    required this.reportImageUrl,
+    required this.reportImageUrls,
   });
 
   ReportModel copyWith({
+    String? userName,
     int? reportId,
     String? reportSubject,
     String? reportDetail,
     ActionStatus? actionStatus,
     ReportStatus? reportStatus,
     DateTime? createdAt,
-    List<String>? reportImageUrl,
+    List<String>? reportImageUrls,
   }) {
     return ReportModel(
+        userName: userName ?? this.userName,
         reportId: reportId ?? this.reportId,
         reportSubject: reportSubject ?? this.reportSubject,
         reportDetail: reportDetail ?? this.reportDetail,
         actionStatus: actionStatus ?? this.actionStatus,
         reportStatus: reportStatus ?? this.reportStatus,
         createdAt: createdAt ?? this.createdAt,
-        reportImageUrl: reportImageUrl ?? this.reportImageUrl);
+        reportImageUrls: reportImageUrls ?? this.reportImageUrls);
   }
 
   // fromJson

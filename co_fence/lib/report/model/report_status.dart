@@ -34,6 +34,17 @@ enum ReportStatus {
   ETC_HAZARD,
 }
 
+// 문자열을 ReportStatus로 변환하는 함수
+ReportStatus convertStringToReportStatus(String input) {
+  for (ReportStatus status in ReportStatus.values) {
+    if (status.displayName == input) {
+      return status;
+    }
+  }
+  // 일치하는 것을 찾지 못하면 기본값 반환 또는 예외 처리
+  return ReportStatus.FIRE_HAZARD;
+}
+
 extension ReportStatusExtension on ReportStatus {
   // Get the code of the enum and only first letter to uppercase
   // ex) FIRE_HAZARD -> Fire hazard
@@ -60,7 +71,7 @@ extension ReportStatusExtension on ReportStatus {
         return '탈락 위험';
       case ReportStatus.EXPLOSION_HAZARD:
         return '폭발 위험';
-      case ReportStatus.ELECTRIC_HAZARD:
+      case ReportStatus.ETC_HAZARD:
         return '기타 위험';
       default:
         return '';

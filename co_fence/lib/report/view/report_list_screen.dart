@@ -8,8 +8,8 @@ import 'package:co_fence/report/components/report_card.dart';
 import 'package:co_fence/report/model/action_status.dart';
 import 'package:co_fence/report/model/report_model.dart';
 import 'package:co_fence/report/model/report_status.dart';
-import 'package:co_fence/report/provider/report_provider.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -107,17 +107,17 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
                         );
                         return;
                       }
-                      // print startDate, endDate
-                      print(startDate);
-                      print(endDate);
                       // 검색 api 호출
-                      dio.post('$ip/report/search?page=0&size=10', data: {
-                        //'userSeq': userState.userSeq,
-                        'startDateTime': startDate!.toIso8601String(),
-                        'endDateTime': endDate!.toIso8601String(),
-                        'reportStatus': reportStatusState.displayName,
-                        'actionStatus': actionsStatusState.displayName,
-                      }).then((value) {
+                      dio.post('$ip/report/search?page=0&size=10',
+                          options: Options(headers: {
+                            'accessToken': 'true',
+                          }),
+                          data: {
+                            'startDateTime': startDate!.toIso8601String(),
+                            'endDateTime': endDate!.toIso8601String(),
+                            'reportStatus': reportStatusState.displayName,
+                            'actionStatus': actionsStatusState.displayName,
+                          }).then((value) {
                         if (value.statusCode == 200) {
                           ref.read(reportListProvider.notifier).state = (value
                                   .data['content'] as List<dynamic>?)
@@ -134,7 +134,7 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
                         }
                       }).catchError((error) {
                         print('Error: $error');
-                        showSnackBar(context, 'No Report Found');
+                        showSnackBar(context, 'An Error Occured');
                       });
                     },
                   ),
@@ -154,14 +154,6 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
                     ),
                     child: GestureDetector(
                       onTap: () {
-                        // reportState 업데이트
-                        ref.read(reportProvider.notifier).updateReport(
-                              reportId: report.reportId,
-                              reportSubject: report.reportSubject,
-                              reportStatus: report.reportStatus,
-                              actionStatus: report.actionStatus,
-                            );
-
                         context.go(
                             '/report_list/detail?reportId=${report.reportId}');
                       },

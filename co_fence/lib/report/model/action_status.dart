@@ -26,6 +26,17 @@ class ActionStatusNotifier extends StateNotifier<ActionStatus> {
   }
 }
 
+// 문자열을 ReportStatus로 변환하는 함수
+ActionStatus convertStringToActionStatus(String input) {
+  for (ActionStatus status in ActionStatus.values) {
+    if (status.displayName == input) {
+      return status;
+    }
+  }
+  // 일치하는 것을 찾지 못하면 기본값 반환 또는 예외 처리
+  return ActionStatus.Before_Action;
+}
+
 extension ActionStatusExtension on ActionStatus {
   // Get the code of the enum
   String get code {

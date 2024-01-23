@@ -23,27 +23,32 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
   }) : super(ReportModel(
           reportId: 0,
           reportSubject: '',
+          userName: '',
           reportDetail: '',
           actionStatus: ActionStatus.Before_Action,
           createdAt: DateTime.now(),
           reportStatus: ReportStatus.FIRE_HAZARD,
-          reportImageUrl: [],
+          reportImageUrls: [],
         ));
 
   void updateReport({
     int? reportId,
+    String? userName,
     String? reportSubject,
     String? reportDetail,
+    DateTime? createdAt,
     ActionStatus? actionStatus,
     ReportStatus? reportStatus,
-    List<String>? reportImageUrl,
+    List<String>? reportImageUrls,
   }) {
     state = state.copyWith(
+      userName: userName ?? state.userName,
       reportId: reportId ?? state.reportId,
       reportSubject: reportSubject ?? state.reportSubject,
       reportDetail: reportDetail ?? state.reportDetail,
       actionStatus: actionStatus ?? state.actionStatus,
-      reportImageUrl: reportImageUrl ?? state.reportImageUrl,
+      createdAt: createdAt ?? state.createdAt,
+      reportImageUrls: reportImageUrls ?? state.reportImageUrls,
       reportStatus: reportStatus ?? state.reportStatus,
     );
   }
@@ -54,7 +59,7 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
         reportSubject: state.reportSubject,
         reportDetail: state.reportDetail!,
         reportStatus: state.reportStatus.toString(),
-        reportImageUrl: state.reportImageUrl!,
+        reportImageUrl: state.reportImageUrls!,
       );
     } catch (e) {
       rethrow;

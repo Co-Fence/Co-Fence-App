@@ -26,7 +26,6 @@ class StorageServices {
       String downloadUrl = await taskSnapshot.ref.getDownloadURL();
 
       final prefix = firebasePrefix(
-        email: email,
         isReport: isReport,
       );
 

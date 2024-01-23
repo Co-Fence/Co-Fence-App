@@ -56,7 +56,6 @@ class ReportCategoryScreen extends ConsumerWidget {
                   ),
                 );
             context.go('/report/create?category=$category');
-            print(ref.read(reportStatusProvider).code);
           },
         ),
         const Gap(16.0),

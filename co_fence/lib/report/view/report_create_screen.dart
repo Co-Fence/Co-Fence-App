@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'dart:typed_data';
 
 import 'package:co_fence/common/components/my_elevated_button.dart';
@@ -24,6 +26,9 @@ class ReportCreateScreen extends ConsumerStatefulWidget {
 
 class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
   final TextEditingController descriptionController = TextEditingController();
+
+  final LIMIT_IMAGE_COUNT = 4;
+
   void selectImage() async {
     List<Uint8List>? selectedImages = await pickImages();
     _getImages(selectedImages);
@@ -36,10 +41,10 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
   // 이미지 가져오기
   void _getImages(List<Uint8List>? selectedImages) {
     if (selectedImages != null) {
-      if (selectedImages.length > 5) {
+      if (selectedImages.length > LIMIT_IMAGE_COUNT) {
         showSnackBar(
           context,
-          'You can select up to 5 images',
+          'You can select up to 4 images',
         );
         return;
       }
@@ -69,7 +74,7 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
             .uri
             .queryParameters['category']!
             .toString(),
-        reportImageUrls: ref.read(reportProvider).reportImageUrl!,
+        reportImageUrls: ref.read(reportProvider).reportImageUrls!,
       );
       if (res == 'success') {
         // 신고 성공
@@ -131,7 +136,7 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
       reportImageUrl.add(downloadUrl);
     }
     ref.read(reportProvider.notifier).updateReport(
-          reportImageUrl: reportImageUrl,
+          reportImageUrls: reportImageUrl,
         );
   }
 

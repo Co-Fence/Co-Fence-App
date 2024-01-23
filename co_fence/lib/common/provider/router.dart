@@ -103,9 +103,7 @@ final router = GoRouter(
       routes: [
         GoRoute(
           path: 'detail',
-          builder: (context, state) => ReportDetailScreen(
-            reportId: state.uri.queryParameters['reportId'] ?? '0',
-          ),
+          builder: (context, state) => const ReportDetailScreen(),
         ),
       ],
     ),

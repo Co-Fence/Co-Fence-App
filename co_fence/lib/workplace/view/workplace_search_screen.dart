@@ -172,7 +172,7 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                 onPressed: () async {
                                   context.pop(context);
                                   // 출근 api 호출
-                                  final resp = await dio.post(
+                                  await dio.post(
                                     '$ip/wp/checkIn/${pitem.workPlaceId}',
                                     options: Options(
                                       headers: {

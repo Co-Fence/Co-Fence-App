@@ -55,7 +55,6 @@ dependencies:
   logger: ^2.0.2+1
   retrofit_generator: ^8.0.6
   firebase_storage: ^11.6.0
-  hive_flutter: ^1.1.0
   dots_indicator: ^3.0.0
   uuid: ^4.3.3
 

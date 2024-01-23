@@ -7,25 +7,27 @@ part of 'report_model.dart';
 // **************************************************************************
 
 ReportModel _$ReportModelFromJson(Map<String, dynamic> json) => ReportModel(
+      userName: json['userName'] as String?,
       reportId: json['reportId'] as int?,
       reportSubject: json['reportSubject'] as String,
       reportDetail: json['reportDetail'] as String?,
       actionStatus:
           $enumDecodeNullable(_$ActionStatusEnumMap, json['actionStatus']),
-      reportStatus: $enumDecode(_$ReportStatusEnumMap, json['reportStatus']),
+      reportStatus: convertStringToReportStatus(json['reportStatus'] as String),
       createdAt: DateTime.parse(json['createdAt'] as String),
-      reportImageUrl: (json['reportImageUrl'] as List<dynamic>?)
+      reportImageUrls: (json['reportImageUrls'] as List<dynamic>?)
           ?.map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$ReportModelToJson(ReportModel instance) =>
     <String, dynamic>{
+      'userName': instance.userName,
       'reportId': instance.reportId,
       'reportSubject': instance.reportSubject,
       'reportDetail': instance.reportDetail,
       'actionStatus': _$ActionStatusEnumMap[instance.actionStatus],
-      'reportImageUrl': instance.reportImageUrl,
+      'reportImageUrls': instance.reportImageUrls,
       'createdAt': instance.createdAt.toIso8601String(),
       'reportStatus': _$ReportStatusEnumMap[instance.reportStatus]!,
     };
