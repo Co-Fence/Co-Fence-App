@@ -53,13 +53,13 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
     );
   }
 
-  Future<void> createReport() async {
+  Future<void> editReport() async {
     try {
-      await repository.createReport(
+      await repository.updateReport(
+        reportId: state.reportId!,
         reportSubject: state.reportSubject,
-        reportDetail: state.reportDetail!,
-        reportStatus: state.reportStatus.toString(),
-        reportImageUrl: state.reportImageUrls!,
+        reportStatus: state.reportStatus.displayName,
+        actionStatus: state.actionStatus!.displayName,
       );
     } catch (e) {
       rethrow;

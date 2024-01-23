@@ -8,6 +8,8 @@ import 'package:co_fence/report/components/report_card.dart';
 import 'package:co_fence/report/model/action_status.dart';
 import 'package:co_fence/report/model/report_model.dart';
 import 'package:co_fence/report/model/report_status.dart';
+import 'package:co_fence/report/provider/report_provider.dart';
+import 'package:co_fence/report/service/report_services.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -153,7 +155,22 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
                       top: 16.0,
                     ),
                     child: GestureDetector(
-                      onTap: () {
+                      onTap: () async {
+                        final resp = await ReportServices().fetchReportDetail(
+                          ref: ref,
+                          reportId: report.reportId.toString(),
+                        );
+                        ref.read(reportProvider.notifier).updateReport(
+                              reportId: report.reportId,
+                              userName: resp.userName,
+                              createdAt: resp.createdAt,
+                              reportImageUrls: resp.reportImageUrls,
+                              reportDetail: resp.reportDetail,
+                              reportSubject: resp.reportSubject,
+                              reportStatus: resp.reportStatus,
+                              actionStatus: resp.actionStatus,
+                            );
+
                         context.go(
                             '/report_list/detail?reportId=${report.reportId}');
                       },

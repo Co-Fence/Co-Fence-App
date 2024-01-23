@@ -21,16 +21,15 @@ abstract class ReportRepository {
   // http://$ip/report
   factory ReportRepository(Dio dio, {String baseUrl}) = _ReportRepository;
 
-  // createReport
-  // http://$ip/report/create
-  @POST('/create')
+  // http://$ip/report/update/$reportId
+  @PUT('/update/{reportId}')
   @Headers({
     'accessToken': 'true',
   })
-  Future<void> createReport({
+  Future<void> updateReport({
+    @Path('reportId') required int reportId,
     @Field('reportSubject') required String reportSubject,
-    @Field('reportDetail') required String reportDetail,
+    @Field('actionStatus') required String actionStatus,
     @Field('reportStatus') required String reportStatus,
-    @Field('reportImageUrl') required List<String> reportImageUrl,
   });
 }

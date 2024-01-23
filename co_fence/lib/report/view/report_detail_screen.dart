@@ -2,10 +2,10 @@ import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/common/utils/utils.dart';
 import 'package:co_fence/report/model/action_status.dart';
 import 'package:co_fence/report/model/report_status.dart';
 import 'package:co_fence/report/provider/report_provider.dart';
-import 'package:co_fence/report/service/report_services.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -23,8 +23,7 @@ class ReportDetailScreen extends ConsumerStatefulWidget {
 }
 
 class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
-  TextEditingController _titleController = TextEditingController();
-  TextEditingController _detailController = TextEditingController();
+  final TextEditingController _titleController = TextEditingController();
   bool isLoading = false;
   int currentPage = 0;
   final PageController _pageController = PageController();
@@ -32,41 +31,15 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
   @override
   void initState() {
     super.initState();
-  }
-
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    _titleController = TextEditingController(
-      text: ref.watch(reportProvider).reportSubject,
-    );
-    _detailController = TextEditingController(
-      text: ref.watch(reportProvider).reportDetail,
-    );
-    fetchReportDetail();
+    Future.delayed(Duration.zero, () {
+      _titleController.text = ref.watch(reportProvider).reportSubject;
+    });
   }
 
   @override
   void dispose() {
     _titleController.dispose();
-    _pageController.dispose();
     super.dispose();
-  }
-
-  fetchReportDetail() async {
-    final resp = await ReportServices().fetchReportDetail(
-        ref: ref,
-        reportId:
-            GoRouterState.of(context).uri.queryParameters['reportId'] ?? '');
-    ref.read(reportProvider.notifier).updateReport(
-          userName: resp.userName,
-          createdAt: resp.createdAt,
-          reportImageUrls: resp.reportImageUrls,
-          reportDetail: resp.reportDetail,
-          reportSubject: resp.reportSubject,
-          reportStatus: resp.reportStatus,
-          actionStatus: resp.actionStatus,
-        );
   }
 
   @override
@@ -135,7 +108,6 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                     _renderLabel(ref),
                     _renderTextField(
                       controller: _titleController,
-                      hintText: '기계 결함',
                       context: context,
                       ref: ref,
                     ),
@@ -160,12 +132,7 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                       ref: ref,
                     ),
                     const Gap(10.0),
-                    _renderEditButton(
-                      onPressed: () async {
-                        await ref.read(reportProvider.notifier).createReport();
-                        context.go('/report_list');
-                      },
-                    ),
+                    _renderEditButton(),
                   ],
                 ),
               ),
@@ -205,7 +172,6 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
 
   Widget _renderTextField({
     required TextEditingController controller,
-    required String hintText,
     required BuildContext context,
     required WidgetRef ref,
   }) {
@@ -249,8 +215,7 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
             flex: 2,
             child: TextField(
               controller: controller,
-              decoration: InputDecoration(
-                hintText: ref.watch(reportProvider).reportSubject,
+              decoration: const InputDecoration(
                 border: InputBorder.none,
               ),
             ),
@@ -308,13 +273,15 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                 border: InputBorder.none,
               ),
               value: ref.watch(reportProvider).reportStatus,
-              onChanged: (value) {
-                ref.read(reportProvider.notifier).updateReport(
-                      reportStatus: value as ReportStatus,
-                    );
+              onChanged: (ReportStatus? value) {
+                if (value != null) {
+                  ref.read(reportProvider.notifier).updateReport(
+                        reportStatus: value,
+                      );
+                }
               },
               items: ReportStatus.values.map((ReportStatus reportStatus) {
-                return DropdownMenuItem(
+                return DropdownMenuItem<ReportStatus>(
                   value: reportStatus,
                   child: Text(
                     reportStatus.code,
@@ -474,17 +441,26 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
     );
   }
 
-  Widget _renderEditButton({
-    required VoidCallback onPressed,
-  }) {
+  Widget _renderEditButton() {
     return MyElevatedButton(
       buttonText: 'Edit',
-      onPressed: onPressed,
+      onPressed: () async {
+        // update reportSubject
+        ref.read(reportProvider.notifier).updateReport(
+              reportSubject: _titleController.text,
+            );
+        // 수정 api 호출
+        await ref.read(reportProvider.notifier).editReport();
+        showSnackBar(context, "Edit Success");
+        context.go('/workplace');
+      },
     );
   }
 
   Widget _renderPageIndicator() {
-    int dotsCount = ref.watch(reportProvider).reportImageUrls!.length;
+    int dotsCount = (ref.watch(reportProvider).reportImageUrls?.length ?? 0);
+    dotsCount = dotsCount > 0 ? dotsCount : 1;
+
     return DotsIndicator(
       dotsCount: dotsCount,
       position: currentPage,

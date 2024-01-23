@@ -19,11 +19,11 @@ class _ReportRepository implements ReportRepository {
   String? baseUrl;
 
   @override
-  Future<void> createReport({
+  Future<void> updateReport({
+    required int reportId,
     required String reportSubject,
-    required String reportDetail,
+    required String actionStatus,
     required String reportStatus,
-    required List<String> reportImageUrl,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -31,18 +31,17 @@ class _ReportRepository implements ReportRepository {
     _headers.removeWhere((k, v) => v == null);
     final _data = {
       'reportSubject': reportSubject,
-      'reportDetail': reportDetail,
+      'actionStatus': actionStatus,
       'reportStatus': reportStatus,
-      'reportImageUrl': reportImageUrl,
     };
     await _dio.fetch<void>(_setStreamType<void>(Options(
-      method: 'POST',
+      method: 'PUT',
       headers: _headers,
       extra: _extra,
     )
         .compose(
           _dio.options,
-          '/create',
+          '/update/${reportId}',
           queryParameters: queryParameters,
           data: _data,
         )
