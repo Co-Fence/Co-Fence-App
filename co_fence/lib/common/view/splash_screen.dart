@@ -87,8 +87,9 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
               role: (resp.data['roleType'] == 'ROLE_USER')
                   ? Role.USER
                   : Role.ADMIN,
-              nation:
-                  (resp.data['nation'] == 'KR') ? Nation.KR : Nation.Foreigner,
+              nation: (resp.data['nation'] == 'KR')
+                  ? Nation.Korean
+                  : Nation.Foreigner,
               phoneNumber: resp.data['phoneNumber'],
               profileImageUrl: resp.data['profileImageUrl'],
               workplaceId: resp.data['workplaceId'],

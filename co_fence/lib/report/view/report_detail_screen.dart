@@ -58,6 +58,8 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
               builder: (BuildContext context) {
                 return CupertinoAlertDialog(
                   title: const Text('Delete Report'),
+                  content: const Text(
+                      'Are you sure you want to delete this report?'),
                   actions: [
                     CupertinoDialogAction(
                       child: const Text(
@@ -80,9 +82,9 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                       onPressed: () async {
                         context.pop(context);
                         // 삭제 api 호출
-
-                        // 다시 리스트로 이동
-                        context.go('/report_list');
+                        await ref.read(reportProvider.notifier).deleteReport();
+                        showSnackBar(context, "Delete Successfully");
+                        context.go('/workplace');
                       },
                     ),
                   ],
@@ -449,10 +451,44 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
         ref.read(reportProvider.notifier).updateReport(
               reportSubject: _titleController.text,
             );
-        // 수정 api 호출
-        await ref.read(reportProvider.notifier).editReport();
-        showSnackBar(context, "Edit Success");
-        context.go('/workplace');
+        // cupertino dialog
+        showCupertinoDialog(
+          context: context,
+          builder: (BuildContext context) {
+            return CupertinoAlertDialog(
+              title: const Text('Edit Report'),
+              content: const Text('Are you sure you want to edit this report?'),
+              actions: [
+                CupertinoDialogAction(
+                  child: const Text(
+                    'No',
+                    style: TextStyle(
+                      color: Colors.red,
+                    ),
+                  ),
+                  onPressed: () {
+                    context.pop(context);
+                  },
+                ),
+                CupertinoDialogAction(
+                  child: const Text(
+                    'Yes',
+                    style: TextStyle(
+                      color: Colors.blue,
+                    ),
+                  ),
+                  onPressed: () async {
+                    context.pop(context);
+                    // 수정 api 호출
+                    await ref.read(reportProvider.notifier).editReport();
+                    showSnackBar(context, "Edit Successfully");
+                    context.go('/workplace');
+                  },
+                ),
+              ],
+            );
+          },
+        );
       },
     );
   }

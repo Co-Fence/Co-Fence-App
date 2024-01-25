@@ -264,6 +264,11 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
       maxLines: 10,
       decoration: const InputDecoration(
         enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.all(
+            Radius.circular(
+              10.0,
+            ),
+          ),
           borderSide: BorderSide(
             color: PRIMARY_COLOR,
             width: 2.0,

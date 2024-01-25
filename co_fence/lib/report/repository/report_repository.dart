@@ -32,4 +32,13 @@ abstract class ReportRepository {
     @Field('actionStatus') required String actionStatus,
     @Field('reportStatus') required String reportStatus,
   });
+
+  // http://$ip/report/delete/$reportId
+  @DELETE('/delete/{reportId}')
+  @Headers({
+    'accessToken': 'true',
+  })
+  Future<void> deleteReport({
+    @Path('reportId') required int reportId,
+  });
 }

@@ -1,4 +1,5 @@
 import 'package:co_fence/common/components/my_drawer.dart';
+import 'package:co_fence/common/components/search_button.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
@@ -136,7 +137,7 @@ class _ReportListScreenState extends ConsumerState<ReportListScreen> {
                         }
                       }).catchError((error) {
                         print('Error: $error');
-                        showSnackBar(context, 'An Error Occured');
+                        showSnackBar(context, 'No Report Found');
                       });
                     },
                   ),
@@ -214,7 +215,7 @@ Widget _renderWorkplaceName(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Gap(
-          20.0,
+          10.0,
         ),
         const Expanded(
           flex: 1,
@@ -274,7 +275,7 @@ Widget _renderReportDate(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Gap(
-          20.0,
+          12.0,
         ),
         const Expanded(
           flex: 1,
@@ -293,6 +294,7 @@ Widget _renderReportDate(
         Expanded(
           flex: 1,
           child: TextButton(
+            clipBehavior: Clip.none,
             style: TextButton.styleFrom(
               foregroundColor: PRIMARY_COLOR,
             ),
@@ -321,9 +323,18 @@ Widget _renderReportDate(
                 return;
               }
             },
-            child: Text(startDate != null
-                ? startDate.toString().substring(0, 10)
-                : 'Start Date'),
+            child: Text(
+              startDate != null
+                  ? startDate.toString().substring(0, 10)
+                  : 'Start Date',
+              style: startDate != null
+                  ? const TextStyle(
+                      fontSize: 15.0,
+                    )
+                  : const TextStyle(
+                      fontSize: 18.0,
+                    ),
+            ),
           ),
         ),
         const VerticalDivider(
@@ -372,9 +383,18 @@ Widget _renderReportDate(
                 return;
               }
             },
-            child: Text(endDate != null
-                ? endDate.toString().substring(0, 10)
-                : 'End Date'),
+            child: Text(
+              endDate != null
+                  ? endDate.toString().substring(0, 10)
+                  : 'End Date',
+              style: endDate != null
+                  ? const TextStyle(
+                      fontSize: 15.0,
+                    )
+                  : const TextStyle(
+                      fontSize: 18.0,
+                    ),
+            ),
           ),
         ),
         const Gap(
@@ -411,7 +431,7 @@ Widget _renderReportStatus(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         const Gap(
-          20.0,
+          8.0,
         ),
         const Expanded(
           flex: 1,
@@ -482,7 +502,7 @@ Widget _renderActionStatus(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             const Gap(
-              20.0,
+              10.0,
             ),
             const Expanded(
               flex: 1,
@@ -493,6 +513,9 @@ Widget _renderActionStatus(
                   fontWeight: FontWeight.bold,
                 ),
               ),
+            ),
+            const Gap(
+              13.0,
             ),
             const VerticalDivider(
               color: PRIMARY_COLOR,
@@ -528,30 +551,8 @@ Widget _renderActionStatus(
       const Gap(
         10.0,
       ),
-      InkWell(
-        onTap: onSearchPressed,
-        child: Container(
-          width: MediaQuery.of(context).size.width * 0.2,
-          height: MediaQuery.of(context).size.height * 0.05,
-          decoration: const BoxDecoration(
-            color: PRIMARY_COLOR,
-            borderRadius: BorderRadius.all(
-              Radius.circular(
-                10.0,
-              ),
-            ),
-          ),
-          child: const Center(
-            child: Text(
-              'Search',
-              style: TextStyle(
-                fontSize: 18.0,
-                fontWeight: FontWeight.w500,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ),
+      SearchButton(
+        onSearchPressed: onSearchPressed,
       ),
     ],
   );

@@ -15,7 +15,7 @@ class UserNotifier extends StateNotifier<UserModel> {
             name: '',
             email: '',
             role: Role.USER,
-            nation: Nation.KR,
+            nation: Nation.Korean,
             phoneNumber: '',
             profileImageUrl: '',
             workplaceId: null,

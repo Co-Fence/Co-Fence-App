@@ -54,7 +54,6 @@ class _WorkplaceMainScreenState extends ConsumerState<WorkplaceMainScreen> {
       ),
     );
     final workplace = WorkplaceModel.fromJson(response.data);
-    print(response.data);
     ref.read(userWorkplaceProvider.notifier).updateWorkplace(workplace);
   }
 
@@ -124,90 +123,50 @@ Widget renderWorkplaceBody(
   final dio = ref.watch(dioProvider);
   return Column(
     children: [
-      ClipRRect(
-        borderRadius: const BorderRadius.only(
-          bottomLeft: Radius.circular(16.0),
-          bottomRight: Radius.circular(16.0),
+      Container(
+        width: double.infinity,
+        height: screenSize.height * 0.3,
+        decoration: const BoxDecoration(
+          color: Colors.white,
         ),
-        child: Container(
-          width: double.infinity,
-          height: screenSize.height * 0.3,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16.0),
-            child: IntrinsicWidth(
-              child: Column(
-                children: [
-                  const Gap(20),
-                  IntrinsicHeight(
-                    child: Row(
-                      children: [
-                        // 프로필 이미지
-                        CircleAvatar(
-                          radius: 64,
-                          backgroundImage:
-                              NetworkImage(userState.profileImageUrl),
-                        ),
-                        const Gap(20),
-                        Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              const Text(
-                                'Welcome',
-                                style: TextStyle(
-                                  fontSize: 32,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                              // 유저의 이름
-                              Text(
-                                '${userState.name}님',
-                                style: const TextStyle(
-                                  fontSize: 28,
-                                  fontWeight: FontWeight.w500,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
+          child: IntrinsicWidth(
+            child: Column(
+              children: [
+                const Gap(20),
+                CircleAvatar(
+                  radius: 80,
+                  backgroundImage: NetworkImage(
+                    userState.profileImageUrl,
                   ),
-                  Expanded(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.end,
-                      children: [
-                        Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              userWorkplaceState.workPlaceName,
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis,
-                              style: const TextStyle(
-                                fontSize: 24,
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                            const Text(
-                              'You are working at',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ],
+                ),
+                const Gap(20),
+                Expanded(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        '${userState.name}님',
+                        style: const TextStyle(
+                          fontSize: 28,
+                          fontWeight: FontWeight.w500,
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                ],
-              ),
+                ),
+                Text(
+                  userWorkplaceState.workPlaceName,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: const TextStyle(
+                    fontSize: 24,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
             ),
           ),
         ),
@@ -271,8 +230,8 @@ Widget renderWorkplaceBody(
           ),
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
-            crossAxisSpacing: 40.0,
-            mainAxisSpacing: 40.0,
+            crossAxisSpacing: 15.0,
+            mainAxisSpacing: 15.0,
             childAspectRatio: 1.5,
             crossAxisCount: 2,
             children: [

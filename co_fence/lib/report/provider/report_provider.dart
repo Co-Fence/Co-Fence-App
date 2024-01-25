@@ -65,4 +65,14 @@ class ReportStateNotifier extends StateNotifier<ReportModel> {
       rethrow;
     }
   }
+
+  Future<void> deleteReport() async {
+    try {
+      await repository.deleteReport(
+        reportId: state.reportId!,
+      );
+    } catch (e) {
+      rethrow;
+    }
+  }
 }

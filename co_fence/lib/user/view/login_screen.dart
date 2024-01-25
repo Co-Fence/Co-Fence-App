@@ -49,8 +49,12 @@ class LoginScreen extends ConsumerWidget {
                 await googleLogin(ref, dio, storage, context);
               },
               child: SizedBox(
-                width: 270,
-                child: Image.asset('assets/images/google_login.png'),
+                width: 280,
+                height: 60,
+                child: Image.asset(
+                  'assets/images/google_login.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             const Gap(30),
@@ -60,8 +64,12 @@ class LoginScreen extends ConsumerWidget {
                 kakaoLogin(ref, dio, storage, context);
               },
               child: SizedBox(
-                width: 270,
-                child: Image.asset('assets/images/kakao_login.png'),
+                width: 280,
+                height: 58,
+                child: Image.asset(
+                  'assets/images/kakao_login.png',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ],
@@ -80,8 +88,6 @@ class LoginScreen extends ConsumerWidget {
               name: googleUser.displayName,
               email: googleUser.email,
             );
-        print('유저 정보: ${ref.read(userProvider).name}');
-        print('유저 정보: ${ref.read(userProvider).email}');
         // 회원가입된 유저인지 확인하는 함수
         final response = await dio.post(
           '$ip/auth/checkEmail',
@@ -89,7 +95,6 @@ class LoginScreen extends ConsumerWidget {
             'email': ref.read(userProvider).email,
           },
         );
-        print(response.data);
         if (response.data == true) {
           // 로그인하는 함수
           final response = await dio.post(
@@ -98,7 +103,6 @@ class LoginScreen extends ConsumerWidget {
               'email': ref.read(userProvider).email,
             },
           );
-          print(response.data);
           if (response.statusCode == 200) {
             final refreshToken = response.data['refreshToken'];
             final accessToken = response.data['accessToken'];
@@ -113,7 +117,7 @@ class LoginScreen extends ConsumerWidget {
                     ? Role.USER
                     : Role.ADMIN,
                 nation: (response.data['nation'] == 'KR')
-                    ? Nation.KR
+                    ? Nation.Korean
                     : Nation.Foreigner,
                 phoneNumber: response.data['phoneNumber'],
                 profileImageUrl: response.data['profileImageUrl'],
@@ -184,24 +188,11 @@ class LoginScreen extends ConsumerWidget {
                           ? Role.USER
                           : Role.ADMIN,
                       nation: (response.data['nation'] == 'KR')
-                          ? Nation.KR
+                          ? Nation.Korean
                           : Nation.Foreigner,
                       phoneNumber: response.data['phoneNumber'],
                       profileImageUrl: response.data['profileImageUrl'],
                       workplaceId: response.data['workplaceId'],
-                    );
-
-                final resp = await dio.get(
-                  '$ip/parsing/accessParsing',
-                  options: Options(
-                    headers: {
-                      'Authorization': '$accessToken',
-                    },
-                  ),
-                );
-                print(resp.data['userSeq']);
-                ref.read(userProvider.notifier).updateUser(
-                      userSeq: resp.data['userSeq'],
                     );
 
                 context.push('/workplace');

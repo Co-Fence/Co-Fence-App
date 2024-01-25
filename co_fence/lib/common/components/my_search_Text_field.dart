@@ -21,24 +21,33 @@ class MySearchTextField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return TextField(
-      autofocus: autofocus,
-      focusNode: focusNode,
-      controller: controller,
-      decoration: InputDecoration(
-        hintText: hintText,
-        border: const OutlineInputBorder(),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(
-            color: primaryColor,
+    return Container(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(
+          color: primaryColor,
+          width: 2,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.only(
+          left: 8.0,
+        ),
+        child: TextField(
+          autofocus: autofocus,
+          focusNode: focusNode,
+          controller: controller,
+          decoration: InputDecoration(
+            border: InputBorder.none,
+            hintText: hintText,
+            suffixIcon: IconButton(
+                icon: Icon(
+                  Icons.search,
+                  color: primaryColor,
+                ),
+                onPressed: onPressed),
           ),
         ),
-        suffixIcon: IconButton(
-            icon: Icon(
-              Icons.search,
-              color: primaryColor,
-            ),
-            onPressed: onPressed),
       ),
     );
   }

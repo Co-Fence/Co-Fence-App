@@ -3,7 +3,6 @@ import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/report/model/action_status.dart';
 import 'package:co_fence/report/model/report_model.dart';
 import 'package:co_fence/report/model/report_status.dart';
-import 'package:co_fence/report/provider/report_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -20,7 +19,6 @@ class ReportServices {
     // Storage에 이미지 업로드
     // 신고하기 로직
     Dio dio = ref.watch(dioProvider);
-    print(reportImageUrls);
     try {
       Response response = await dio.post(
         '$ip/report/register',

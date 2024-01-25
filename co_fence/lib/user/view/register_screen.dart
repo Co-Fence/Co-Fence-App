@@ -220,7 +220,7 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                         return DropdownMenuItem<Nation>(
                           value: nation,
                           child: Text(
-                            nation == Nation.KR ? 'Korean' : 'Foreigner',
+                            nation == Nation.Korean ? 'Korean' : 'Foreigner',
                           ),
                         );
                       },
