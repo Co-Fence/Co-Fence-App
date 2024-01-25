@@ -6,6 +6,8 @@ import 'package:co_fence/common/utils/utils.dart';
 import 'package:co_fence/report/model/action_status.dart';
 import 'package:co_fence/report/model/report_status.dart';
 import 'package:co_fence/report/provider/report_provider.dart';
+import 'package:co_fence/user/model/role.dart';
+import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -447,6 +449,10 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
     return MyElevatedButton(
       buttonText: 'Edit',
       onPressed: () async {
+        if (ref.read(userProvider).role == Role.USER) {
+          showSnackBar(context, "You don't have permission");
+          return;
+        }
         // update reportSubject
         ref.read(reportProvider.notifier).updateReport(
               reportSubject: _titleController.text,
