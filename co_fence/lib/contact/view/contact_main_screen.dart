@@ -15,20 +15,19 @@ class ContactMainScreen extends ConsumerStatefulWidget {
 }
 
 class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
-  FocusNode focusNode = FocusNode();
   final TextEditingController _textEditingController = TextEditingController();
-  String _searchText = '';
+  late Future<List<ContactModel>> contactListFuture;
+  FocusNode focusNode = FocusNode();
 
   @override
   void initState() {
     super.initState();
-    fetchContactList();
+    contactListFuture = fetchContactList();
   }
 
   Future<List<ContactModel>> fetchContactList() async {
-    final contactList =
-        await ref.read(contactProvider.notifier).getContactList();
-    return contactList!;
+    final list = await ref.read(contactProvider.notifier).getContactList();
+    return list!;
   }
 
   @override
@@ -46,19 +45,13 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
               ),
               child: Column(
                 children: [
-                  const Gap(10),
+                  const Gap(20),
                   Row(
                     children: [
                       Expanded(
                         child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.05,
+                          height: 50,
                           child: TextField(
-                            onChanged: (value) {
-                              setState(() {
-                                _searchText = value;
-                              });
-                              print(_searchText);
-                            },
                             focusNode: focusNode,
                             controller: _textEditingController,
                             decoration: InputDecoration(
@@ -87,13 +80,123 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                       ),
                       const Gap(10),
                       SearchButton(
-                        onSearchPressed: () {
-                          print('search');
-                        },
+                        onSearchPressed: () {},
                       ),
                     ],
-                  )
+                  ),
+                  const Gap(10),
                 ],
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: 16.0,
+              ),
+              child: Container(
+                decoration: const BoxDecoration(
+                  border: Border(
+                    bottom: BorderSide(
+                      color: Colors.grey,
+                    ),
+                  ),
+                ),
+                child: const ListTile(
+                  leading: SizedBox(
+                    height: 50,
+                    width: 60,
+                    child: Center(
+                      child: Text(
+                        'Profile',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                  title: Text(
+                    'Name',
+                    style: TextStyle(
+                      fontSize: 18.0,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
+                  trailing: SizedBox(
+                    height: 50,
+                    width: 50,
+                    child: Center(
+                      child: Text(
+                        'Role',
+                        style: TextStyle(
+                          fontSize: 18.0,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16.0),
+              child: FutureBuilder(
+                future: contactListFuture,
+                builder: (context, AsyncSnapshot snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const SizedBox();
+                  } else if (snapshot.hasError) {
+                    return Text('Error: ${snapshot.error}');
+                  } else if (!snapshot.hasData || snapshot.data.isEmpty) {
+                    return const Text('No data available');
+                  } else {
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: snapshot.data.length,
+                      itemBuilder: (context, index) {
+                        final data = snapshot.data[index] as ContactModel;
+                        return Container(
+                          decoration: const BoxDecoration(
+                            border: Border(
+                              bottom: BorderSide(
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ),
+                          child: ListTile(
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 16.0,
+                            ),
+                            leading: SizedBox(
+                              height: 50,
+                              width: 50,
+                              child: CircleAvatar(
+                                backgroundImage: NetworkImage(
+                                  data.profileImageUrl,
+                                ),
+                              ),
+                            ),
+                            title: Text(
+                              data.userName,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                              ),
+                              textAlign: TextAlign.center,
+                            ),
+                            trailing: Text(
+                              data.roleType.displayName,
+                              style: const TextStyle(
+                                fontSize: 18.0,
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  }
+                },
               ),
             ),
           ),
