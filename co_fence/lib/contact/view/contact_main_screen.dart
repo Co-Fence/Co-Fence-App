@@ -1,6 +1,8 @@
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/search_button.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/contact/model/contact_model.dart';
+import 'package:co_fence/contact/provider/contact_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
@@ -16,6 +18,18 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
   FocusNode focusNode = FocusNode();
   final TextEditingController _textEditingController = TextEditingController();
   String _searchText = '';
+
+  @override
+  void initState() {
+    super.initState();
+    fetchContactList();
+  }
+
+  Future<List<ContactModel>> fetchContactList() async {
+    final contactList =
+        await ref.read(contactProvider.notifier).getContactList();
+    return contactList!;
+  }
 
   @override
   Widget build(BuildContext context) {

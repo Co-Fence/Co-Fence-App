@@ -63,18 +63,7 @@ class AuthServices {
               profileImageUrl: profileImageUrl,
               workplaceId: null,
             );
-        final resp = await dio.get(
-          '$ip/parsing/accessParsing',
-          options: Options(
-            headers: {
-              'Authorization': '$accessToken',
-            },
-          ),
-        );
-        print(resp.data['userSeq']);
-        ref.read(userProvider.notifier).updateUser(
-              userSeq: resp.data['userSeq'],
-            );
+
         result = 'success';
       } else {
         // 회원가입 실패

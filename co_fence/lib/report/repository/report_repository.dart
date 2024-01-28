@@ -10,7 +10,7 @@ final reportRepositoryProvider = Provider<ReportRepository>(
   (ref) {
     final dio = ref.watch(dioProvider);
 
-    final repository = ReportRepository(dio, baseUrl: '$ip/report');
+    final repository = ReportRepository(dio, baseUrl: '$ip/reportForAdmin');
 
     return repository;
   },

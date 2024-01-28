@@ -1,8 +1,8 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Role {
-  USER('user', 'User'),
-  ADMIN('admin', 'Admin');
+  USER('ROLE_USER', 'User'),
+  ADMIN('ROLE_ADMIN', 'Admin');
 
   final String code;
   final String displayName;
@@ -12,7 +12,7 @@ enum Role {
     this.displayName,
   );
 
-  static Role? fromCode(String code) {
+  static Role fromCode(String code) {
     return Role.values.firstWhere((element) => element.code == code);
   }
 }
