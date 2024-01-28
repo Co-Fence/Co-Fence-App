@@ -84,7 +84,7 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                       ),
                     ],
                   ),
-                  const Gap(10),
+                  const Gap(20),
                 ],
               ),
             ),
@@ -94,46 +94,57 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
               padding: const EdgeInsets.symmetric(
                 horizontal: 16.0,
               ),
-              child: Container(
-                decoration: const BoxDecoration(
-                  border: Border(
-                    bottom: BorderSide(
-                      color: Colors.grey,
-                    ),
+              child: SizedBox(
+                child: Table(
+                  columnWidths: const {
+                    0: FlexColumnWidth(1),
+                    1: FlexColumnWidth(2),
+                    2: FlexColumnWidth(1),
+                  },
+                  border: TableBorder.all(
+                    color: const Color.fromRGBO(158, 158, 158, 1),
                   ),
-                ),
-                child: const ListTile(
-                  leading: SizedBox(
-                    height: 50,
-                    width: 60,
-                    child: Center(
-                      child: Text(
-                        'Profile',
-                        style: TextStyle(
-                          fontSize: 18.0,
+                  children: const [
+                    TableRow(children: [
+                      SizedBox(
+                        height: 50,
+                        width: 60,
+                        child: Center(
+                          child: Text(
+                            'Name',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                  title: Text(
-                    'Name',
-                    style: TextStyle(
-                      fontSize: 18.0,
-                    ),
-                    textAlign: TextAlign.center,
-                  ),
-                  trailing: SizedBox(
-                    height: 50,
-                    width: 50,
-                    child: Center(
-                      child: Text(
-                        'Role',
-                        style: TextStyle(
-                          fontSize: 18.0,
+                      SizedBox(
+                        height: 50,
+                        width: 60,
+                        child: Center(
+                          child: Text(
+                            'Profile Image',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
                       ),
-                    ),
-                  ),
+                      SizedBox(
+                        height: 50,
+                        width: 50,
+                        child: Center(
+                          child: Text(
+                            'Role',
+                            style: TextStyle(
+                              fontSize: 18.0,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ]),
+                  ],
                 ),
               ),
             ),
@@ -157,41 +168,61 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         final data = snapshot.data[index] as ContactModel;
-                        return Container(
-                          decoration: const BoxDecoration(
-                            border: Border(
-                              bottom: BorderSide(
-                                color: Colors.grey,
-                              ),
-                            ),
+                        return Table(
+                          columnWidths: const {
+                            0: FlexColumnWidth(1),
+                            1: FlexColumnWidth(2),
+                            2: FlexColumnWidth(1),
+                          },
+                          border: TableBorder.all(
+                            color: Colors.grey,
                           ),
-                          child: ListTile(
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 16.0,
-                            ),
-                            leading: SizedBox(
-                              height: 50,
-                              width: 50,
-                              child: CircleAvatar(
-                                backgroundImage: NetworkImage(
-                                  data.profileImageUrl,
+                          children: [
+                            TableRow(children: [
+                              SizedBox(
+                                height: 50,
+                                width: 60,
+                                child: Center(
+                                  child: Text(
+                                    data.userName,
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
                                 ),
                               ),
-                            ),
-                            title: Text(
-                              data.userName,
-                              style: const TextStyle(
-                                fontSize: 18.0,
+                              const SizedBox(
+                                height: 50,
+                                width: 60,
+                                child: Center(
+                                    child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Icon(Icons.photo_size_select_actual),
+                                    Gap(10.0),
+                                    Text(
+                                      'Image File',
+                                      style: TextStyle(
+                                        fontSize: 16.0,
+                                      ),
+                                    ),
+                                  ],
+                                )),
                               ),
-                              textAlign: TextAlign.center,
-                            ),
-                            trailing: Text(
-                              data.roleType.displayName,
-                              style: const TextStyle(
-                                fontSize: 18.0,
+                              SizedBox(
+                                height: 50,
+                                width: 50,
+                                child: Center(
+                                  child: Text(
+                                    data.roleType.displayName,
+                                    style: const TextStyle(
+                                      fontSize: 18.0,
+                                    ),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
+                            ]),
+                          ],
                         );
                       },
                     );
