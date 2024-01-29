@@ -1,11 +1,15 @@
 import 'package:co_fence/common/components/my_drawer.dart';
+import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/components/search_button.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/contact/model/contact_detail_model.dart';
 import 'package:co_fence/contact/model/contact_model.dart';
 import 'package:co_fence/contact/provider/contact_provider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ContactMainScreen extends ConsumerStatefulWidget {
   const ContactMainScreen({super.key});
@@ -59,7 +63,7 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                                 horizontal: 16.0,
                                 vertical: 10.0,
                               ),
-                              hintText: 'Search',
+                              hintText: 'Enter name',
                               hintStyle: const TextStyle(
                                 fontSize: 18.0,
                                 fontWeight: FontWeight.w500,
@@ -80,7 +84,18 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                       ),
                       const Gap(10),
                       SearchButton(
-                        onSearchPressed: () {},
+                        onSearchPressed: () async {
+                          final resp = await ref
+                              .read(contactProvider.notifier)
+                              .searchContactList(
+                                userName: _textEditingController.text,
+                              );
+                          if (resp != null) {
+                            setState(() {
+                              contactListFuture = Future.value(resp);
+                            });
+                          }
+                        },
                       ),
                     ],
                   ),
@@ -168,61 +183,66 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                       itemCount: snapshot.data.length,
                       itemBuilder: (context, index) {
                         final data = snapshot.data[index] as ContactModel;
-                        return Table(
-                          columnWidths: const {
-                            0: FlexColumnWidth(1),
-                            1: FlexColumnWidth(2),
-                            2: FlexColumnWidth(1),
+                        return GestureDetector(
+                          onTap: () {
+                            _showAdditionalInfoDialog(data.userId);
                           },
-                          border: TableBorder.all(
-                            color: Colors.grey,
-                          ),
-                          children: [
-                            TableRow(children: [
-                              SizedBox(
-                                height: 50,
-                                width: 60,
-                                child: Center(
-                                  child: Text(
-                                    data.userName,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                              const SizedBox(
-                                height: 50,
-                                width: 60,
-                                child: Center(
-                                    child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  children: [
-                                    Icon(Icons.photo_size_select_actual),
-                                    Gap(10.0),
-                                    Text(
-                                      'Image File',
-                                      style: TextStyle(
-                                        fontSize: 16.0,
+                          child: Table(
+                            columnWidths: const {
+                              0: FlexColumnWidth(1),
+                              1: FlexColumnWidth(2),
+                              2: FlexColumnWidth(1),
+                            },
+                            border: TableBorder.all(
+                              color: Colors.grey,
+                            ),
+                            children: [
+                              TableRow(children: [
+                                SizedBox(
+                                  height: 50,
+                                  width: 60,
+                                  child: Center(
+                                    child: Text(
+                                      data.userName,
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
                                       ),
                                     ),
-                                  ],
-                                )),
-                              ),
-                              SizedBox(
-                                height: 50,
-                                width: 50,
-                                child: Center(
-                                  child: Text(
-                                    data.roleType.displayName,
-                                    style: const TextStyle(
-                                      fontSize: 18.0,
+                                  ),
+                                ),
+                                const SizedBox(
+                                  height: 50,
+                                  width: 60,
+                                  child: Center(
+                                      child: Row(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    children: [
+                                      Icon(Icons.photo_size_select_actual),
+                                      Gap(10.0),
+                                      Text(
+                                        'Image File',
+                                        style: TextStyle(
+                                          fontSize: 16.0,
+                                        ),
+                                      ),
+                                    ],
+                                  )),
+                                ),
+                                SizedBox(
+                                  height: 50,
+                                  width: 50,
+                                  child: Center(
+                                    child: Text(
+                                      data.roleType.displayName,
+                                      style: const TextStyle(
+                                        fontSize: 18.0,
+                                      ),
                                     ),
                                   ),
                                 ),
-                              ),
-                            ]),
-                          ],
+                              ]),
+                            ],
+                          ),
                         );
                       },
                     );
@@ -233,6 +253,46 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showAdditionalInfoDialog(int userId) async {
+    final data = await ref
+        .read(contactProvider.notifier)
+        .getContactDetail(userId: userId);
+
+    if (!mounted) return;
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: CircleAvatar(
+            radius: 120.0,
+            backgroundImage: NetworkImage(
+              data!.profileImageUrl,
+            ),
+          ),
+          content: Text(
+            'User Name: ${data.name}\nNationality: Korean\nRole: ${data.roleType.displayName}\nPhone Number: ${data.phoneNumber}',
+            style: const TextStyle(
+              fontSize: 16.0,
+            ),
+          ),
+          actions: [
+            MyElevatedButton(
+              buttonText: 'Call',
+              onPressed: () async {
+                final url = Uri.parse('tel:010-5047-9453');
+                if (await canLaunchUrl(url)) {
+                  await launchUrl(url);
+                } else {
+                  context.pop();
+                }
+              },
+            ),
+          ],
+        );
+      },
     );
   }
 }

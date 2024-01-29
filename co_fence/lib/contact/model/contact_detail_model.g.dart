@@ -8,21 +8,21 @@ part of 'contact_detail_model.dart';
 
 ContactDetailModel _$ContactDetailModelFromJson(Map<String, dynamic> json) =>
     ContactDetailModel(
-      userId: json['userId'] as int?,
-      userName: json['userName'] as String,
+      email: json['email'] as int?,
+      name: json['name'] as String,
       phoneNumber: json['phoneNumber'] as String,
       profileImageUrl: json['profileImageUrl'] as String,
-      nation: $enumDecode(_$NationEnumMap, json['nation']),
-      roleType: $enumDecode(_$RoleEnumMap, json['roleType']),
+      nationality: $enumDecode(_$NationEnumMap, json['nationality']),
+      roleType: Role.fromCode(json['roleType'] as String),
     );
 
 Map<String, dynamic> _$ContactDetailModelToJson(ContactDetailModel instance) =>
     <String, dynamic>{
-      'userId': instance.userId,
-      'userName': instance.userName,
+      'email': instance.email,
+      'name': instance.name,
       'phoneNumber': instance.phoneNumber,
       'profileImageUrl': instance.profileImageUrl,
-      'nation': _$NationEnumMap[instance.nation]!,
+      'nationality': _$NationEnumMap[instance.nationality]!,
       'roleType': _$RoleEnumMap[instance.roleType]!,
     };
 

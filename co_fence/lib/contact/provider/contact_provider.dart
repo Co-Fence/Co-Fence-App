@@ -1,3 +1,4 @@
+import 'package:co_fence/contact/model/contact_detail_model.dart';
 import 'package:co_fence/contact/model/contact_model.dart';
 import 'package:co_fence/contact/repository/contact_repository.dart';
 import 'package:co_fence/user/model/role.dart';
@@ -45,6 +46,34 @@ class ContactStateNotifier extends StateNotifier<ContactModel> {
   Future<List<ContactModel>?> getContactList() async {
     try {
       final response = await repository.getContactList();
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //searchContactList
+  Future<List<ContactModel>?> searchContactList({
+    required String userName,
+  }) async {
+    try {
+      final response = await repository.searchContactList(
+        userName: userName,
+      );
+      return response;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  //getContactDetail
+  Future<ContactDetailModel?> getContactDetail({
+    required int userId,
+  }) async {
+    try {
+      final response = await repository.getContactDetail(
+        userId: userId,
+      );
       return response;
     } catch (e) {
       return null;

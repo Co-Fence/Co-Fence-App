@@ -6,43 +6,46 @@ part 'contact_detail_model.g.dart';
 
 @JsonSerializable()
 class ContactDetailModel {
-  // 유저 id
-  final int? userId;
+  // 유저 email
+  final int? email;
   // 유저 이름
-  final String userName;
+  final String name;
   // 유저 전화번호
   final String phoneNumber;
   // 유저 프로필 이미지 url
   final String profileImageUrl;
   // 유저 국적
-  final Nation nation;
+  final Nation nationality;
   // 유저 역할
+  @JsonKey(
+    fromJson: Role.fromCode,
+  )
   final Role roleType;
 
   ContactDetailModel({
-    this.userId,
-    required this.userName,
+    required this.email,
+    required this.name,
     required this.phoneNumber,
     required this.profileImageUrl,
-    required this.nation,
+    required this.nationality,
     required this.roleType,
   });
 
   // copyWith
   ContactDetailModel copyWith({
-    int? userId,
-    String? userName,
+    int? email,
+    String? name,
     String? phoneNumber,
     String? profileImageUrl,
-    Nation? nation,
+    Nation? nationality,
     Role? roleType,
   }) {
     return ContactDetailModel(
-      userId: userId ?? this.userId,
-      userName: userName ?? this.userName,
+      email: email ?? this.email,
+      name: name ?? this.name,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       profileImageUrl: profileImageUrl ?? this.profileImageUrl,
-      nation: nation ?? this.nation,
+      nationality: nationality ?? this.nationality,
       roleType: roleType ?? this.roleType,
     );
   }
