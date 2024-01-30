@@ -9,7 +9,6 @@ import 'package:co_fence/report/view/report_list_screen.dart';
 import 'package:co_fence/report/view/report_category_screen.dart';
 import 'package:co_fence/user/view/login_screen.dart';
 import 'package:co_fence/common/view/splash_screen.dart';
-import 'package:co_fence/user/view/mypage_edit_screen.dart';
 import 'package:co_fence/user/view/mypage_screen.dart';
 import 'package:co_fence/workplace/view/workplace_main_screen.dart';
 import 'package:co_fence/user/view/register_screen.dart';
@@ -76,12 +75,6 @@ final router = GoRouter(
     GoRoute(
       path: '/mypage',
       builder: (context, state) => const MyPageScreen(),
-      routes: [
-        GoRoute(
-          path: 'edit',
-          builder: (context, state) => const MyPageEditScreen(),
-        ),
-      ],
     ),
 
     // 신고 화면

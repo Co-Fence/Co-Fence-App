@@ -1,15 +1,25 @@
+import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/model/user_model.dart';
 import 'package:co_fence/user/model/nation.dart';
+import 'package:co_fence/user/repository/user_repository.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 final userProvider = StateNotifierProvider<UserNotifier, UserModel>(
-  (ref) => UserNotifier(),
+  (ref) {
+    final repository = ref.watch(userRepositoryProvider);
+    final notifier = UserNotifier(
+      repository: repository,
+    );
+
+    return notifier;
+  },
 );
 
 class UserNotifier extends StateNotifier<UserModel> {
-  UserNotifier()
-      : super(
+  UserNotifier({
+    required this.repository,
+  }) : super(
           UserModel(
             userSeq: null,
             name: '',
@@ -21,6 +31,8 @@ class UserNotifier extends StateNotifier<UserModel> {
             workplaceId: null,
           ),
         );
+
+  final UserRepository repository;
 
   void updateUser({
     int? userSeq,
@@ -42,5 +54,18 @@ class UserNotifier extends StateNotifier<UserModel> {
       profileImageUrl: profileImageUrl,
       workplaceId: workplaceId,
     );
+  }
+
+  //logout
+  Future<void> logout(
+    WidgetRef ref,
+  ) async {
+    try {
+      await repository.logout();
+      final storage = ref.read(secureStorageProvider);
+      await storage.deleteAll();
+    } catch (e) {
+      return;
+    }
   }
 }

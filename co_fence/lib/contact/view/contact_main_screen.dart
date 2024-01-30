@@ -2,7 +2,6 @@ import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/components/search_button.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
-import 'package:co_fence/contact/model/contact_detail_model.dart';
 import 'package:co_fence/contact/model/contact_model.dart';
 import 'package:co_fence/contact/provider/contact_provider.dart';
 import 'package:flutter/material.dart';
