@@ -9,12 +9,15 @@ class NoticeModel {
   // 제목
   final String noticeSubject;
   // 대상
-  final Role targetRoleType;
+  @JsonKey(
+    fromJson: Role.fromCode,
+  )
+  final Role targetRoletype;
 
   NoticeModel({
     required this.noticeId,
     required this.noticeSubject,
-    required this.targetRoleType,
+    required this.targetRoletype,
   });
 
   // copywith
@@ -26,15 +29,10 @@ class NoticeModel {
     return NoticeModel(
       noticeId: noticeId ?? this.noticeId,
       noticeSubject: noticeSubject ?? this.noticeSubject,
-      targetRoleType: targetRoleType ?? this.targetRoleType,
+      targetRoletype: targetRoleType ?? targetRoletype,
     );
   }
 
-  factory NoticeModel.fromJson(Map<String, dynamic> json) {
-    return NoticeModel(
-      noticeId: json['noticeId'],
-      noticeSubject: json['noticeSubject'],
-      targetRoleType: json['targetRoleType'],
-    );
-  }
+  factory NoticeModel.fromJson(Map<String, dynamic> json) =>
+      _$NoticeModelFromJson(json);
 }

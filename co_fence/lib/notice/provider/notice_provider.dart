@@ -24,7 +24,7 @@ class NoticeStateNotifier extends StateNotifier<NoticeModel> {
           NoticeModel(
             noticeId: 0,
             noticeSubject: '',
-            targetRoleType: Role.USER,
+            targetRoletype: Role.USER,
           ),
         );
 
@@ -36,13 +36,13 @@ class NoticeStateNotifier extends StateNotifier<NoticeModel> {
     state = state.copyWith(
       noticeId: noticeId ?? state.noticeId,
       noticeSubject: noticeSubject ?? state.noticeSubject,
-      targetRoleType: targetRoleType ?? state.targetRoleType,
+      targetRoleType: targetRoleType ?? state.targetRoletype,
     );
   }
 
   // 공지사항 검색
   // search
-  Future<NoticeModel> searchNotice({
+  Future<List<NoticeModel>> searchNotice({
     required int page,
     required int size,
     required String noticeSubject,
@@ -60,10 +60,10 @@ class NoticeStateNotifier extends StateNotifier<NoticeModel> {
 
   // 공지사항 상세
   // detail
-  Future<NoticeDetailModel> getDetail({
+  Future<NoticeDetailModel> getNoticeDetail({
     required int noticeId,
   }) async {
-    final result = await repository.getDetail(
+    final result = await repository.getNoticeDetail(
       noticeId: noticeId,
     );
     return result;

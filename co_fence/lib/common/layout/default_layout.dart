@@ -8,6 +8,8 @@ class DefaultLayout extends StatelessWidget {
   final Widget? drawer;
   final List<Widget>? actions;
   final BuildContext context;
+  final Widget? floatingActionButton;
+  final FloatingActionButtonLocation? floatingActionButtonLocation;
 
   const DefaultLayout({
     super.key,
@@ -17,6 +19,8 @@ class DefaultLayout extends StatelessWidget {
     this.backgroundColor,
     this.appBarTitle,
     this.drawer,
+    this.floatingActionButton,
+    this.floatingActionButtonLocation,
   });
 
   @override
@@ -27,6 +31,8 @@ class DefaultLayout extends StatelessWidget {
       appBar: renderAppBar(),
       drawer: drawer,
       body: child,
+      floatingActionButton: floatingActionButton,
+      floatingActionButtonLocation: floatingActionButtonLocation,
     );
   }
 

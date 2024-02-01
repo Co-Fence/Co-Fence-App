@@ -32,6 +32,7 @@ const _$NationEnumMap = {
 };
 
 const _$RoleEnumMap = {
+  Role.ALL: 'ALL',
   Role.USER: 'USER',
   Role.ADMIN: 'ADMIN',
 };

@@ -1,6 +1,7 @@
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 enum Role {
+  ALL('ROLE_ALL', 'All'),
   USER('ROLE_USER', 'User'),
   ADMIN('ROLE_ADMIN', 'Admin');
 

@@ -48,21 +48,25 @@ final router = GoRouter(
             state.uri.queryParameters['workplaceId'] ?? '0';
         return WorkplaceMainScreen(workplaceId: workplaceId);
       },
+      routes: [
+        // 워크플레이스 검색 화면
+        GoRoute(
+          path: 'search',
+          builder: (context, state) => const WorkplaceSearchScreen(),
+        ),
+      ],
     ),
-    // 워크플레이스 검색 화면
-    GoRoute(
-      path: '/workplace/search',
-      builder: (context, state) => const WorkplaceSearchScreen(),
-    ),
-
     // 공지사항 화면
     GoRoute(
       path: '/notice',
       builder: (context, state) => const NoticeMainScreen(),
       routes: [
         GoRoute(
-          path: 'detail/:noticeId', // 동적인 noticeId를 사용하도록 변경
-          builder: (context, state) => const NoticeDetailScreen(),
+          path: 'detail',
+          builder: (context, state) => NoticeDetailScreen(
+            noticeId:
+                GoRouterState.of(context).uri.queryParameters['noticeId'] ?? '',
+          ),
         ),
         GoRoute(
           path: 'create',

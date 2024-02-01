@@ -116,7 +116,7 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                     2: FlexColumnWidth(1),
                   },
                   border: TableBorder.all(
-                    color: const Color.fromRGBO(158, 158, 158, 1),
+                    color: const Color.fromARGB(255, 12, 12, 12),
                   ),
                   children: const [
                     TableRow(children: [
@@ -193,7 +193,7 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
                               2: FlexColumnWidth(1),
                             },
                             border: TableBorder.all(
-                              color: Colors.grey,
+                              color: const Color.fromARGB(255, 12, 12, 12),
                             ),
                             children: [
                               TableRow(children: [

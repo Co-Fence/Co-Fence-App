@@ -1,6 +1,6 @@
 import 'dart:typed_data';
 import 'package:co_fence/common/components/my_richtext.dart';
-import 'package:co_fence/common/components/my_textfield.dart';
+import 'package:co_fence/common/components/my_text_form_field.dart';
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/common/utils/utils.dart';
@@ -182,24 +182,23 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
                     isRequired: false,
                   ),
                   DropdownButton<Role>(
-                    isExpanded: true,
-                    value: roleState,
-                    onChanged: (newValue) {
-                      ref
-                          .read(roleProvider.notifier)
-                          .update((state) => newValue!);
-                    },
-                    items: Role.values.map(
-                      (Role role) {
-                        return DropdownMenuItem<Role>(
-                          value: role,
-                          child: Text(
-                            role == Role.USER ? 'User' : 'Admin',
-                          ),
-                        );
+                      isExpanded: true,
+                      value: roleState,
+                      onChanged: (newValue) {
+                        ref
+                            .read(roleProvider.notifier)
+                            .update((state) => newValue!);
                       },
-                    ).toList(),
-                  ),
+                      items: const [
+                        DropdownMenuItem<Role>(
+                          value: Role.USER,
+                          child: Text('User'),
+                        ),
+                        DropdownMenuItem<Role>(
+                          value: Role.ADMIN,
+                          child: Text('Admin'),
+                        ),
+                      ]),
                   const Gap(10),
                   // 외국인 여부 선택 드롭다운, 추후 수정 필요
                   const MyRichText(

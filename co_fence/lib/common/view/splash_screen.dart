@@ -51,17 +51,17 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void login() async {
     final storage = ref.read(secureStorageProvider);
-    final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
     try {
       final response = await dio.get(
-        '$ip/parsing/refreshParsing',
+        '$ip/parsing/accessParsing',
         options: Options(
           headers: {
-            'Authorization': '$refreshToken',
+            'Authorization': '$accessToken',
           },
         ),
       );
-      final email = response.data['userEmail'];
+      final email = response.data['email'];
       final resp = await dio.post(
         '$ip/auth/login',
         data: {
@@ -113,7 +113,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   void checkToken() async {
     final storage = ref.read(secureStorageProvider);
     final refreshToken = await storage.read(key: REFRESH_TOKEN_KEY);
-    print(refreshToken);
 
     try {
       final response = await dio.post(
@@ -124,7 +123,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
           },
         ),
       );
-      print(response.data);
 
       if (response.statusCode == 200) {
         await storage.write(

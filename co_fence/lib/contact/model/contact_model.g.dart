@@ -22,6 +22,7 @@ Map<String, dynamic> _$ContactModelToJson(ContactModel instance) =>
     };
 
 const _$RoleEnumMap = {
+  Role.ALL: 'ALL',
   Role.USER: 'USER',
   Role.ADMIN: 'ADMIN',
 };

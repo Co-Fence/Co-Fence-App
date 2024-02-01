@@ -28,11 +28,11 @@ abstract class NoticeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<NoticeModel> searchNotice({
+  Future<List<NoticeModel>> searchNotice({
     @Query('page') required int page,
     @Query('size') required int size,
     @Field('noticeSubject') required String noticeSubject,
-    @Field('targetRoleType') required String targetRoleType,
+    @Field('targetRoletype') required String targetRoleType,
   });
 
   // http://$ip/notice/detail/$noticeId
@@ -40,7 +40,7 @@ abstract class NoticeRepository {
   @Headers({
     'accessToken': 'true',
   })
-  Future<NoticeDetailModel> getDetail({
+  Future<NoticeDetailModel> getNoticeDetail({
     @Path('noticeId') required int noticeId,
   });
 }

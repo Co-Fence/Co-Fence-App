@@ -46,6 +46,7 @@ class ContactStateNotifier extends StateNotifier<ContactModel> {
   Future<List<ContactModel>?> getContactList() async {
     try {
       final response = await repository.getContactList();
+      print(response);
       return response;
     } catch (e) {
       return null;

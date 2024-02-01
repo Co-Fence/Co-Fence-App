@@ -31,6 +31,7 @@ Map<String, dynamic> _$NoticeDetailModelToJson(NoticeDetailModel instance) =>
     };
 
 const _$RoleEnumMap = {
+  Role.ALL: 'ALL',
   Role.USER: 'USER',
   Role.ADMIN: 'ADMIN',
 };

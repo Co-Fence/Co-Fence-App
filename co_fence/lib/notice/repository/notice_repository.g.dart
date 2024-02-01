@@ -19,7 +19,7 @@ class _NoticeRepository implements NoticeRepository {
   String? baseUrl;
 
   @override
-  Future<NoticeModel> searchNotice({
+  Future<List<NoticeModel>> searchNotice({
     required int page,
     required int size,
     required String noticeSubject,
@@ -34,10 +34,10 @@ class _NoticeRepository implements NoticeRepository {
     _headers.removeWhere((k, v) => v == null);
     final _data = {
       'noticeSubject': noticeSubject,
-      'targetRoleType': targetRoleType,
+      'targetRoletype': targetRoleType,
     };
     final _result = await _dio
-        .fetch<Map<String, dynamic>>(_setStreamType<NoticeModel>(Options(
+        .fetch<List<dynamic>>(_setStreamType<List<NoticeModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -53,12 +53,14 @@ class _NoticeRepository implements NoticeRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    final value = NoticeModel.fromJson(_result.data!);
+    var value = _result.data!
+        .map((dynamic i) => NoticeModel.fromJson(i as Map<String, dynamic>))
+        .toList();
     return value;
   }
 
   @override
-  Future<NoticeDetailModel> getDetail({required int noticeId}) async {
+  Future<NoticeDetailModel> getNoticeDetail({required int noticeId}) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
     final _headers = <String, dynamic>{r'accessToken': 'true'};

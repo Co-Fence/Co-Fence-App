@@ -12,7 +12,7 @@ class MyTextFormField extends StatelessWidget {
     this.controller,
     this.validator,
     required this.hintText,
-    required this.obscureText,
+    this.obscureText = false,
     this.readOnly = false,
     this.keyboardType = TextInputType.text,
   });

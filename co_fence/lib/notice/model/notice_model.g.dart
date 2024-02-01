@@ -9,17 +9,18 @@ part of 'notice_model.dart';
 NoticeModel _$NoticeModelFromJson(Map<String, dynamic> json) => NoticeModel(
       noticeId: json['noticeId'] as int,
       noticeSubject: json['noticeSubject'] as String,
-      targetRoleType: $enumDecode(_$RoleEnumMap, json['targetRoleType']),
+      targetRoletype: Role.fromCode(json['targetRoletype'] as String),
     );
 
 Map<String, dynamic> _$NoticeModelToJson(NoticeModel instance) =>
     <String, dynamic>{
       'noticeId': instance.noticeId,
       'noticeSubject': instance.noticeSubject,
-      'targetRoleType': _$RoleEnumMap[instance.targetRoleType]!,
+      'targetRoletype': _$RoleEnumMap[instance.targetRoletype]!,
     };
 
 const _$RoleEnumMap = {
+  Role.ALL: 'ALL',
   Role.USER: 'USER',
   Role.ADMIN: 'ADMIN',
 };
