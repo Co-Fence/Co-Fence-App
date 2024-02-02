@@ -21,6 +21,15 @@ enum Role {
   static String toDisplayName(Role role) {
     return role.displayName;
   }
+
+  static Role fromDisplayName(String displayName) {
+    return Role.values
+        .firstWhere((element) => element.displayName == displayName);
+  }
 }
 
 final roleProvider = StateProvider<Role>((ref) => Role.USER);
+
+void setRole(Role role, WidgetRef ref) {
+  ref.read(roleProvider.notifier).state = role;
+}

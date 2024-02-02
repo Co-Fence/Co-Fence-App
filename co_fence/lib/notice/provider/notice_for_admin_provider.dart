@@ -3,7 +3,7 @@ import 'package:co_fence/notice/repository/notice_for_admin_repository.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
-final reportForAdminProvider =
+final noticeForAdminProvider =
     StateNotifierProvider<NoticeForAdminStateNotifier, NoticeDetailModel>(
   (ref) {
     final repository = ref.watch(noticeForAdminRepositoryProvider);
@@ -37,7 +37,7 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
     String? noticeDetail,
     Role? targetRole,
     String? createdAt,
-    List<String>? noticeImageUrls,
+    List<String>? noticeImageUrl,
   }) {
     state = state.copyWith(
       noticeId: noticeId ?? state.noticeId,
@@ -45,7 +45,7 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
       noticeDetail: noticeDetail ?? state.noticeDetail,
       targetRole: targetRole ?? state.targetRole,
       createdAt: createdAt ?? state.createdAt,
-      noticeImageUrl: noticeImageUrls ?? state.noticeImageUrl,
+      noticeImageUrl: noticeImageUrl ?? state.noticeImageUrl,
     );
   }
 
@@ -55,13 +55,13 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
     required String noticeSubject,
     required String noticeDetail,
     required Role targetRole,
-    required List<String> noticeImageUrl,
+    required List<String> noticeImageUrls,
   }) async {
     final result = await repository.register(
       noticeSubject: noticeSubject,
       noticeDetail: noticeDetail,
       targetRoleType: targetRole.code,
-      noticeImageUrl: noticeImageUrl,
+      noticeImageUrls: noticeImageUrls,
     );
 
     return result;

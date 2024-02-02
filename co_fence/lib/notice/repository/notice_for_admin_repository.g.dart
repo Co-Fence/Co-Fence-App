@@ -22,7 +22,7 @@ class _NoticeForAdminRepository implements NoticeForAdminRepository {
   Future<NoticeDetailModel> register({
     required String noticeSubject,
     required String noticeDetail,
-    required List<String> noticeImageUrl,
+    required List<String> noticeImageUrls,
     required String targetRoleType,
   }) async {
     const _extra = <String, dynamic>{};
@@ -32,7 +32,7 @@ class _NoticeForAdminRepository implements NoticeForAdminRepository {
     final _data = {
       'noticeSubject': noticeSubject,
       'noticeDetail': noticeDetail,
-      'noticeImageUrl': noticeImageUrl,
+      'noticeImageUrls': noticeImageUrls,
       'targetRoleType': targetRoleType,
     };
     final _result = await _dio

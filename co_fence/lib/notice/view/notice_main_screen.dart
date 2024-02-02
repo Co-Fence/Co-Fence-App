@@ -6,6 +6,7 @@ import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/notice/model/notice_model.dart';
 import 'package:co_fence/user/model/role.dart';
+import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -55,6 +56,7 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
   @override
   Widget build(BuildContext context) {
     noticeListFuture = fetchNoticeList();
+    final userState = ref.watch(userProvider);
     return DefaultLayout(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
@@ -62,6 +64,14 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
         height: 50,
         child: FloatingActionButton.extended(
           onPressed: () {
+            if (userState.role == Role.USER) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(
+                  content: Text('You do not have permission to create notice'),
+                ),
+              );
+              return;
+            }
             context.go('/notice/create');
           },
           isExtended: true,

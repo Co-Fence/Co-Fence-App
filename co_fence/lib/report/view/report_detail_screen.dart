@@ -398,7 +398,10 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                 return Padding(
                   padding: const EdgeInsets.all(16.0),
                   child: Image.network(
-                    firebasePrefix(isReport: true) +
+                    firebasePrefix(
+                          isReport: true,
+                          isNotice: false,
+                        ) +
                         ref.watch(reportProvider).reportImageUrls![index],
                     width: 300.0,
                     height: 100.0,

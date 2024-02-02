@@ -1,5 +1,6 @@
 import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/const/data.dart';
+import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/user/model/nation.dart';
 import 'package:co_fence/user/model/role.dart';
@@ -51,6 +52,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void login() async {
     final storage = ref.read(secureStorageProvider);
+    final dio = ref.read(dioProvider);
     final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
     try {
       final response = await dio.get(

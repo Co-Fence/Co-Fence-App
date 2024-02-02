@@ -14,8 +14,8 @@ NoticeDetailModel _$NoticeDetailModelFromJson(Map<String, dynamic> json) =>
       targetRole: $enumDecode(_$RoleEnumMap, json['targetRole']),
       createdAt: json['createdAt'] as String,
       noticeDetail: json['noticeDetail'] as String,
-      noticeImageUrl: (json['noticeImageUrl'] as List<dynamic>)
-          .map((e) => e as String)
+      noticeImageUrl: (json['noticeImageUrl'] as List<dynamic>?)
+          ?.map((e) => e as String)
           .toList(),
     );
 

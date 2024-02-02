@@ -8,15 +8,16 @@ class StorageServices {
   final FirebaseStorage _storage = FirebaseStorage.instance;
 
   // 파이어베이스 스토리지에 이미지 업로드
-  Future<String> uploadImageToStorage(
-    String childName,
-    String email,
-    Uint8List file,
-    bool isReport,
-  ) async {
+  Future<String> uploadImageToStorage({
+    required String childName,
+    required String email,
+    required Uint8List file,
+    required bool isReport,
+    required bool isNotice,
+  }) async {
     try {
       Reference reference = _storage.ref().child(childName).child(email);
-      if (isReport) {
+      if (isReport | isNotice) {
         String id = const Uuid().v1();
         reference = reference.child(id);
       }
@@ -27,10 +28,12 @@ class StorageServices {
 
       final prefix = firebasePrefix(
         isReport: isReport,
+        isNotice: isNotice,
       );
 
-      String shortUrl =
-          isReport ? downloadUrl.replaceFirst(prefix, '') : downloadUrl;
+      String shortUrl = (isReport | isNotice)
+          ? downloadUrl.replaceFirst(prefix, '')
+          : downloadUrl;
 
       // &token=... 제거
       shortUrl = shortUrl.split('&').first;

@@ -128,10 +128,11 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
     List<String> reportImageUrl = [];
     for (int i = 0; i < images.length; i++) {
       String downloadUrl = await StorageServices().uploadImageToStorage(
-        'reportImage',
-        email,
-        images[i],
-        true,
+        childName: 'reportImage',
+        email: email,
+        file: images[i],
+        isReport: true,
+        isNotice: false,
       );
       reportImageUrl.add(downloadUrl);
     }

@@ -32,7 +32,7 @@ abstract class NoticeForAdminRepository {
   Future<NoticeDetailModel> register({
     @Field('noticeSubject') required String noticeSubject,
     @Field('noticeDetail') required String noticeDetail,
-    @Field('noticeImageUrl') required List<String> noticeImageUrl,
+    @Field('noticeImageUrls') required List<String> noticeImageUrls,
     @Field('targetRoleType') required String targetRoleType,
   });
 }

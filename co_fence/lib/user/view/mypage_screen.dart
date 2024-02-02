@@ -133,6 +133,7 @@ class MyPageScreen extends ConsumerWidget {
                           onPressed: () async {
                             context.pop(context);
                             await ref.read(userProvider.notifier).logout(ref);
+
                             context.pushReplacement('/login');
                           },
                         ),

@@ -17,7 +17,7 @@ class NoticeDetailModel {
   // 내용
   final String noticeDetail;
   // 이미지 url
-  final List<String> noticeImageUrl;
+  final List<String>? noticeImageUrl;
 
   NoticeDetailModel({
     required this.noticeId,
@@ -55,7 +55,7 @@ class NoticeDetailModel {
       noticeId: json['noticeId'],
       noticeSubject: json['noticeSubject'],
       userName: json['userName'],
-      targetRole: json['targetRole'],
+      targetRole: Role.fromCode(json['targetRoleType']),
       createdAt: json['createdAt'],
       noticeDetail: json['noticeDetail'],
       noticeImageUrl: json['noticeImageUrl'],
