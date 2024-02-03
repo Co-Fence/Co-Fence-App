@@ -145,7 +145,7 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                     onTap: () {
                       showCupertinoDialog(
                         context: context,
-                        builder: (BuildContext context) {
+                        builder: (_) {
                           return CupertinoAlertDialog(
                             title: Text('${pitem.workPlaceName}'),
                             content:
@@ -194,9 +194,10 @@ class _WorkplaceSearchScreenState extends ConsumerState<WorkplaceSearchScreen> {
                                   ref.read(userProvider.notifier).updateUser(
                                         workplaceId: pitem.workPlaceId,
                                       );
-                                  GoRouter.of(context).go(
-                                    '/workplace?workplaceId=${pitem.workPlaceId}',
-                                  );
+                                  if (!mounted) return;
+                                  final goRouter = GoRouter.of(context);
+                                  goRouter.go(
+                                      '/workplace?workplaceId=${pitem.workPlaceId}');
                                 },
                               ),
                             ],

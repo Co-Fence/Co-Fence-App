@@ -48,6 +48,7 @@ class WorkplaceCard extends StatelessWidget {
             const Gap(10),
             Text(
               subTitleText,
+              textAlign: TextAlign.center,
               style: const TextStyle(
                 fontSize: 16,
               ),

@@ -169,16 +169,19 @@ class _NoticeCreateScreenState extends ConsumerState<NoticeCreateScreen> {
                       ref: ref,
                       controller: noticeDetailController),
                   const Divider(),
-                  _renderPhotoList(() {
-                    // 사진 업로드
-                    pickImages().then(
-                      (selectedImages) {
-                        if (selectedImages != null) {
-                          getImages(selectedImages);
-                        }
-                      },
-                    );
-                  }),
+                  _renderPhotoList(
+                    () {
+                      // 사진 업로드
+                      pickImages().then(
+                        (selectedImages) {
+                          if (selectedImages != null) {
+                            getImages(selectedImages);
+                          }
+                        },
+                      );
+                    },
+                  ),
+                  _renderUploadedPhotoList(images: images),
                 ],
               ),
             ),
@@ -273,7 +276,7 @@ Widget _renderTargetRoletypeDropdownMenu({
           child: Text(
             'Role Type',
             style: TextStyle(
-              fontSize: 20.0,
+              fontSize: 16.0,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -424,10 +427,9 @@ Widget _renderNoticeDetailTextField({
 Widget _renderPhotoList(
   void Function()? onTap,
 ) {
-  return InkWell(
+  return GestureDetector(
     onTap: onTap,
     child: const SizedBox(
-      width: double.infinity,
       height: 30,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -444,6 +446,29 @@ Widget _renderPhotoList(
           ),
         ],
       ),
+    ),
+  );
+}
+
+Widget _renderUploadedPhotoList({
+  required List<Uint8List> images,
+}) {
+  return SizedBox(
+    height: 100,
+    child: ListView.builder(
+      scrollDirection: Axis.horizontal,
+      itemCount: images.length,
+      itemBuilder: (context, index) {
+        return Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Image.memory(
+            images[index],
+            width: 100,
+            height: 100,
+            fit: BoxFit.cover,
+          ),
+        );
+      },
     ),
   );
 }

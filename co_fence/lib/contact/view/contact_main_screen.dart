@@ -281,7 +281,8 @@ class _ContactMainScreenState extends ConsumerState<ContactMainScreen> {
             MyElevatedButton(
               buttonText: 'Call',
               onPressed: () async {
-                final url = Uri.parse('tel:010-5047-9453');
+                final phoneNumber = data.phoneNumber;
+                final url = Uri.parse('tel:$phoneNumber');
                 if (await canLaunchUrl(url)) {
                   await launchUrl(url);
                 } else {

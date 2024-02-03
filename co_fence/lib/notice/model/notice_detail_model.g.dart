@@ -8,20 +8,18 @@ part of 'notice_detail_model.dart';
 
 NoticeDetailModel _$NoticeDetailModelFromJson(Map<String, dynamic> json) =>
     NoticeDetailModel(
-      noticeId: json['noticeId'] as int,
       noticeSubject: json['noticeSubject'] as String,
       userName: json['userName'] as String,
       targetRole: $enumDecode(_$RoleEnumMap, json['targetRole']),
       createdAt: json['createdAt'] as String,
       noticeDetail: json['noticeDetail'] as String,
-      noticeImageUrl: (json['noticeImageUrl'] as List<dynamic>?)
-          ?.map((e) => e as String)
+      noticeImageUrl: (json['noticeImageUrl'] as List<dynamic>)
+          .map((e) => e as String)
           .toList(),
     );
 
 Map<String, dynamic> _$NoticeDetailModelToJson(NoticeDetailModel instance) =>
     <String, dynamic>{
-      'noticeId': instance.noticeId,
       'noticeSubject': instance.noticeSubject,
       'userName': instance.userName,
       'targetRole': _$RoleEnumMap[instance.targetRole]!,

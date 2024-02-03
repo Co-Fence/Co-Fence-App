@@ -5,7 +5,6 @@ part 'notice_detail_model.g.dart';
 
 @JsonSerializable()
 class NoticeDetailModel {
-  final int noticeId;
   // 제목
   final String noticeSubject;
   // 작성자
@@ -17,10 +16,9 @@ class NoticeDetailModel {
   // 내용
   final String noticeDetail;
   // 이미지 url
-  final List<String>? noticeImageUrl;
+  final List<String> noticeImageUrl;
 
   NoticeDetailModel({
-    required this.noticeId,
     required this.noticeSubject,
     required this.userName,
     required this.targetRole,
@@ -31,7 +29,6 @@ class NoticeDetailModel {
 
   // copywith
   NoticeDetailModel copyWith({
-    int? noticeId,
     String? noticeSubject,
     String? userName,
     Role? targetRole,
@@ -40,7 +37,6 @@ class NoticeDetailModel {
     List<String>? noticeImageUrl,
   }) {
     return NoticeDetailModel(
-      noticeId: noticeId ?? this.noticeId,
       noticeSubject: noticeSubject ?? this.noticeSubject,
       userName: userName ?? this.userName,
       targetRole: targetRole ?? this.targetRole,
@@ -52,13 +48,12 @@ class NoticeDetailModel {
 
   factory NoticeDetailModel.fromJson(Map<String, dynamic> json) {
     return NoticeDetailModel(
-      noticeId: json['noticeId'],
       noticeSubject: json['noticeSubject'],
       userName: json['userName'],
-      targetRole: Role.fromCode(json['targetRoleType']),
+      targetRole: Role.fromCode(json['targetRole']),
       createdAt: json['createdAt'],
       noticeDetail: json['noticeDetail'],
-      noticeImageUrl: json['noticeImageUrl'],
+      noticeImageUrl: List<String>.from(json['noticeImageUrl']),
     );
   }
 }

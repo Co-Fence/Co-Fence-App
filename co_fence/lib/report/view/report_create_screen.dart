@@ -220,12 +220,13 @@ class _ReportCreateScreenState extends ConsumerState<ReportCreateScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           const Gap(
-            30.0,
+            10.0,
           ),
           const Expanded(
             flex: 1,
             child: Text(
               'Category',
+              textAlign: TextAlign.center,
               style: TextStyle(
                 fontSize: 20.0,
                 fontWeight: FontWeight.bold,

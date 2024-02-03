@@ -222,7 +222,7 @@ Widget _renderWorkplaceName(
           child: Text(
             'Workplace',
             style: TextStyle(
-              fontSize: 20.0,
+              fontSize: 18.0,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -282,7 +282,7 @@ Widget _renderReportDate(
           child: Text(
             'Report Date',
             style: TextStyle(
-              fontSize: 18.0,
+              fontSize: 14.0,
               fontWeight: FontWeight.bold,
             ),
           ),
@@ -293,12 +293,8 @@ Widget _renderReportDate(
         ),
         Expanded(
           flex: 1,
-          child: TextButton(
-            clipBehavior: Clip.none,
-            style: TextButton.styleFrom(
-              foregroundColor: PRIMARY_COLOR,
-            ),
-            onPressed: () async {
+          child: GestureDetector(
+            onTap: () async {
               final selectedDate = await showDatePicker(
                 builder: (context, child) {
                   return Theme(
@@ -327,13 +323,10 @@ Widget _renderReportDate(
               startDate != null
                   ? startDate.toString().substring(0, 10)
                   : 'Start Date',
-              style: startDate != null
-                  ? const TextStyle(
-                      fontSize: 15.0,
-                    )
-                  : const TextStyle(
-                      fontSize: 18.0,
-                    ),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
             ),
           ),
         ),
@@ -343,11 +336,8 @@ Widget _renderReportDate(
         ),
         Expanded(
           flex: 1,
-          child: TextButton(
-            style: TextButton.styleFrom(
-              foregroundColor: PRIMARY_COLOR,
-            ),
-            onPressed: () async {
+          child: GestureDetector(
+            onTap: () async {
               final selectedDate = await showDatePicker(
                 builder: (context, child) {
                   return Theme(
@@ -387,13 +377,10 @@ Widget _renderReportDate(
               endDate != null
                   ? endDate.toString().substring(0, 10)
                   : 'End Date',
-              style: endDate != null
-                  ? const TextStyle(
-                      fontSize: 15.0,
-                    )
-                  : const TextStyle(
-                      fontSize: 18.0,
-                    ),
+              textAlign: TextAlign.center,
+              style: const TextStyle(
+                fontSize: 14.0,
+              ),
             ),
           ),
         ),

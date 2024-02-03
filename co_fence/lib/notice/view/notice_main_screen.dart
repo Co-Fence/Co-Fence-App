@@ -5,6 +5,8 @@ import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/notice/model/notice_model.dart';
+import 'package:co_fence/notice/provider/notice_for_admin_provider.dart';
+import 'package:co_fence/notice/provider/notice_provider.dart';
 import 'package:co_fence/user/model/role.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:dio/dio.dart';
@@ -224,7 +226,21 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
                       itemBuilder: (context, index) {
                         final notice = noticeList[index];
                         return GestureDetector(
-                          onTap: () {
+                          onTap: () async {
+                            final resp = await ref
+                                .read(noticeProvider.notifier)
+                                .getNoticeDetail(noticeId: notice.noticeId);
+                            ref
+                                .read(noticeForAdminProvider.notifier)
+                                .updateNotice(
+                                  userName: resp.userName,
+                                  noticeSubject: resp.noticeSubject,
+                                  noticeDetail: resp.noticeDetail,
+                                  targetRole: resp.targetRole,
+                                  createdAt: resp.createdAt,
+                                  noticeImageUrl: resp.noticeImageUrl,
+                                );
+                            if (!mounted) return;
                             context.go(
                                 '/notice/detail?noticeId=${notice.noticeId}');
                           },

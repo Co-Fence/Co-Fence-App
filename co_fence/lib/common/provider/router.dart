@@ -45,7 +45,7 @@ final router = GoRouter(
       path: '/workplace',
       builder: (context, state) {
         final String workplaceId =
-            state.uri.queryParameters['workplaceId'] ?? '0';
+            GoRouterState.of(context).uri.queryParameters['workplaceId'] ?? '0';
         return WorkplaceMainScreen(workplaceId: workplaceId);
       },
       routes: [

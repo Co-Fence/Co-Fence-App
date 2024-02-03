@@ -83,10 +83,9 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                       ),
                       onPressed: () async {
                         context.pop(context);
-                        // 삭제 api 호출
-                        await ref.read(reportProvider.notifier).deleteReport();
                         showSnackBar(context, "Delete Successfully");
                         context.go('/workplace');
+                        await ref.read(reportProvider.notifier).deleteReport();
                       },
                     ),
                   ],
@@ -450,7 +449,7 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
 
   Widget _renderEditButton() {
     return MyElevatedButton(
-      buttonText: 'Edit',
+      buttonText: 'Save',
       onPressed: () async {
         if (ref.read(userProvider).role == Role.USER) {
           showSnackBar(context, "You don't have permission");
@@ -488,10 +487,11 @@ class _ReportDetailScreenState extends ConsumerState<ReportDetailScreen> {
                   ),
                   onPressed: () async {
                     context.pop(context);
-                    // 수정 api 호출
-                    await ref.read(reportProvider.notifier).editReport();
+
                     showSnackBar(context, "Edit Successfully");
                     context.go('/workplace');
+                    // 수정 api 호출
+                    await ref.read(reportProvider.notifier).editReport();
                   },
                 ),
               ],

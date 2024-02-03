@@ -8,11 +8,16 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 
-class MyPageScreen extends ConsumerWidget {
+class MyPageScreen extends ConsumerStatefulWidget {
   const MyPageScreen({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  ConsumerState<MyPageScreen> createState() => _MyPageScreenState();
+}
+
+class _MyPageScreenState extends ConsumerState<MyPageScreen> {
+  @override
+  Widget build(BuildContext context) {
     final userState = ref.watch(userProvider);
     return DefaultLayout(
       appBarTitle: 'My Page',
@@ -79,8 +84,9 @@ class MyPageScreen extends ConsumerWidget {
                             const Gap(10),
                             Text(
                               userState.email,
+                              overflow: TextOverflow.ellipsis,
                               style: const TextStyle(
-                                fontSize: 18,
+                                fontSize: 14,
                               ),
                             ),
                             const Gap(10),
@@ -132,9 +138,10 @@ class MyPageScreen extends ConsumerWidget {
                           ),
                           onPressed: () async {
                             context.pop(context);
+                            if (mounted) {
+                              context.pushReplacement('/login');
+                            }
                             await ref.read(userProvider.notifier).logout(ref);
-
-                            context.pushReplacement('/login');
                           },
                         ),
                       ],

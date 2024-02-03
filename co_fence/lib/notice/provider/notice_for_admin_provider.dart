@@ -21,7 +21,6 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
   NoticeForAdminStateNotifier({
     required this.repository,
   }) : super(NoticeDetailModel(
-          noticeId: 0,
           noticeSubject: '',
           userName: '',
           targetRole: Role.USER,
@@ -32,7 +31,6 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
 
   void updateNotice({
     String? userName,
-    int? noticeId,
     String? noticeSubject,
     String? noticeDetail,
     Role? targetRole,
@@ -40,7 +38,7 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
     List<String>? noticeImageUrl,
   }) {
     state = state.copyWith(
-      noticeId: noticeId ?? state.noticeId,
+      userName: userName ?? state.userName,
       noticeSubject: noticeSubject ?? state.noticeSubject,
       noticeDetail: noticeDetail ?? state.noticeDetail,
       targetRole: targetRole ?? state.targetRole,
@@ -66,4 +64,7 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
 
     return result;
   }
+
+  // 공지사항 수정
+  // update
 }

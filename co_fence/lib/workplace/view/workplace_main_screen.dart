@@ -121,6 +121,7 @@ Widget renderWorkplaceBody(
   final screenSize = MediaQuery.of(context).size;
   final userWorkplaceState = ref.watch(userWorkplaceProvider);
   final dio = ref.watch(dioProvider);
+
   return Column(
     children: [
       Container(
@@ -136,7 +137,7 @@ Widget renderWorkplaceBody(
               children: [
                 const Gap(20),
                 CircleAvatar(
-                  radius: 80,
+                  radius: 64,
                   backgroundImage: NetworkImage(
                     userState.profileImageUrl,
                   ),
@@ -145,7 +146,7 @@ Widget renderWorkplaceBody(
                 Expanded(
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
                         '${userState.name}님',
@@ -154,16 +155,16 @@ Widget renderWorkplaceBody(
                           fontWeight: FontWeight.w500,
                         ),
                       ),
+                      Text(
+                        userWorkplaceState.workPlaceName,
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: const TextStyle(
+                          fontSize: 24,
+                          fontWeight: FontWeight.w600,
+                        ),
+                      ),
                     ],
-                  ),
-                ),
-                Text(
-                  userWorkplaceState.workPlaceName,
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: const TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.w600,
                   ),
                 ),
               ],
@@ -209,7 +210,7 @@ Widget renderWorkplaceBody(
                             },
                           ),
                         );
-                        Navigator.pop(context);
+                        context.pop(context);
                         context.go('/workplace/search');
                       },
                     ),
@@ -223,11 +224,10 @@ Widget renderWorkplaceBody(
         ),
       ),
       const Gap(30),
-      Expanded(
+      SizedBox(
+        height: screenSize.height * 0.3,
         child: Padding(
-          padding: const EdgeInsets.symmetric(
-            horizontal: 16.0,
-          ),
+          padding: const EdgeInsets.symmetric(horizontal: 16.0),
           child: GridView.count(
             physics: const NeverScrollableScrollPhysics(),
             crossAxisSpacing: 15.0,
