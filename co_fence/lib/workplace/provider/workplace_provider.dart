@@ -24,7 +24,7 @@ class WorkplaceStateNotifier extends StateNotifier<CursorPaginationBase> {
     paginate();
   }
 
-  void paginate({
+  Future<void> paginate({
     // queryParameter의 count
     int fetchSize = 20,
     // 추가로 데이터 가져오기

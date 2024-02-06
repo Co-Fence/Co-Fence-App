@@ -24,6 +24,7 @@ class _NoticeForAdminRepository implements NoticeForAdminRepository {
     required String noticeDetail,
     required List<String> noticeImageUrls,
     required String targetRoleType,
+    required int workplaceId,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{};
@@ -34,6 +35,7 @@ class _NoticeForAdminRepository implements NoticeForAdminRepository {
       'noticeDetail': noticeDetail,
       'noticeImageUrls': noticeImageUrls,
       'targetRoleType': targetRoleType,
+      'workplaceId': workplaceId,
     };
     final _result = await _dio
         .fetch<Map<String, dynamic>>(_setStreamType<NoticeDetailModel>(Options(

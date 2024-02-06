@@ -23,27 +23,27 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
   }) : super(NoticeDetailModel(
           noticeSubject: '',
           userName: '',
-          targetRole: Role.USER,
+          targetRoleType: Role.USER,
           createdAt: '',
           noticeDetail: '',
-          noticeImageUrl: [],
+          noticeImage: [],
         ));
 
   void updateNotice({
     String? userName,
     String? noticeSubject,
     String? noticeDetail,
-    Role? targetRole,
+    Role? targetRoleType,
     String? createdAt,
-    List<String>? noticeImageUrl,
+    List<String>? noticeImage,
   }) {
     state = state.copyWith(
       userName: userName ?? state.userName,
       noticeSubject: noticeSubject ?? state.noticeSubject,
       noticeDetail: noticeDetail ?? state.noticeDetail,
-      targetRole: targetRole ?? state.targetRole,
+      targetRoleType: targetRoleType ?? state.targetRoleType,
       createdAt: createdAt ?? state.createdAt,
-      noticeImageUrl: noticeImageUrl ?? state.noticeImageUrl,
+      noticeImage: noticeImage ?? state.noticeImage,
     );
   }
 
@@ -52,14 +52,16 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
   Future<NoticeDetailModel> registerNotice({
     required String noticeSubject,
     required String noticeDetail,
-    required Role targetRole,
+    required Role targetRoleType,
     required List<String> noticeImageUrls,
+    required int workplaceId,
   }) async {
     final result = await repository.register(
       noticeSubject: noticeSubject,
       noticeDetail: noticeDetail,
-      targetRoleType: targetRole.code,
+      targetRoleType: targetRoleType.code,
       noticeImageUrls: noticeImageUrls,
+      workplaceId: workplaceId,
     );
 
     return result;

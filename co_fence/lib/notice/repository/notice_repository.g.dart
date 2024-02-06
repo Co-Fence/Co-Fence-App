@@ -19,25 +19,25 @@ class _NoticeRepository implements NoticeRepository {
   String? baseUrl;
 
   @override
-  Future<List<NoticeModel>> searchNotice({
+  Future<CursorPagination<NoticeModel>> paginate({
+    required String keyword,
+    required String targetRoleType,
+    PaginationParams paginationParams =
+        const PaginationParams(page: 1, size: 20),
     required int page,
     required int size,
-    required String noticeSubject,
-    required String targetRoleType,
   }) async {
     const _extra = <String, dynamic>{};
     final queryParameters = <String, dynamic>{
-      r'page': page,
-      r'size': size,
+      r'keyword': keyword,
+      r'targetRoleType': targetRoleType,
     };
+    queryParameters.addAll(paginationParams.toJson());
     final _headers = <String, dynamic>{r'accessToken': 'true'};
     _headers.removeWhere((k, v) => v == null);
-    final _data = {
-      'noticeSubject': noticeSubject,
-      'targetRoletype': targetRoleType,
-    };
-    final _result = await _dio
-        .fetch<List<dynamic>>(_setStreamType<List<NoticeModel>>(Options(
+    final Map<String, dynamic>? _data = null;
+    final _result = await _dio.fetch<Map<String, dynamic>>(
+        _setStreamType<CursorPagination<NoticeModel>>(Options(
       method: 'POST',
       headers: _headers,
       extra: _extra,
@@ -53,9 +53,10 @@ class _NoticeRepository implements NoticeRepository {
               _dio.options.baseUrl,
               baseUrl,
             ))));
-    var value = _result.data!
-        .map((dynamic i) => NoticeModel.fromJson(i as Map<String, dynamic>))
-        .toList();
+    final value = CursorPagination<NoticeModel>.fromJson(
+      _result.data!,
+      (json) => NoticeModel.fromJson(json as Map<String, dynamic>),
+    );
     return value;
   }
 

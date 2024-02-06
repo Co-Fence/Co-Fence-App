@@ -40,7 +40,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   void navigateToWorkplaceScreen() {
     context.pushReplacement(
-      // 손 봐야함
       Uri(
         path: '/workplace',
         queryParameters: {
@@ -86,10 +85,8 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         ref.read(userProvider.notifier).updateUser(
               name: resp.data['name'],
               email: resp.data['email'],
-              role: (resp.data['roleType'] == 'ROLE_USER')
-                  ? Role.USER
-                  : Role.ADMIN,
-              nation: (resp.data['nation'] == 'KR')
+              role: Role.fromCode(resp.data['roleType']),
+              nation: (resp.data['nationality'] == 'KR')
                   ? Nation.Korean
                   : Nation.Foreigner,
               phoneNumber: resp.data['phoneNumber'],

@@ -4,6 +4,7 @@ import 'package:co_fence/common/const/colors.dart';
 import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/notice/model/notice_model.dart';
 import 'package:co_fence/notice/provider/notice_for_admin_provider.dart';
 import 'package:co_fence/notice/provider/notice_provider.dart';
@@ -23,7 +24,7 @@ class NoticeMainScreen extends ConsumerStatefulWidget {
 }
 
 class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
-  late Future<List<NoticeModel>> noticeListFuture;
+  late Future<List<NoticeModel?>> noticeListFuture;
   final TextEditingController _searchController = TextEditingController();
   final FocusNode focusNode = FocusNode();
   final Role targetRoleType = Role.ALL;
@@ -34,17 +35,19 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
     super.initState();
   }
 
-  Future<List<NoticeModel>> fetchNoticeList() async {
+  Future<List<NoticeModel?>> fetchNoticeList() async {
     final dio = ref.watch(dioProvider);
-    final resp = await dio.post('$ip/notice/search?page=0&size=20',
+    final storage = ref.read(secureStorageProvider);
+    final accessToken = await storage.read(key: ACCESS_TOKEN_KEY);
+    final resp = await dio.post('$ip/notice/search?page=1&size=20',
         options: Options(headers: {
-          'accessToken': true,
+          'Authorization': 'Bearer $accessToken',
         }),
         data: {
           'noticeSubject': _searchController.text,
           'targetRoletype': ref.read(roleProvider.notifier).state.code,
         });
-    return resp.data['content']
+    return resp.data['data']
         .map<NoticeModel>((e) => NoticeModel.fromJson(e))
         .toList();
   }
@@ -204,7 +207,7 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0),
-              child: FutureBuilder<List<NoticeModel>>(
+              child: FutureBuilder<List<NoticeModel?>>(
                 future: noticeListFuture,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -236,9 +239,9 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
                                   userName: resp.userName,
                                   noticeSubject: resp.noticeSubject,
                                   noticeDetail: resp.noticeDetail,
-                                  targetRole: resp.targetRole,
+                                  targetRoleType: resp.targetRoleType,
                                   createdAt: resp.createdAt,
-                                  noticeImageUrl: resp.noticeImageUrl,
+                                  noticeImage: resp.noticeImage,
                                 );
                             if (!mounted) return;
                             context.go(
@@ -248,6 +251,7 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
                             columnWidths: const {
                               0: FlexColumnWidth(0.8),
                               1: FlexColumnWidth(2),
+                              2: FlexColumnWidth(0.5),
                             },
                             border: TableBorder.all(
                               color: Colors.grey,
@@ -260,22 +264,35 @@ class _NoticeMainScreenState extends ConsumerState<NoticeMainScreen> {
                                     width: 60,
                                     child: Center(
                                       child: Text(
-                                        notice.targetRoletype.displayName,
+                                        notice!.targetRoleType.displayName,
                                         style: const TextStyle(
                                           fontSize: 18.0,
                                         ),
                                       ),
                                     ),
                                   ),
-                                  SizedBox(
-                                    height: 50,
-                                    width: 50,
-                                    child: Center(
-                                      child: Text(
-                                        notice.noticeSubject,
-                                        style: const TextStyle(
-                                          fontSize: 18.0,
-                                        ),
+                                  Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                      horizontal: 8.0,
+                                    ),
+                                    child: SizedBox(
+                                      height: 50,
+                                      width: 50,
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          Text(
+                                            notice.noticeSubject,
+                                            style: const TextStyle(
+                                              fontSize: 18.0,
+                                            ),
+                                          ),
+                                          if (notice.existImage)
+                                            const Icon(
+                                              Icons.camera_alt_outlined,
+                                            ),
+                                        ],
                                       ),
                                     ),
                                   ),

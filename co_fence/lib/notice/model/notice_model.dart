@@ -12,12 +12,15 @@ class NoticeModel {
   @JsonKey(
     fromJson: Role.fromCode,
   )
-  final Role targetRoletype;
+  final Role targetRoleType;
+  // 사진 여부
+  final bool existImage;
 
   NoticeModel({
+    required this.existImage,
     required this.noticeId,
     required this.noticeSubject,
-    required this.targetRoletype,
+    required this.targetRoleType,
   });
 
   // copywith
@@ -25,11 +28,13 @@ class NoticeModel {
     int? noticeId,
     String? noticeSubject,
     Role? targetRoleType,
+    bool? existImage,
   }) {
     return NoticeModel(
       noticeId: noticeId ?? this.noticeId,
       noticeSubject: noticeSubject ?? this.noticeSubject,
-      targetRoletype: targetRoleType ?? targetRoletype,
+      targetRoleType: targetRoleType ?? this.targetRoleType,
+      existImage: existImage ?? this.existImage,
     );
   }
 

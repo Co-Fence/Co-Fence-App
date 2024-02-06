@@ -41,7 +41,6 @@ class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final noticeId = widget.noticeId;
     final noticeDetailState = ref.watch(noticeForAdminProvider);
     return DefaultLayout(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
@@ -55,7 +54,6 @@ class _NoticeDetailScreenState extends ConsumerState<NoticeDetailScreen> {
               builder: (context) {
                 return CupertinoAlertDialog(
                   title: const Text('Notice Edit'),
-                  // 저장하시겠습니까? 영어로
                   content: const Text('Do you want to save?'),
                   actions: [
                     CupertinoDialogAction(
@@ -171,7 +169,7 @@ SliverToBoxAdapter _renderLable(
             ),
           ),
           Text(
-            'Target Role: ${noticeDetailState.targetRole.displayName}',
+            'Target Role: ${noticeDetailState.targetRoleType.displayName}',
             style: const TextStyle(
               fontSize: 16,
               fontWeight: FontWeight.w500,
@@ -262,13 +260,13 @@ SliverList _renderUploadedImageList(
                     isReport: false,
                     isNotice: true,
                   ) +
-                  noticeDetailState.noticeImageUrl[index],
+                  noticeDetailState.noticeImage[index],
               fit: BoxFit.fill,
             ),
           ),
         );
       },
-      childCount: noticeDetailState.noticeImageUrl.length,
+      childCount: noticeDetailState.noticeImage.length,
     ),
   );
 }

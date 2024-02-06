@@ -10,39 +10,39 @@ class NoticeDetailModel {
   // 작성자
   final String userName;
   // 대상
-  final Role targetRole;
+  final Role targetRoleType;
   // 작성일
   final String createdAt;
   // 내용
   final String noticeDetail;
   // 이미지 url
-  final List<String> noticeImageUrl;
+  final List<String> noticeImage;
 
   NoticeDetailModel({
     required this.noticeSubject,
     required this.userName,
-    required this.targetRole,
+    required this.targetRoleType,
     required this.createdAt,
     required this.noticeDetail,
-    required this.noticeImageUrl,
+    required this.noticeImage,
   });
 
   // copywith
   NoticeDetailModel copyWith({
     String? noticeSubject,
     String? userName,
-    Role? targetRole,
+    Role? targetRoleType,
     String? createdAt,
     String? noticeDetail,
-    List<String>? noticeImageUrl,
+    List<String>? noticeImage,
   }) {
     return NoticeDetailModel(
       noticeSubject: noticeSubject ?? this.noticeSubject,
       userName: userName ?? this.userName,
-      targetRole: targetRole ?? this.targetRole,
+      targetRoleType: targetRoleType ?? this.targetRoleType,
       createdAt: createdAt ?? this.createdAt,
       noticeDetail: noticeDetail ?? this.noticeDetail,
-      noticeImageUrl: noticeImageUrl ?? this.noticeImageUrl,
+      noticeImage: noticeImage ?? this.noticeImage,
     );
   }
 
@@ -50,10 +50,10 @@ class NoticeDetailModel {
     return NoticeDetailModel(
       noticeSubject: json['noticeSubject'],
       userName: json['userName'],
-      targetRole: Role.fromCode(json['targetRole']),
+      targetRoleType: Role.fromCode(json['targetRoleType']),
       createdAt: json['createdAt'],
       noticeDetail: json['noticeDetail'],
-      noticeImageUrl: List<String>.from(json['noticeImageUrl']),
+      noticeImage: List<String>.from(json['noticeImage']),
     );
   }
 }

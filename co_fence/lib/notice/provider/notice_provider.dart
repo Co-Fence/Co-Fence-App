@@ -1,3 +1,4 @@
+import 'package:co_fence/common/model/cursor_pagination_model.dart';
 import 'package:co_fence/notice/model/notice_detail_model.dart';
 import 'package:co_fence/notice/model/notice_model.dart';
 import 'package:co_fence/notice/repository/notice_repository.dart';
@@ -24,7 +25,8 @@ class NoticeStateNotifier extends StateNotifier<NoticeModel> {
           NoticeModel(
             noticeId: 0,
             noticeSubject: '',
-            targetRoletype: Role.USER,
+            targetRoleType: Role.USER,
+            existImage: false,
           ),
         );
 
@@ -32,26 +34,28 @@ class NoticeStateNotifier extends StateNotifier<NoticeModel> {
     int? noticeId,
     String? noticeSubject,
     Role? targetRoleType,
+    bool? existImage,
   }) {
     state = state.copyWith(
       noticeId: noticeId ?? state.noticeId,
       noticeSubject: noticeSubject ?? state.noticeSubject,
-      targetRoleType: targetRoleType ?? state.targetRoletype,
+      targetRoleType: targetRoleType ?? state.targetRoleType,
+      existImage: existImage ?? state.existImage,
     );
   }
 
   // 공지사항 검색
   // search
-  Future<List<NoticeModel>> searchNotice({
+  Future<CursorPagination<NoticeModel>> searchNotice({
     required int page,
     required int size,
     required String noticeSubject,
     required Role targetRoleType,
   }) async {
-    final result = await repository.searchNotice(
+    final result = await repository.paginate(
       page: page,
       size: size,
-      noticeSubject: noticeSubject,
+      keyword: noticeSubject,
       targetRoleType: targetRoleType.code,
     );
 
