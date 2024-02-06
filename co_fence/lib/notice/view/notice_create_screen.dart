@@ -109,9 +109,11 @@ class _NoticeCreateScreenState extends ConsumerState<NoticeCreateScreen> {
                             .registerNotice(
                               noticeSubject: titleController.text,
                               noticeDetail: noticeDetailController.text,
-                              targetRole:
-                                  ref.read(noticeForAdminProvider).targetRole,
+                              targetRoleType: ref
+                                  .read(noticeForAdminProvider)
+                                  .targetRoleType,
                               noticeImageUrls: noticeImageUrl,
+                              workplaceId: ref.read(userProvider).workplaceId!,
                             );
                         setState(() {
                           isLoading = false;
@@ -120,7 +122,7 @@ class _NoticeCreateScreenState extends ConsumerState<NoticeCreateScreen> {
                           return;
                         }
                         context.pop();
-                        context.go('/notice');
+                        context.go('/workplace');
                       },
                     ),
                   ],
@@ -298,7 +300,7 @@ Widget _renderTargetRoletypeDropdownMenu({
             onChanged: (value) {
               if (value != null) {
                 ref.read(noticeForAdminProvider.notifier).updateNotice(
-                      targetRole: Role.fromDisplayName(value.toString()),
+                      targetRoleType: Role.fromDisplayName(value.toString()),
                     );
               }
             },

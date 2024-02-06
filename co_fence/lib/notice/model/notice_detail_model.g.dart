@@ -10,10 +10,10 @@ NoticeDetailModel _$NoticeDetailModelFromJson(Map<String, dynamic> json) =>
     NoticeDetailModel(
       noticeSubject: json['noticeSubject'] as String,
       userName: json['userName'] as String,
-      targetRole: $enumDecode(_$RoleEnumMap, json['targetRole']),
+      targetRoleType: $enumDecode(_$RoleEnumMap, json['targetRoleType']),
       createdAt: json['createdAt'] as String,
       noticeDetail: json['noticeDetail'] as String,
-      noticeImageUrl: (json['noticeImageUrl'] as List<dynamic>)
+      noticeImage: (json['noticeImage'] as List<dynamic>)
           .map((e) => e as String)
           .toList(),
     );
@@ -22,10 +22,10 @@ Map<String, dynamic> _$NoticeDetailModelToJson(NoticeDetailModel instance) =>
     <String, dynamic>{
       'noticeSubject': instance.noticeSubject,
       'userName': instance.userName,
-      'targetRole': _$RoleEnumMap[instance.targetRole]!,
+      'targetRoleType': _$RoleEnumMap[instance.targetRoleType]!,
       'createdAt': instance.createdAt,
       'noticeDetail': instance.noticeDetail,
-      'noticeImageUrl': instance.noticeImageUrl,
+      'noticeImage': instance.noticeImage,
     };
 
 const _$RoleEnumMap = {

@@ -25,7 +25,7 @@ abstract class WorkplaceRepository {
   factory WorkplaceRepository(Dio dio, {String baseUrl}) = _WorkplaceRepository;
 
   //작업현장 전체조회
-  //http://$ip/wp/getInfo?page=1&size=10
+  //http://$ip/wp/getInfo?page=1&size=20
   @GET('/getInfo')
   @Headers({
     'accessToken': 'true',

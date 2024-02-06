@@ -34,5 +34,6 @@ abstract class NoticeForAdminRepository {
     @Field('noticeDetail') required String noticeDetail,
     @Field('noticeImageUrls') required List<String> noticeImageUrls,
     @Field('targetRoleType') required String targetRoleType,
+    @Field('workplaceId') required int workplaceId,
   });
 }

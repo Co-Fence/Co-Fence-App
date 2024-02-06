@@ -30,32 +30,44 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-
-
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
-  kakao_flutter_sdk: ^1.7.0
-  dio: ^5.4.0
-  flutter_riverpod: ^2.4.9
-  firebase_core: ^2.24.2
+
+  # ui
+  dots_indicator: ^3.0.0
+  google_fonts: ^6.1.0
+
+  # oauth2
   google_sign_in: ^6.2.1
-  go_router: ^13.0.0
-  gap: ^3.0.1
+  kakao_flutter_sdk: ^1.7.0
+
+  # http
+  dio: ^5.4.0
+  json_annotation: ^4.8.1
+  retrofit: ^4.0.3
+  retrofit_generator: ^8.0.6
   flutter_secure_storage: ^9.0.0
-  lottie: ^2.7.0
-  url_launcher: ^6.2.4
+
+
+  # state management
+  flutter_riverpod: ^2.4.9
   riverpod_generator: ^2.3.9
   riverpod_annotation: ^2.3.3
-  image_picker: ^1.0.5
-  json_annotation: ^4.8.1
-  google_fonts: ^6.1.0
-  retrofit: ^4.0.3
   logger: ^2.0.2+1
-  retrofit_generator: ^8.0.6
+
+  # firebase
+  firebase_core: ^2.24.2
   firebase_storage: ^11.6.0
-  dots_indicator: ^3.0.0
   uuid: ^4.3.3
+  
+  # utils
+  go_router: ^13.0.0
+  gap: ^3.0.1
+
+  lottie: ^2.7.0
+  url_launcher: ^6.2.4
+  image_picker: ^1.0.5
 
 dev_dependencies:
   flutter_test:

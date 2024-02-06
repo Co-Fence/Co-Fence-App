@@ -24,6 +24,9 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   void initState() {
     super.initState();
+    Future.delayed(Duration.zero, () {
+      _nameController.text = ref.read(userProvider).name;
+    });
   }
 
   @override
@@ -94,7 +97,6 @@ class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     _emailController.text = ref.read(userProvider).email;
-    _nameController.text = ref.read(userProvider).name;
     final roleState = ref.watch(roleProvider);
     final nationState = ref.watch(nationProvider);
     return DefaultLayout(
