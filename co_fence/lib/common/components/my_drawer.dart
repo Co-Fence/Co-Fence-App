@@ -1,15 +1,21 @@
 import 'package:co_fence/common/const/colors.dart';
+import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-class MyDrawer extends StatelessWidget {
+class MyDrawer extends ConsumerWidget {
   const MyDrawer({
     super.key,
   });
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(
+    BuildContext context,
+    WidgetRef ref,
+  ) {
+    final userState = ref.watch(userProvider);
     return Drawer(
       child: ListView(
         padding: EdgeInsets.zero,
@@ -60,85 +66,90 @@ class MyDrawer extends StatelessWidget {
               },
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              title: const Text(
-                'Notice',
-                style: TextStyle(
-                  fontSize: 20,
+          if (userState.workplaceId != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: ListTile(
+                title: const Text(
+                  'Notice',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
-              ),
-              onTap: () {
-                context.go(
-                  '/notice',
-                );
-              },
-            ),
-          ),
-          const Padding(
-            padding: EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              title: Text(
-                'Safety Management',
-                style: TextStyle(
-                  fontSize: 20,
-                ),
+                onTap: () {
+                  context.go(
+                    '/notice',
+                  );
+                },
               ),
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              title: const Text(
-                ' - Report',
-                style: TextStyle(
-                  fontSize: 20,
+          if (userState.workplaceId != null)
+            const Padding(
+              padding: EdgeInsets.only(left: 25.0),
+              child: ListTile(
+                title: Text(
+                  'Safety Management',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
               ),
-              onTap: () {
-                context.go(
-                  '/report',
-                );
-              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              // leading: const Icon(
-              //   Icons.book_outlined,
-              // ),
-              title: const Text(
-                ' - Report Lists',
-                style: TextStyle(
-                  fontSize: 20,
+          if (userState.workplaceId != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: ListTile(
+                title: const Text(
+                  ' - Report',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
+                onTap: () {
+                  context.go(
+                    '/report',
+                  );
+                },
               ),
-              onTap: () {
-                context.go(
-                  '/report_list',
-                );
-              },
             ),
-          ),
-          Padding(
-            padding: const EdgeInsets.only(left: 25.0),
-            child: ListTile(
-              // leading: const Icon(
-              //   Icons.phone_android_outlined,
-              // ),
-              title: const Text(
-                'Contact',
-                style: TextStyle(
-                  fontSize: 20,
+          if (userState.workplaceId != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: ListTile(
+                // leading: const Icon(
+                //   Icons.book_outlined,
+                // ),
+                title: const Text(
+                  ' - Report Lists',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
                 ),
+                onTap: () {
+                  context.go(
+                    '/report_list',
+                  );
+                },
               ),
-              onTap: () {
-                context.go('/contact');
-              },
             ),
-          ),
+          if (userState.workplaceId != null)
+            Padding(
+              padding: const EdgeInsets.only(left: 25.0),
+              child: ListTile(
+                // leading: const Icon(
+                //   Icons.phone_android_outlined,
+                // ),
+                title: const Text(
+                  'Contact',
+                  style: TextStyle(
+                    fontSize: 20,
+                  ),
+                ),
+                onTap: () {
+                  context.go('/contact');
+                },
+              ),
+            ),
         ],
       ),
     );
