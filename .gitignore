@@ -8,7 +8,6 @@ build/
 
 # Local configuration file (sdk path, etc)
 local.properties
-co_fence/android/app/src/main/AndroidManifest.xml
 
 # Log/OS Files
 *.log
@@ -84,11 +83,9 @@ doc/api/
 .pub/
 coverage/
 lib/generated_plugin_registrant.dart
-co_fence/android/app/src/main/AndroidManifest.xml
 co_fence/lib/secret/secret.dart
 co_fence/ios/Runner/GoogleService-Info.plist
 co_fence/lib/firebase_options.dart
-co_fence/ios/Runner/Info.plist
 co_fence/lib/common/utils/firebase_options.dart
 
 # For library packages, don’t commit the pubspec.lock file.

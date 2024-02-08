@@ -9,8 +9,8 @@ const REFRESH_TOKEN_KEY = 'REFRESH_TOKEN';
 const emulatorIp = 'http://10.0.2.2:8080/api/v22';
 const simulatorIp = 'http://127.0.0.1:8080/api/v22';
 
-//const ip = 'http://co-fence.duckdns.org/api/v22';
-final ip = Platform.isIOS ? simulatorIp : emulatorIp;
+const ip = 'http://co-fence.duckdns.org/api/v22';
+//final ip = Platform.isIOS ? simulatorIp : emulatorIp;
 
 // 작업현장 id
 const WORKPLACE_ID = 'WORKPLACE_ID';
