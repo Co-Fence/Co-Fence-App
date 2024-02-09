@@ -141,6 +141,9 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             if (mounted) {
                               context.pushReplacement('/login');
                             }
+                            ref.read(userProvider.notifier).updateUser(
+                                  workplaceId: null,
+                                );
                             await ref.read(userProvider.notifier).logout(ref);
                           },
                         ),
