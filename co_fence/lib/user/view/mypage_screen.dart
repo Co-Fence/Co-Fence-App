@@ -1,6 +1,7 @@
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
+import 'package:co_fence/common/secure_storage/secure_storage.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -137,6 +138,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             style: TextStyle(color: Colors.blue),
                           ),
                           onPressed: () async {
+                            final storage = ref.read(secureStorageProvider);
                             context.pop(context);
                             if (mounted) {
                               context.pushReplacement('/login');
@@ -144,6 +146,7 @@ class _MyPageScreenState extends ConsumerState<MyPageScreen> {
                             ref.read(userProvider.notifier).updateUser(
                                   workplaceId: null,
                                 );
+                            storage.deleteAll();
                             await ref.read(userProvider.notifier).logout(ref);
                           },
                         ),
