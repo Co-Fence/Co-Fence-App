@@ -51,6 +51,12 @@ width:80%;margin:0 auto">
 
 <br />
 
+<hr>
+<h2>Our architecture</h2> 
+<img src="https://github.com/Co-Fence/Co-Fence-App/assets/92084974/3e9e8682-cc8b-4586-ac9e-066cf5bc97dc">
+
+
+
 ## Google Tech we use
 
 <h3>We opted for Google Cloud Platform due to its exceptional stability and scalability, and its provision of diverse features such as Google Maps API and Firebase.</h3>
@@ -69,7 +75,27 @@ width:80%;margin:0 auto">
 
 <h3>Firebase Storage is built on Google Cloud Storage, benefiting from Google's infrastructure. This ensures high performance and low latency when accessing stored assets, providing a smooth experience for your users.</h3>
 <br />
+<br />
 
+<hr>
+<h2>Database ERD</h2>
+<img src="https://github.com/Co-Fence/Co-Fence-App/assets/92084974/36f3fcbb-a7ca-4d90-9ac9-d9ceaac89613">
+
+<br />
+<hr />
+
+## Current / Next Steps
+
+
+
+
+
+<div style = "font-size:15px">[O] Admins can create Notice with Images. </div>
+<div style = "font-size:15px">[O] Users can upload images more than 1 image. </div>
+<div style = "font-size:15px">[X] Companies can make their own workplace.</div>
+<div style = "font-size:15px">[X] Users can use different language setting based on their OS system language setting. </div>
+
+<hr />
 
 # Project Link
 Server: https://github.com/Co-Fence/Co-Fence-Server
