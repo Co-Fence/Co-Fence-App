@@ -3,7 +3,9 @@
   <h1 style = "display:flex;align-items:center;margin-top:25px"><b>Co-Fence</b></h1>
   </div>
   <div style = "display:flex;font-size:15px;justify-content:flex-start">
+Co-Fence is a service that focuses on improving the management of incident reporting, employee data, and information sharing for construction site workers. Co-Fence is a word that means "fence together" in English.
 
+We have designed Co-Fence to be the simplest configuration among domestic safety reporting systems, maximizing efficiency in real-time communication among employees through an employee database and a phone call button.
   </div>
 
 <h2>
