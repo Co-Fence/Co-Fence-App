@@ -29,7 +29,7 @@ width:80%;margin:0 auto">
 <!--
 <div align="center"> 
   <a href="https://youtu.be/eIh8eERBSR4">
-    <img src="https://user-images.githubusercontent.com/72500673/229066631-3fce7b5b-df09-4035-ba28-499714c51f12.png" alt="BeP - GDSC Solution Challenge 2023" width="600" height="350">
+    <img src="https://user-images.githubusercontent.com/72500673/229066631-3fce7b5b-df09-4035-ba28-499714c51f12.png" alt="Co-Fence - GDSC Solution Challenge 2024" width="600" height="350">
   </a>
 </div>-->
 
@@ -96,6 +96,9 @@ width:80%;margin:0 auto">
 <div style = "font-size:15px">[O] Users can upload images more than 1 image. </div>
 <div style = "font-size:15px">[X] Companies can make their own workplace.</div>
 <div style = "font-size:15px">[X] Users can use different language setting based on their OS system language setting. </div>
+<div style = "font-size:15px">[X] Users can chat via our app. </div>
+<div style = "font-size:15px">[X] Co-Fence have to incorporate convenient features into the service based on a compromise that meets the requirements of both parties. </div>
+<div style = "font-size:15px">[X] Co-Fence have to Implementing robust security policies and continuously improving our security measures. </div>
 
 <hr />
 
