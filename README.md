@@ -26,12 +26,12 @@ width:80%;margin:0 auto">
 <hr />
 
 ## About our Project: 
-<!--
+
 <div align="center"> 
-  <a href="https://youtu.be/eIh8eERBSR4">
-    <img src="https://user-images.githubusercontent.com/72500673/229066631-3fce7b5b-df09-4035-ba28-499714c51f12.png" alt="Co-Fence - GDSC Solution Challenge 2024" width="600" height="350">
+  <a href="https://youtu.be/6yUVD1s7peQ">
+    <img src="https://github.com/Co-Fence/Co-Fence-App/assets/92084974/d85fcfd6-3af8-4b8a-943d-812513fab0dc" alt="Co-Fence - GDSC Solution Challenge 2024" width="600" height="350">
   </a>
-</div>-->
+</div>
 
 <!-- TechStack -->
 
