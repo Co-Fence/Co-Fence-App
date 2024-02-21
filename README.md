@@ -6,7 +6,10 @@
 Co-Fence is a service that focuses on improving the management of incident reporting, employee data, and information sharing for construction site workers. Co-Fence is a word that means "fence together" in English.
 
 We have designed Co-Fence to be the simplest configuration among domestic safety reporting systems, maximizing efficiency in real-time communication among employees through an employee database and a phone call button.
+
+<img src = "https://github.com/Co-Fence/Co-Fence-App/assets/92084974/48ddf382-9771-4414-9665-784a8d092fec" style = "width:250px"/>
   </div>
+
 
 <h2>
     <a href="http://co-fence.duckdns.org/swagger-ui/index.html">Documentation</a>
