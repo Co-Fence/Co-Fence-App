@@ -40,18 +40,6 @@ abstract class NoticeRepository {
     required int size,
   });
 
-  // http://$ip/notice/search
-  // @POST('/search')
-  // @Headers({
-  //   'accessToken': 'true',
-  // })
-  // Future<List<NoticeModel>> searchNotice({
-  //   @Query('page') required int page,
-  //   @Query('size') required int size,
-  //   @Field('noticeSubject') required String noticeSubject,
-  //   @Field('targetRoletype') required String targetRoleType,
-  // });
-
   // http://$ip/notice/detail/$noticeId
   @GET('/detail/{noticeId}')
   @Headers({
