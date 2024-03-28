@@ -1,5 +1,4 @@
 // ignore_for_file: non_constant_identifier_names
-
 import 'package:co_fence/common/components/my_drawer.dart';
 import 'package:co_fence/common/components/my_elevated_button.dart';
 import 'package:co_fence/common/components/my_square_button.dart';
@@ -8,7 +7,7 @@ import 'package:co_fence/common/const/data.dart';
 import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
-import 'package:co_fence/workplace/component/workplace_card.dart';
+import 'package:co_fence/workplace/components/workplace_card.dart';
 import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:dio/dio.dart';

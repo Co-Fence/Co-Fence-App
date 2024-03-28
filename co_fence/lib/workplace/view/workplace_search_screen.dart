@@ -4,7 +4,7 @@ import 'package:co_fence/common/dio/dio.dart';
 import 'package:co_fence/common/layout/default_layout.dart';
 import 'package:co_fence/common/model/cursor_pagination_model.dart';
 import 'package:co_fence/user/provider/user_provider.dart';
-import 'package:co_fence/workplace/component/workplace_list_card.dart';
+import 'package:co_fence/workplace/components/workplace_list_card.dart';
 import 'package:co_fence/workplace/model/workplace_model.dart';
 import 'package:co_fence/workplace/provider/user_workplace_provider.dart';
 import 'package:co_fence/workplace/provider/workplace_provider.dart';
