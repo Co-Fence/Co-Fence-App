@@ -66,7 +66,4 @@ class NoticeForAdminStateNotifier extends StateNotifier<NoticeDetailModel> {
 
     return result;
   }
-
-  // 공지사항 수정
-  // update
 }
